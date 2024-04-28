@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title>Список портребностей</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha512-Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw=="
+          crossorigin="anonymous">
+    <!-- Дополнительные стили Bootstrap (не обязательно) -->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css"-->
+<!--          integrity="sha512-iy8EXLW01a00b26BaqJWaCmk9fJ4PsMdgNRqV96KwMPSH+blO82OHzisF/zQbRIIi8m0PiO10dpS0QxrcXsisw=="-->
+<!--          crossorigin="anonymous">-->
+    <!-- jQuery (необходим для Bootstrap JS) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+            crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <style>
+.container{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        margin: 20px;
+        top: 0;
+        left: 0;
+    }
+    .box{
+        margin: 20px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.8;  /* для демонстрации  */    }
+    .content{
+        width: 60%;
+        height: 60%;
+        z-index: 9;
+        margin: 20px; /* для демонстрации  */
+  }
+  ul.hr {
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+   }
+   ul.hr li {
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    border: 1px solid #000; /* Рамка вокруг текста */
+    padding: 3px; /* Поля вокруг текста */
+    background: #5cb85c;
+    color: #ffffff;
+    font-size: larger;
+   }
+ /*  a{*/
+ /*  color: #ffffff;*/
+ /*  text-decoration: none;*/
+ /*}*/
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="box">
+        <ul class="hr">
+            <li><a href="/">Домой</a></li>
+            <li><a href="/">пункт 1</a></li>
+            <li><a href="/">пункт 2</a></li>
+        </ul>
+        <h1><span th:text="${title}+${date}"></span></h1>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>ДФ</th>
+                <th>Наименование</th>
+                <th>Ответственный</th>
+                <th>Посленднее редактирование</th>
+            </tr>
+
+            <tr id="input">
+                <form>
+                    <td><input type="text" id="tag1"/></td>
+                    <td><input type="text" id="tag2"/></td>
+<!--                    <td><fieldset>-->
+<!--                            <input type="radio" id="type1"  name="male" value="Б"-->
+<!--                                   checked>-->
+<!--                            <label for="type1">Б</label>-->
+<!--                            <input type="radio" id="type2" name="male" value="Т">-->
+<!--                            <label for="type2">Т</label>-->
+<!--                    </fieldset>-->
+
+
+<!--                    </td>-->
+                    <td><input type="text" id="tag3"/></td>
+                    <td><input type="text" id="tag4"/></td>
+                    <td><input type="text" id="tag5"/></td>
+                </form>
+
+
+            </tr>
+            <tr>
+                <th>ID</th>
+                <th>ДФ 26</th>
+                <th><a href="/df27">План перевозок</a></th>
+                <th>Ржединский</th>
+                <th>27.04.2024</th>
+            </tr>
+
+<!--            <tr th:each="cow : ${cows}">-->
+<!--                <td th:utext="${cow.id}"></td>-->
+<!--                <td style="font-weight: bold" th:utext="${cow.tag}"></td>-->
+<!--                <td th:utext="${cow.type}"></td>-->
+<!--                <td th:utext="${cow.color}"></td>-->
+<!--                <td th:utext="${cow.birthday}"></td>-->
+<!--                <td th:utext="${cow.createDate}"></td>-->
+<!--                <td th:utext="${cow.status}"></td>-->
+<!--                <td width="150px" th:utext="${cow.link}"></td>-->
+<!--                <td width="150px">-->
+
+<!--                    <input th:value="@{${cow.id}}" type="file" onchange="uploadimg(this)">-->
+
+<!--                </td>-->
+
+<!--                <td>-->
+<!--                    <button title="Удалить запись" type="submit" class="tr_copy" th:onclick="'change(\'' + ${cow.id} + '\');'">-->
+<!--                        &#10060;-->
+<!--                    </button>-->
+<!--                </td>-->
+<!--            </tr>-->
+        </table>
+    </div>
+
+    <div id="content">
+
+    </div>
+</div>
+<div id="result_form"></div>
+
+
+<script src="../../js.js"></script>
+
+</body>
+</html>
