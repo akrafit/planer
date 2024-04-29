@@ -1,32 +1,31 @@
 package com.litium.planer.controller;
 
 
+import com.litium.planer.dto.DfDto;
+import com.litium.planer.entity.DF;
+import com.litium.planer.service.DfService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-@org.springframework.stereotype.Controller
-public class Controller {
-    //private final CowService cowService;
-
-//    public Controller(CowService cowService) {
-//        this.cowService = cowService;
-//    }
+@Controller
+@AllArgsConstructor
+public class GeneralController {
+    private final DfService dfService;
 
     @GetMapping("/home")
     public String main(Model model) {
-//        Iterable<Cow> cowIterable = cowService.findAll();
-//        ArrayList<CowDto> cows = new ArrayList<>();
-//        for (Cow cow : cowIterable){
-//            cows.add(new CowDto(cow));
-//        }
+        Iterable<DF> DfIterable = dfService.findAll();
+        List<DfDto> dfs = new ArrayList<>();
+        for (DF df : DfIterable){
+            dfs.add(new DfDto(df));
+        }
        // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
-        model.addAttribute("cows", "");
+        model.addAttribute("dfs", dfs);
         model.addAttribute("date", "");
         model.addAttribute("title", "Список ДФ");
         return "home";

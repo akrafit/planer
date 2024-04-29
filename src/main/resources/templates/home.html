@@ -79,14 +79,14 @@
                 <th>ID</th>
                 <th>ДФ</th>
                 <th>Наименование</th>
-                <th>Ответственный</th>
+                <th>Период</th>
                 <th>Посленднее редактирование</th>
             </tr>
 
             <tr id="input">
                 <form>
-                    <td><input type="text" id="tag1"/></td>
-                    <td><input type="text" id="tag2"/></td>
+                    <td></td>
+                    <td><input type="text" id="df"/></td>
 <!--                    <td><fieldset>-->
 <!--                            <input type="radio" id="type1"  name="male" value="Б"-->
 <!--                                   checked>-->
@@ -97,9 +97,9 @@
 
 
 <!--                    </td>-->
-                    <td><input type="text" id="tag3"/></td>
-                    <td><input type="text" id="tag4"/></td>
-                    <td><input type="text" id="tag5"/></td>
+                    <td><input type="text" id="dfName"/></td>
+                    <td><input type="text" id="dfPeriod"/></td>
+                    <td><input type="button" id="btn" value="Сохранить" /></td>
                 </form>
 
 
@@ -108,31 +108,27 @@
                 <th>ID</th>
                 <th>ДФ 26</th>
                 <th><a href="/df27">План перевозок</a></th>
-                <th>Ржединский</th>
+                <th>М03-24-25</th>
                 <th>27.04.2024</th>
             </tr>
 
-<!--            <tr th:each="cow : ${cows}">-->
-<!--                <td th:utext="${cow.id}"></td>-->
-<!--                <td style="font-weight: bold" th:utext="${cow.tag}"></td>-->
-<!--                <td th:utext="${cow.type}"></td>-->
-<!--                <td th:utext="${cow.color}"></td>-->
-<!--                <td th:utext="${cow.birthday}"></td>-->
-<!--                <td th:utext="${cow.createDate}"></td>-->
-<!--                <td th:utext="${cow.status}"></td>-->
-<!--                <td width="150px" th:utext="${cow.link}"></td>-->
+            <tr th:each="df : ${dfs}">
+                <td th:utext="${df.id}"></td>
+                <td style="font-weight: bold" th:utext="${df.form}"></td>
+                <td th:utext="${df.name}"></td>
+                <td th:utext="${df.period}"></td>
 <!--                <td width="150px">-->
 
 <!--                    <input th:value="@{${cow.id}}" type="file" onchange="uploadimg(this)">-->
 
 <!--                </td>-->
 
-<!--                <td>-->
-<!--                    <button title="Удалить запись" type="submit" class="tr_copy" th:onclick="'change(\'' + ${cow.id} + '\');'">-->
-<!--                        &#10060;-->
-<!--                    </button>-->
-<!--                </td>-->
-<!--            </tr>-->
+                <td>
+                    <button title="Удалить запись" type="submit" class="tr_copy" th:onclick="'change(\'' + ${df.id} + '\');'">
+                        &#10060;
+                    </button>
+                </td>
+            </tr>
         </table>
     </div>
 

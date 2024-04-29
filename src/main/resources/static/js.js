@@ -50,27 +50,20 @@ $('#content')
             document.getElementById("content").innerHTML = "";
         }
     );
-
+//сохранение DF
 $(document).ready(function () {
     $('#btn').click(
         function () {
-            var id1 = document.getElementById('cowid').value;
-            if (id1 == null) {
-                id1 = 0;
-            }
-            var tag1 = document.getElementById('tag').value;
-            var type1 = document.querySelector('input[name="male"]:checked').value;
-            var color1 = document.getElementById('color').value;
-            var birthday1 = document.getElementById('birthday').value;
-            var sendInfo = {
-                id: id1,
-                tag: tag1,
-                type: type1,
-                color: color1,
-                birthday: birthday1
+            let dfVal = document.getElementById('df').value;
+            let dfName = document.getElementById('dfName').value;
+            //var type1 = document.querySelector('input[name="male"]:checked').value;
+            let dfPeriod = document.getElementById('dfPeriod').value;
+            let sendInfo = {
+                df: dfVal,
+                name: dfName,
+                period: dfPeriod,
             };
-
-            sendAjaxForm(sendInfo, 'api/addcow');
+            sendAjaxForm(sendInfo, 'api/adddf');
             setTimeout(sayHi, 1000);
             return false;
         }
