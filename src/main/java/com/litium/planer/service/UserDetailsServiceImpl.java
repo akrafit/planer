@@ -1,7 +1,7 @@
 package com.litium.planer.service;
 
 
-import com.litium.planer.model.User;
+import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(() ->
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() ->
                 new UsernameNotFoundException("User doesn't exists"));
-        return new SecurityUser(user);
+        return new SecurityUser(userEntity);
     }
 }

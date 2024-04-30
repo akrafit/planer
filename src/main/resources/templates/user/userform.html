@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <title>Список портребностей</title>
+    <title>Список пользователей</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/main.css}"
@@ -77,46 +77,28 @@
         <table border="1">
             <tr>
                 <th>ID</th>
-                <th>ДФ</th>
-                <th>Наименование</th>
-                <th>Период</th>
-                <th>Посленднее редактирование</th>
+                <th>ФИО</th>
+                <th>Логин</th>
+                <th>Пароль</th>
+                <th>Редактировать</th>
             </tr>
 
             <tr id="input">
                 <form>
                     <td></td>
-                    <td><input type="text" id="df"/></td>
-<!--                    <td><fieldset>-->
-<!--                            <input type="radio" id="type1"  name="male" value="Б"-->
-<!--                                   checked>-->
-<!--                            <label for="type1">Б</label>-->
-<!--                            <input type="radio" id="type2" name="male" value="Т">-->
-<!--                            <label for="type2">Т</label>-->
-<!--                    </fieldset>-->
-
-
-<!--                    </td>-->
-                    <td><input type="text" id="dfName"/></td>
-                    <td><input type="text" id="dfPeriod"/></td>
-                    <td><input type="button" id="btn" value="Сохранить" /></td>
+                    <td><input type="text" id="ufio"/></td>
+                    <td><input type="text" id="ulogin"/></td>
+                    <td><input type="text" id="upassword"/></td>
+                    <td><input type="button" id="userbtn" value="Сохранить" /></td>
                 </form>
 
 
             </tr>
-            <tr>
-                <th>ID</th>
-                <th>ДФ 26</th>
-                <th><a href="/df26">План перевозок</a></th>
-                <th>М03-24-25</th>
-                <th>27.04.2024</th>
-            </tr>
-
-            <tr th:each="df : ${dfs}">
-                <td th:utext="${df.id}"></td>
-                <td style="font-weight: bold" th:utext="${df.form}"></td>
-                <td th:utext="${df.name}"></td>
-                <td th:utext="${df.period}"></td>
+            <tr th:each="userEntity : ${users}">
+                <td th:utext="${userEntity.id}"></td>
+                <td style="font-weight: bold" th:utext="${userEntity.name}"></td>
+                <td th:utext="${userEntity.login}"></td>
+                <td th:utext="${userEntity.password}"></td>
 <!--                <td width="150px">-->
 
 <!--                    <input th:value="@{${cow.id}}" type="file" onchange="uploadimg(this)">-->
@@ -124,7 +106,7 @@
 <!--                </td>-->
 
                 <td>
-                    <button title="Удалить запись" type="submit" class="tr_copy" th:onclick="'change(\'' + ${df.id} + '\');'">
+                    <button title="Удалить запись" type="submit" class="tr_copy" th:onclick="'change(\'' + ${userEntity.id} + '\');'">
                         &#10060;
                     </button>
                 </td>

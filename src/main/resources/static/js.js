@@ -69,6 +69,26 @@ $(document).ready(function () {
         }
     );
 });
+$(document).ready(function () {
+    $('#userbtn').click(
+        function () {
+            let loginVal = document.getElementById('ulogin').value;
+            let userName = document.getElementById('ufio').value;
+            let userPassword = document.getElementById('upassword').value;
+            let sendInfo = {
+                login: loginVal,
+                name: userName,
+                password: userPassword,
+            };
+            sendAjaxForm(sendInfo, 'api/adduser');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+
+
+
 
 
 function sendAjaxForm(sendInfo, url) {

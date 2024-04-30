@@ -1,7 +1,6 @@
 package com.litium.planer.model;
 
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "users")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,15 +19,15 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "pass")
+    private String passwordOpen;
+    @Column(name = "name")
+    private String name;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
-    private Status status;
+    private STATUS status;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
-    private Role role;
+    private ROLE role;
 
 }

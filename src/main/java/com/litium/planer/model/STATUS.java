@@ -1,5 +1,5 @@
 package com.litium.planer.model;
 
-public enum Status {
+public enum STATUS {
     ACTIVE, BANNED
 }

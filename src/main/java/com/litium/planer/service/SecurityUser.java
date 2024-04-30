@@ -1,7 +1,7 @@
 package com.litium.planer.service;
 
 
-import com.litium.planer.model.User;
+import com.litium.planer.model.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,26 +11,26 @@ import java.util.Collections;
 
 public class SecurityUser implements UserDetails {
 
-    private User user;
+    private UserEntity userEntity;
 
-    public SecurityUser(User user) {
+    public SecurityUser(UserEntity userEntity) {
         super();
-        this.user = user;
+        this.userEntity = userEntity;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()));
+        return Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole().toString()));
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return userEntity.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return userEntity.getEmail();
     }
 
     @Override
