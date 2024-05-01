@@ -4,6 +4,7 @@ package com.litium.planer.controller;
 import com.litium.planer.dto.DfDto;
 import com.litium.planer.dto.UserDto;
 import com.litium.planer.entity.DF;
+import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.service.DfService;
 import com.litium.planer.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -24,12 +26,16 @@ public class GeneralController {
     @GetMapping("/home")
     public String main(Model model) {
         Iterable<DF> DfIterable = dfService.findAll();
+        Iterable<UserEntity> userIterable = userService.findAll();
+        List<UserDto> users = new ArrayList<>();
         List<DfDto> dfs = new ArrayList<>();
-        for (DF df : DfIterable){
-            dfs.add(new DfDto(df));
-        }
+        userIterable.forEach(userEntity -> users.add(new UserDto(userEntity)));
+        DfIterable.forEach(df -> dfs.add(new DfDto(df)));
+        List<TypeDF> dfVal = new ArrayList<>(Arrays.asList(TypeDF.values()));
        // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
+        model.addAttribute("dfVal", dfVal);
         model.addAttribute("dfs", dfs);
+        model.addAttribute("users", users);
         model.addAttribute("date", "");
         model.addAttribute("title", "Список ДФ");
         return "home";
@@ -48,33 +54,7 @@ public class GeneralController {
         model.addAttribute("title", "Список пользователей");
         return "user/userform";
     }
-    @GetMapping("/df26")
-    public String df(Model model) {
-//        Iterable<Cow> cowIterable = cowService.findAll();
-//        ArrayList<CowDto> cows = new ArrayList<>();
-//        for (Cow cow : cowIterable){
-//            cows.add(new CowDto(cow));
-//        }
-        // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
-        model.addAttribute("cows", "");
-        model.addAttribute("date", " ");
-        model.addAttribute("title", "Список ДФ");
-        return "df/df26";
-    }
 
-    @GetMapping("/df4")
-    public String df4(Model model) {
-//        Iterable<Cow> cowIterable = cowService.findAll();
-//        ArrayList<CowDto> cows = new ArrayList<>();
-//        for (Cow cow : cowIterable){
-//            cows.add(new CowDto(cow));
-//        }
-        // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
-        model.addAttribute("cows", "");
-        model.addAttribute("date", " ");
-        model.addAttribute("title", "Список ДФ");
-        return "df/df4";
-    }
     @GetMapping("/auth/logout")
     public String logout(Model model) {
         return "redirect:/";

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>ДФ 04</title>
@@ -7,62 +7,92 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/excel.css}"
           href="../../css/excel.css"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
 </head>
 
 <body>
-<div>
-
-    <table border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+<div class="container">
+    <div class="box">
+        <ul class="hr">
+            <li><a href="/home">Домой</a></li>
+            <li><a href="/userlist">Список пользователей</a></li>
+            <li><a href="/auth/logout">Выход</a></li>
+        </ul>
+        <h2><span th:text="${title}"></span></h2>
+        <h3><span th:text="${user}"></span></h3>
+        <table border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
  collapse;table-layout:fixed;width:918pt'>
-        <col width=171 style='mso-width-source:userset;mso-width-alt:6253;width:128pt'>
-        <col width=251 style='mso-width-source:userset;mso-width-alt:9179;width:188pt'>
-        <col width=79 style='mso-width-source:userset;mso-width-alt:2889;width:59pt'>
-        <col width=91 style='mso-width-source:userset;mso-width-alt:3328;width:68pt'>
-        <col width=210 span=2 style='mso-width-source:userset;mso-width-alt:7680;
+            <col width=171 style='mso-width-source:userset;mso-width-alt:6253;width:148pt'>
+            <col width=251 style='mso-width-source:userset;mso-width-alt:9179;width:168pt'>
+            <col width=79 style='mso-width-source:userset;mso-width-alt:2889;width:159pt'>
+            <col width=91 style='mso-width-source:userset;mso-width-alt:3328;width:168pt'>
+            <col width=210 span=2 style='mso-width-source:userset;mso-width-alt:7680;
  width:158pt'>
-        <col width=116 style='mso-width-source:userset;mso-width-alt:4242;width:87pt'>
-        <col width=96 style='mso-width-source:userset;mso-width-alt:3510;width:72pt'>
-        <tr height=48 style='height:36.0pt'>
-            <td height=48 class=xl913171 width=171 style='height:36.0pt;width:128pt'>Вид
-                ГТМ</td>
-            <td class=xl913171 width=251 style='width:188pt'>Участок недр</td>
-            <td class=xl913171 width=79 style='width:59pt'>Куст<span
-                    style='mso-spacerun:yes'> </span></td>
-            <td class=xl913171 width=91 style='width:68pt'>Скважина<span
-                    style='mso-spacerun:yes'> </span></td>
-            <td class=xl913171 width=210 style='width:158pt'>Назначение скважины</td>
-            <td class=xl913171 width=210 style='width:158pt'>Вид скважины</td>
-            <td class=xl913171 width=116 style='width:87pt'>Дата <br>
-                окончания <br>
-                КРС</td>
-            <td class=xl923171 width=96 style='width:72pt'>Комментарий</td>
-        </tr>
-        <tr height=20 style='height:15.0pt'>
-            <td height=20 class=xl933171 style='height:15.0pt'>ПВЛГ Рассолы</td>
-            <td class=xl933171>Ярактинский участок</td>
-            <td class=xl933171>217</td>
-            <td class=xl943171>Ya_802</td>
-            <td class=xl933171>Вододобывающая (рассолы)</td>
-            <td class=xl933171>Поисковая</td>
-            <td class=xl953171>21.08.2024</td>
-            <td class=xl963171>&nbsp;</td>
-        </tr>
-        <![if supportMisalignedColumns]>
-        <tr height=0 style='display:none'>
-            <td width=171 style='width:128pt'></td>
-            <td width=251 style='width:188pt'></td>
-            <td width=79 style='width:59pt'></td>
-            <td width=91 style='width:68pt'></td>
-            <td width=210 style='width:158pt'></td>
-            <td width=210 style='width:158pt'></td>
-            <td width=116 style='width:87pt'></td>
-            <td width=96 style='width:72pt'></td>
-        </tr>
-        <![endif]>
-    </table>
+            <col width=116 style='mso-width-source:userset;mso-width-alt:4242;width:120pt'>
+            <col width=96 style='mso-width-source:userset;mso-width-alt:3510;width:160pt'>
+            <tr height=48 style='height:36.0pt'>
+                <th height=48 class=xl913171 width=171 style='height:36.0pt;width:128pt'>Вид
+                    ГТМ
+                </th>
+                <th class=xl913171 width=251 style='width:188pt'>Участок недр</th>
+                <th class=xl913171 width=79 style='width:59pt'>Куст<span
+                        style='mso-spacerun:yes'> </span></th>
+                <th class=xl913171 width=91 style='width:68pt'>Скважина<span
+                        style='mso-spacerun:yes'> </span></th>
+                <th class=xl913171 width=210 style='width:158pt'>Назначение скважины</th>
+                <th class=xl913171 width=210 style='width:158pt'>Вид скважины</th>
+                <th class=xl913171 width=116 style='width:87pt'>Дата <br>
+                    окончания <br>
+                    КРС
+                </th>
+                <th class=xl923171 width=96 style='width:72pt'>Комментарий</th>
+                <th class=xl923171 width=96 style='width:72pt'>Действие</th>
+            </tr>
+<!--            <tr height=20 style='height:15.0pt' id="input" th:if="${admin == 'ADMIN'}" >-->
+            <tr height=20 style='height:15.0pt' id="input" >
+                <form>
+                    <td height=20 class=xl933171 style='height:15.0pt'><input type="text" id="typegtm"/></td>
+                    <td class=xl933171><input type="text" id="oilfield"/></td>
+                    <td class=xl933171><input type="text" id="kp"/></td>
+                    <td class=xl943171><input type="text" id="well"/></td>
+                    <td class=xl933171><input type="text" id="wellPurpose"/></td>
+                    <td class=xl933171><input type="text" id="type"/></td>
+                    <td class=xl953171><input type="date" id="enddate"/></td>
+                    <td class=xl963171><input type="text" id="comment"/></td>
+                    <td class=xl963171><input type="button" id="dfFourAdd" value="Сохранить"/></td>
+                </form>
+            </tr>
+            <tr height=20 style='height:15.0pt' th:each="df : ${dfs}">
+                <td height=20 class=xl933171 style='height:15.0pt' th:utext="${df.typeGTM}">ПВЛГ Рассолы</td>
+                <td class=xl933171 th:utext="${df.oilField}">Ярактинский участок</td>
+                <td class=xl933171 th:utext="${df.kp}">217</td>
+                <td class=xl943171 th:utext="${df.well}">Ya_802</td>
+                <td class=xl933171 th:utext="${df.wellPurpose}">Вододобывающая (рассолы)</td>
+                <td class=xl933171 th:utext="${df.type}">Поисковая</td>
+                <td class=xl953171 th:utext="${df.endDate}">21.08.2024</td>
+                <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
+                <td class=xl963171>&nbsp;</td>
+            </tr>
+
+
+            <!--        <tr height=0 style='display:none'>-->
+            <!--            <td width=171 style='width:128pt'></td>-->
+            <!--            <td width=251 style='width:188pt'></td>-->
+            <!--            <td width=79 style='width:59pt'></td>-->
+            <!--            <td width=91 style='width:68pt'></td>-->
+            <!--            <td width=210 style='width:158pt'></td>-->
+            <!--            <td width=210 style='width:158pt'></td>-->
+            <!--            <td width=116 style='width:87pt'></td>-->
+            <!--            <td width=96 style='width:72pt'></td>-->
+            <!--        </tr>-->
+        </table>
+    </div>
 
 </div>
+<script src="../../js.js"></script>
 
 </body>
+
 
 </html>

@@ -1,6 +1,6 @@
 package com.litium.planer.model;
 
-public enum ROLE {
+public enum Role {
     ADMIN,
     USER,
     VISITOR

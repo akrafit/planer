@@ -1,8 +1,8 @@
 package com.litium.planer.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.litium.planer.model.ROLE;
-import com.litium.planer.model.STATUS;
+import com.litium.planer.model.Role;
+import com.litium.planer.model.Status;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +30,8 @@ public class UserService {
         userEntity.setPasswordOpen(password);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
         userEntity.setPassword(bCryptPasswordEncoder.encode(password));
-        userEntity.setStatus(STATUS.ACTIVE);
-        userEntity.setRole(ROLE.USER);
+        userEntity.setStatus(Status.ACTIVE);
+        userEntity.setRole(Role.USER);
 
 
         map.put("massage", "OK");
@@ -40,5 +41,13 @@ public class UserService {
 
     public Iterable<UserEntity> findAll() {
         return userRepository.findAll();
+    }
+
+    public UserEntity getUserByName(String name) {
+        return userRepository.findByEmail(name).get();
+    }
+
+    public Optional<UserEntity> findUserById(Long userId) {
+        return userRepository.findById(userId);
     }
 }

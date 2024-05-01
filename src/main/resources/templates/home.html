@@ -1,67 +1,20 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Список портребностей</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/main.css}"
           href="../../css/main.css"/>
-    <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"
           integrity="sha512-Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw=="
           crossorigin="anonymous">
-    <!-- Дополнительные стили Bootstrap (не обязательно) -->
-<!--    <link rel="stylesheet"-->
-<!--          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css"-->
-<!--          integrity="sha512-iy8EXLW01a00b26BaqJWaCmk9fJ4PsMdgNRqV96KwMPSH+blO82OHzisF/zQbRIIi8m0PiO10dpS0QxrcXsisw=="-->
-<!--          crossorigin="anonymous">-->
-    <!-- jQuery (необходим для Bootstrap JS) -->
+
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
             integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
             crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <style>
-.container{
-        width: 100%;
-        height: 100%;
-        position: relative;
-        margin: 20px;
-        top: 0;
-        left: 0;
-    }
-    .box{
-        margin: 20px;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.8;  /* для демонстрации  */    }
-    .content{
-        width: 60%;
-        height: 60%;
-        z-index: 9;
-        margin: 20px; /* для демонстрации  */
-  }
-  ul.hr {
-    margin: 0; /* Обнуляем значение отступов */
-    padding: 4px; /* Значение полей */
-   }
-   ul.hr li {
-    display: inline; /* Отображать как строчный элемент */
-    margin-right: 5px; /* Отступ слева */
-    border: 1px solid #000; /* Рамка вокруг текста */
-    padding: 3px; /* Поля вокруг текста */
-    background: #5cb85c;
-    color: #ffffff;
-    font-size: larger;
-   }
- /*  a{*/
- /*  color: #ffffff;*/
- /*  text-decoration: none;*/
- /*}*/
 
-    </style>
 </head>
 <body>
 
@@ -74,70 +27,80 @@
             <li><a href="/auth/logout">Выход</a></li>
         </ul>
         <h1><span th:text="${title}+${date}"></span></h1>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>ДФ</th>
-                <th>Наименование</th>
-                <th>Период</th>
-                <th>Посленднее редактирование</th>
-            </tr>
+        <div id="contentTable">
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>ДФ</th>
+                    <th>Тип</th>
+                    <th>Наименование</th>
+                    <th>Период</th>
+                    <th>Пользователи</th>
+                    <th>Посленднее редактирование</th>
+                </tr>
 
-            <tr id="input">
-                <form>
-                    <td></td>
-                    <td><input type="text" id="df"/></td>
-<!--                    <td><fieldset>-->
-<!--                            <input type="radio" id="type1"  name="male" value="Б"-->
-<!--                                   checked>-->
-<!--                            <label for="type1">Б</label>-->
-<!--                            <input type="radio" id="type2" name="male" value="Т">-->
-<!--                            <label for="type2">Т</label>-->
-<!--                    </fieldset>-->
-
-
-<!--                    </td>-->
-                    <td><input type="text" id="dfName"/></td>
-                    <td><input type="text" id="dfPeriod"/></td>
-                    <td><input type="button" id="btn" value="Сохранить" /></td>
-                </form>
+                <tr id="input">
+                    <form>
+                        <td></td>
+                        <td><input type="text" id="df"/></td>
+                        <td><select id="dropDownListDf">
+                            <option value="0">select option</option>
+                            <option th:each="option : ${dfVal}" th:value="${option}" th:text="${option}"></option>
+                        </select>
 
 
-            </tr>
-            <tr>
-                <th>ID</th>
-                <th>ДФ 26</th>
-                <th><a href="/df26">План перевозок</a></th>
-                <th>М03-24-25</th>
-                <th>27.04.2024</th>
-            </tr>
+                        </td>
+                        <td><input type="text" id="dfName"/></td>
+                        <td><input type="text" id="dfPeriod"/></td>
+                        <td></td>
+                        <td><input type="button" id="btn" value="Сохранить"/></td>
+                    </form>
 
-            <tr th:each="df : ${dfs}">
-                <td th:utext="${df.id}"></td>
-                <td style="font-weight: bold" th:utext="${df.form}"></td>
-                <td th:utext="${df.name}"></td>
-                <td th:utext="${df.period}"></td>
-<!--                <td width="150px">-->
 
-<!--                    <input th:value="@{${cow.id}}" type="file" onchange="uploadimg(this)">-->
+                </tr>
+                <tr th:each="df : ${dfs}">
+                    <td th:utext="${df.id}"></td>
+                    <td style="font-weight: bold" th:utext="${df.form}"></td>
+                    <td th:utext="${df.type}"></td>
+                    <td><a th:href="@{'/df/' + ${df.type} + '?id=' + ${df.id}}" th:utext="${df.name}"></a></td>
+                    <td th:utext="${df.period}"></td>
+                    <td>
+                        <div th:each="userName : ${df.users}">
+                            <span th:text="${userName}"/>
+                        </div>
+                    </td>
+                    <!--                <td width="150px">-->
 
-<!--                </td>-->
+                    <!--                    <input th:value="@{${cow.id}}" type="file" onchange="uploadimg(this)">-->
 
-                <td>
-                    <button title="Удалить запись" type="submit" class="tr_copy" th:onclick="'change(\'' + ${df.id} + '\');'">
-                        &#10060;
-                    </button>
-                </td>
-            </tr>
-        </table>
+                    <!--                </td>-->
+
+                    <td>
+                        <button title="Добавить пользователя" type="submit" class="tr_copy"
+                                th:onclick="'updateDf(\'' + ${df.id} + '\');'">(+)
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
-    <div id="content">
 
-    </div>
 </div>
 <div id="result_form"></div>
-
+<div id="content">
+    <form><input type="hidden" id="updateDfId"/></form>
+    <table border="1" style="width: 300px;">
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td>
+                <button title="Добавить пользователя" type="submit" class="tr_copy"
+                        th:onclick="'addUser(\'' + ${user.id} + '\');'">(+)
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
 
 <script src="../../js.js"></script>
 

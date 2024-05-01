@@ -121,5 +121,51 @@ table {
 .bull {
     width: 30px;
 }
+.container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 20px;
+    top: 0;
+    left: 0;
+}
+.box{
+    margin: 20px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;  /* для демонстрации  */    }
+/*.content{*/
+/*    width: 60%;*/
+/*    height: 60%;*/
+/*    z-index: 9;*/
+/*    margin: 20px; !* для демонстрации  *!*/
+/*}*/
+ul.hr {
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+}
+ul.hr li {
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    border: 1px solid #000; /* Рамка вокруг текста */
+    padding: 3px; /* Поля вокруг текста */
+    background: #5cb85c;
+    color: #ffffff;
+    font-size: larger;
+}
 
+#content {
+    position: absolute;
+    z-index: 2;
+    visibility: hidden;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px; /* Need a specific value to work */
+}
 

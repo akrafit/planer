@@ -58,10 +58,13 @@ $(document).ready(function () {
             let dfName = document.getElementById('dfName').value;
             //var type1 = document.querySelector('input[name="male"]:checked').value;
             let dfPeriod = document.getElementById('dfPeriod').value;
+            let dfType = document.getElementById('dropDownListDf').value;
+            console.log(dfType);
             let sendInfo = {
                 df: dfVal,
                 name: dfName,
                 period: dfPeriod,
+                dfType: dfType
             };
             sendAjaxForm(sendInfo, 'api/adddf');
             setTimeout(sayHi, 1000);
@@ -81,6 +84,33 @@ $(document).ready(function () {
                 password: userPassword,
             };
             sendAjaxForm(sendInfo, 'api/adduser');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+$(document).ready(function () {
+    $('#dfFourAdd').click(
+        function () {
+            let typegtm = document.getElementById('typegtm').value;
+            let oilfield = document.getElementById('oilfield').value;
+            let kp = document.getElementById('kp').value;
+            let well = document.getElementById('well').value;
+            let wellPurpose = document.getElementById('wellPurpose').value;
+            let type = document.getElementById('type').value;
+            let enddate = document.getElementById('enddate').value;
+            let comment = document.getElementById('comment').value;
+            let sendInfo = {
+                typeGTM: typegtm,
+                oilField: oilfield,
+                kp: kp,
+                well: well,
+                wellPurpose: wellPurpose,
+                type: type,
+                enddate: enddate,
+                comment: comment
+            };
+            sendAjaxForm(sendInfo, 'api/addDf4');
             setTimeout(sayHi, 1000);
             return false;
         }
@@ -115,26 +145,46 @@ function sendAjaxForm(sendInfo, url) {
 function sayHi() {
     location.reload();
 }
-
-function change(id) {
-    $.ajax({
-        url: 'api/change/' + id,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            document.getElementById('cowid').value = data.id;
-            document.getElementById('tag').value = data.tag;
-            document.getElementById('color').value = data.color;
-            document.getElementById('birthday').value = data.birthday;
-            if (data.type == 'Б') {
-                document.getElementById('type1').checked = true;
-            } else {
-                document.getElementById('type2').checked = true;
-            }
-        }
-    });
+function updateDf(id) {
+    // document.getElementById('content').style.z-index = '2';
+    $('#content').css('visibility','visible');
+    $('#contentTable').css('visibility','hidden');
+    document.getElementById('updateDfId').value = id;
 
 }
+function addUser(id) {
+    $('#content').css('visibility','hidden');
+    $('#contentTable').css('visibility','visible');
+    let dfId = document.getElementById('updateDfId').value;
+    let sendInfo = {
+        dfId: dfId,
+        user: id,
+    };
+    sendAjaxForm(sendInfo, 'api/addusertodf');
+    setTimeout(sayHi, 1000);
+
+}
+// function change(id) {
+//     $.ajax({
+//         url: 'api/change/' + id,
+//         type: 'GET',
+//         dataType: 'json',
+//         success: function (data) {
+//             document.getElementById('cowid').value = data.id;
+//             document.getElementById('tag').value = data.tag;
+//             document.getElementById('color').value = data.color;
+//             document.getElementById('birthday').value = data.birthday;
+//             if (data.type == 'Б') {
+//                 document.getElementById('type1').checked = true;
+//             } else {
+//                 document.getElementById('type2').checked = true;
+//             }
+//         }
+//     });
+//
+// }
+
+
 
 $(function () {
     $('#traffic').on('click', '.morning', function () {

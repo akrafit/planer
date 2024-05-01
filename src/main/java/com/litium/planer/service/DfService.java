@@ -2,31 +2,44 @@ package com.litium.planer.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.litium.planer.entity.DF;
+import com.litium.planer.entity.FourDF;
+import com.litium.planer.entity.User2DF;
+import com.litium.planer.model.Role;
+import com.litium.planer.model.TypeDF;
+import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.DfRepository;
+import com.litium.planer.repo.FourDFRepository;
+import com.litium.planer.repo.User2DFRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class DfService {
     private final DfRepository dfRepository;
+    private final FourDFRepository fourDFRepository;
+
+    private final User2DFRepository user2DFRepository;
+
+    private final UserService userService;
+
+    DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public Map<String, Object> addNewDF(JSONObject jsonObject) {
         Map<String, Object> map = new HashMap<>();
-        String msg;
-
-//        Long id = jsonObject.getLong("df");
-        String df = jsonObject.getString("df");
-        String name = jsonObject.getString("name");
-        String period = jsonObject.getString("period");
 
         DF dfEntity = new DF();
-        dfEntity.setForm(df);
-        dfEntity.setName(name);
-        dfEntity.setPeriod(period);
+        dfEntity.setForm(jsonObject.getString("df"));
+        dfEntity.setName(jsonObject.getString("name"));
+        dfEntity.setPeriod(jsonObject.getString("period"));
+        dfEntity.setType(TypeDF.valueOf(jsonObject.getString("dfType")));
 
         map.put("massage", "OK");
         dfRepository.save(dfEntity);
@@ -65,5 +78,65 @@ public class DfService {
 
     public Iterable<DF> findAll() {
        return dfRepository.findAll();
+    }
+
+    public Iterable<FourDF> findAllDfFour() {
+        return  fourDFRepository.findAll();
+    }
+
+    public Map<String, Object> addNewDf4(JSONObject jsonObject) {
+        Map<String, Object> map = new HashMap<>();
+
+        FourDF fourDF = new FourDF();
+        fourDF.setTypeGTM(jsonObject.getString("typeGTM"));
+        fourDF.setOilfield(jsonObject.getString("oilField"));
+        fourDF.setKp(jsonObject.getString("kp"));
+        fourDF.setWell(jsonObject.getString("well"));
+        fourDF.setWellPurpose(jsonObject.getString("wellPurpose"));
+        fourDF.setType(jsonObject.getString("type"));
+        fourDF.setComment(jsonObject.getString("comment"));
+        System.out.println(jsonObject.getString("enddate"));
+        LocalDate localDate = LocalDate.parse(jsonObject.getString("enddate"), format);
+        fourDF.setEndDate(localDate);
+
+
+        map.put("massage", "OK");
+        fourDFRepository.save(fourDF);
+        return map;
+    }
+
+    public DF findById(Long id) {
+        return dfRepository.findById(id).get();
+    }
+
+    public Iterable<FourDF> findDfFourByDFAndUser(DF dfParent, UserEntity userEntity) {
+        return fourDFRepository.findFourDFByDfAndUser(dfParent, userEntity);
+    }
+
+    public Iterable<FourDF> findDfFourByDF(DF dfParent) {
+        return fourDFRepository.findFourDFByDf(dfParent);
+    }
+
+    public Map<String, Object> addUserToDf(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        String dfId = jsonObject.getString("dfId");
+        String userId = jsonObject.getString("user");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<UserEntity> userEntityOptional = userService.findUserById(Long.valueOf(userId));
+        if (userEntityOptional.isPresent() && userAuthenticated.getRole().equals(Role.ADMIN)){
+            Optional<DF> dfOptional = dfRepository.findById(Long.valueOf(dfId));
+            if(dfOptional.isPresent()){
+                User2DF user2DF = new User2DF();
+                DF df = dfOptional.get();
+                UserEntity userEntity = userEntityOptional.get();
+                user2DF.setUser(userEntity);
+                user2DF.setDf(df);
+                map.put("massage", "Пользователь " + userEntity.getName() + " добавлен в " + df.getName() + ", период " + df.getPeriod());
+                user2DFRepository.save(user2DF);
+                return map;
+            }
+        }
+        map.put("massage", "Ошибка записи");
+        return map;
     }
 }

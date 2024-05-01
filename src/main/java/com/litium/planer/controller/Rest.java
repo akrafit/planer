@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 
 @RestController
@@ -30,5 +31,15 @@ public class Rest {
     @PostMapping("/adduser")
     public Map<String, Object> addUser(@Valid @RequestBody JSONObject jsonObject) {
         return userService.addNewUser(jsonObject);
+    }
+
+    @PostMapping("/addDf4")
+    public Map<String, Object> addDf4(@Valid @RequestBody JSONObject jsonObject) {
+        return dfService.addNewDf4(jsonObject);
+    }
+
+    @PostMapping("/addusertodf")
+    public Map<String, Object> addUserToDf(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.addUserToDf(jsonObject, principal.getName());
     }
 }

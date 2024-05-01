@@ -1,5 +1,6 @@
 package com.litium.planer.entity;
 
+import com.litium.planer.model.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,14 @@ public class FourDF {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "df_id")
+    private DF df;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     private String oilfield;
 
     private String typeGTM;
@@ -26,6 +35,10 @@ public class FourDF {
     private LocalDate endDate;
 
     private String wellPurpose;
+
+    private String type;
+
+    private String comment;
 
 
 }
