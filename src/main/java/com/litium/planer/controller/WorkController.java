@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Controller
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 public class WorkController {
     private final DfService dfService;
     private final UserService userService;
+
+    private final DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @GetMapping("/df26")
     public String df(Model model) {
@@ -53,10 +58,14 @@ public class WorkController {
         for (FourDF df : dfFourIterable){
             dfs.add(new FourDFDto(df));
         }
+
         // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
         model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
         model.addAttribute("user", userEntity.getName());
         model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
         model.addAttribute("title", "ДФ 04 Геолого-технические мероприятия (ГТМ) " + dfParent.getPeriod());
         return "df/df4";
     }

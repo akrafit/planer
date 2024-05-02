@@ -66,7 +66,7 @@ $(document).ready(function () {
                 period: dfPeriod,
                 dfType: dfType
             };
-            sendAjaxForm(sendInfo, 'api/adddf');
+            sendAjaxForm(sendInfo, '/api/adddf');
             setTimeout(sayHi, 1000);
             return false;
         }
@@ -83,7 +83,7 @@ $(document).ready(function () {
                 name: userName,
                 password: userPassword,
             };
-            sendAjaxForm(sendInfo, 'api/adduser');
+            sendAjaxForm(sendInfo, '/api/adduser');
             setTimeout(sayHi, 1000);
             return false;
         }
@@ -100,6 +100,7 @@ $(document).ready(function () {
             let type = document.getElementById('type').value;
             let enddate = document.getElementById('enddate').value;
             let comment = document.getElementById('comment').value;
+            let dfId = document.getElementById('dfId').value;
             let sendInfo = {
                 typeGTM: typegtm,
                 oilField: oilfield,
@@ -108,9 +109,10 @@ $(document).ready(function () {
                 wellPurpose: wellPurpose,
                 type: type,
                 enddate: enddate,
-                comment: comment
+                comment: comment,
+                dfid: dfId
             };
-            sendAjaxForm(sendInfo, 'api/addDf4');
+            sendAjaxForm(sendInfo, '/api/addDf4');
             setTimeout(sayHi, 1000);
             return false;
         }
@@ -160,9 +162,18 @@ function addUser(id) {
         dfId: dfId,
         user: id,
     };
-    sendAjaxForm(sendInfo, 'api/addusertodf');
+    sendAjaxForm(sendInfo, '/api/addusertodf');
     setTimeout(sayHi, 1000);
 
+}
+function deleteDf4(id) {
+    let dfParentId = document.getElementById('dfId').value;
+    let sendInfo = {
+        dfParent: dfParentId,
+        dfDel: id
+    };
+    sendAjaxForm(sendInfo, '/api/deleteDf4');
+    setTimeout(sayHi, 1000);
 }
 // function change(id) {
 //     $.ajax({

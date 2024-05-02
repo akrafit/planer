@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,10 +85,19 @@ public class DfService {
         return  fourDFRepository.findAll();
     }
 
-    public Map<String, Object> addNewDf4(JSONObject jsonObject) {
+    public Map<String, Object> addNewDf4(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
 
+        Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfid"));
+        UserEntity userEntity = userService.getUserByName(name);
         FourDF fourDF = new FourDF();
+        fourDF.setUser(userEntity);
+        if(dfParent.isPresent()){
+            fourDF.setDf(dfParent.get());
+        }else{
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
         fourDF.setTypeGTM(jsonObject.getString("typeGTM"));
         fourDF.setOilfield(jsonObject.getString("oilField"));
         fourDF.setKp(jsonObject.getString("kp"));
@@ -95,11 +105,13 @@ public class DfService {
         fourDF.setWellPurpose(jsonObject.getString("wellPurpose"));
         fourDF.setType(jsonObject.getString("type"));
         fourDF.setComment(jsonObject.getString("comment"));
-        System.out.println(jsonObject.getString("enddate"));
-        LocalDate localDate = LocalDate.parse(jsonObject.getString("enddate"), format);
-        fourDF.setEndDate(localDate);
-
-
+        String endDate = jsonObject.getString("enddate");
+        if (endDate.isEmpty()){
+            map.put("massage", "Ошибка даты");
+            return map;
+        }
+        fourDF.setEndDate(LocalDate.parse(endDate, format));
+        fourDF.setTime(LocalDateTime.now());
         map.put("massage", "OK");
         fourDFRepository.save(fourDF);
         return map;
@@ -137,6 +149,30 @@ public class DfService {
             }
         }
         map.put("massage", "Ошибка записи");
+        return map;
+    }
+
+    public Map<String, Object> deleteDf4(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<FourDF> fourDFOptional = fourDFRepository.findById(dfDeleteId);
+        if(fourDFOptional.isPresent()){
+            FourDF fourDF = fourDFOptional.get();
+            if(!fourDF.getDf().getId().equals(dfDeleteParentId)){
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if(!fourDF.getUser().getId().equals(userAuthenticated.getId())){
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            fourDFRepository.delete(fourDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
 }

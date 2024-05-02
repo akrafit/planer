@@ -34,8 +34,13 @@ public class Rest {
     }
 
     @PostMapping("/addDf4")
-    public Map<String, Object> addDf4(@Valid @RequestBody JSONObject jsonObject) {
-        return dfService.addNewDf4(jsonObject);
+    public Map<String, Object> addDf4(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.addNewDf4(jsonObject, principal.getName());
+    }
+
+    @PostMapping("/deleteDf4")
+    public Map<String, Object> deleteDf4(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.deleteDf4(jsonObject, principal.getName());
     }
 
     @PostMapping("/addusertodf")

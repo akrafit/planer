@@ -23,6 +23,8 @@
         <h3><span th:text="${user}"></span></h3>
         <table border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
  collapse;table-layout:fixed;width:918pt'>
+            <col width=171 style='mso-width-source:userset;mso-width-alt:6253;width:50pt'>
+            <col width=171 style='mso-width-source:userset;mso-width-alt:6253;width:100pt'>
             <col width=171 style='mso-width-source:userset;mso-width-alt:6253;width:148pt'>
             <col width=251 style='mso-width-source:userset;mso-width-alt:9179;width:168pt'>
             <col width=79 style='mso-width-source:userset;mso-width-alt:2889;width:159pt'>
@@ -32,6 +34,10 @@
             <col width=116 style='mso-width-source:userset;mso-width-alt:4242;width:120pt'>
             <col width=96 style='mso-width-source:userset;mso-width-alt:3510;width:160pt'>
             <tr height=48 style='height:36.0pt'>
+                <th height=48 class=xl913171 width=171 style='height:36.0pt;width:128pt'>№
+                </th>
+                <th height=48 class=xl913171 width=171 style='height:36.0pt;width:128pt'>Дата заполнения
+                </th>
                 <th height=48 class=xl913171 width=171 style='height:36.0pt;width:128pt'>Вид
                     ГТМ
                 </th>
@@ -49,9 +55,11 @@
                 <th class=xl923171 width=96 style='width:72pt'>Комментарий</th>
                 <th class=xl923171 width=96 style='width:72pt'>Действие</th>
             </tr>
-<!--            <tr height=20 style='height:15.0pt' id="input" th:if="${admin == 'ADMIN'}" >-->
-            <tr height=20 style='height:15.0pt' id="input" >
+            <!--            <tr height=20 style='height:15.0pt' id="input" th:if="${admin == 'ADMIN'}" >-->
+            <tr height=20 style='height:15.0pt' id="input">
                 <form>
+                    <td class=xl933171><input type="hidden" id="dfId" th:value="${dfId}" value=""/></td>
+                    <td class=xl933171 th:utext="${edit.format(formatPost)}" ></td>
                     <td height=20 class=xl933171 style='height:15.0pt'><input type="text" id="typegtm"/></td>
                     <td class=xl933171><input type="text" id="oilfield"/></td>
                     <td class=xl933171><input type="text" id="kp"/></td>
@@ -63,8 +71,10 @@
                     <td class=xl963171><input type="button" id="dfFourAdd" value="Сохранить"/></td>
                 </form>
             </tr>
-            <tr height=20 style='height:15.0pt' th:each="df : ${dfs}">
-                <td height=20 class=xl933171 style='height:15.0pt' th:utext="${df.typeGTM}">ПВЛГ Рассолы</td>
+            <tr height=20 style='height:15.0pt' th:each="df, stat : ${dfs}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.typeGTM}">ПВЛГ Рассолы</td>
                 <td class=xl933171 th:utext="${df.oilField}">Ярактинский участок</td>
                 <td class=xl933171 th:utext="${df.kp}">217</td>
                 <td class=xl943171 th:utext="${df.well}">Ya_802</td>
@@ -72,7 +82,10 @@
                 <td class=xl933171 th:utext="${df.type}">Поисковая</td>
                 <td class=xl953171 th:utext="${df.endDate}">21.08.2024</td>
                 <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
-                <td class=xl963171>&nbsp;</td>
+                <td class=xl963171>&nbsp;<button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись" type="submit"
+                                                 th:onclick="'deleteDf4(\'' + ${df.id} + '\');'">(+)
+                </button>
+                </td>
             </tr>
 
 
