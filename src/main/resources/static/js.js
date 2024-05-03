@@ -118,6 +118,37 @@ $(document).ready(function () {
         }
     );
 });
+$(document).ready(function () {
+    $('#dfFiveAdd').click(
+        function () {
+            let dfId = document.getElementById('dfId').value;
+            let oilfield = document.getElementById('oilfield').value;
+            let expWater = document.getElementById('expWater').value;
+            let medWater = document.getElementById('medWater').value;
+            let expPump = document.getElementById('expPump').value;
+            let medPump = document.getElementById('medPump').value;
+            let expHydro = document.getElementById('expHydro').value;
+            let medHydro = document.getElementById('medHydro').value;
+            let comment = document.getElementById('comment').value;
+            let datePeriod = document.getElementById('datePeriod').value;
+            let sendInfo = {
+                dfId: dfId,
+                oilField: oilfield,
+                expWater: expWater,
+                medWater: medWater,
+                expPump: expPump,
+                medPump: medPump,
+                expHydro: expHydro,
+                medHydro: medHydro,
+                datePeriod: datePeriod,
+                comment: comment
+            };
+            sendAjaxForm(sendInfo, '/api/addDf5');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
 
 
 
@@ -173,6 +204,15 @@ function deleteDf4(id) {
         dfDel: id
     };
     sendAjaxForm(sendInfo, '/api/deleteDf4');
+    setTimeout(sayHi, 1000);
+}
+function deleteDf5(id) {
+    let dfParentId = document.getElementById('dfId').value;
+    let sendInfo = {
+        dfParent: dfParentId,
+        dfDel: id
+    };
+    sendAjaxForm(sendInfo, '/api/deleteDf5');
     setTimeout(sayHi, 1000);
 }
 // function change(id) {

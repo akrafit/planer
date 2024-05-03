@@ -1,7 +1,9 @@
 package com.litium.planer.controller;
 
+import com.litium.planer.dto.FiveDFDto;
 import com.litium.planer.dto.FourDFDto;
 import com.litium.planer.entity.DF;
+import com.litium.planer.entity.FiveDF;
 import com.litium.planer.entity.FourDF;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.UserEntity;
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -28,6 +31,7 @@ public class WorkController {
     private final UserService userService;
 
     private final DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter formatOption = DateTimeFormatter.ofPattern("MMMM yy");
 
     @GetMapping("/df26")
     public String df(Model model) {
@@ -62,11 +66,40 @@ public class WorkController {
         // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
         model.addAttribute("dfs", dfs);
         model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity.getName());
+        model.addAttribute("user", userEntity);
         model.addAttribute("admin", userEntity.getRole().toString());
         model.addAttribute("edit", LocalDateTime.now());
         model.addAttribute("formatPost", formatPost);
         model.addAttribute("title", "ДФ 04 Геолого-технические мероприятия (ГТМ) " + dfParent.getPeriod());
         return "df/df4";
+    }
+    @GetMapping("/DF5")
+    public String df5(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<FiveDF> dfFiveIterable;
+//        if(userEntity.getRole().equals(Role.ADMIN)){
+//            dfFourIterable = dfService.findDfFourByDF(dfParent);
+//        }else{
+//            dfFourIterable = dfService.findDfFourByDFAndUser(dfParent, userEntity);
+//        }
+        dfFiveIterable = dfService.findDfFiveByDF(dfParent);
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        ArrayList<FiveDFDto> dfs = new ArrayList<>();
+        for (FiveDF df : dfFiveIterable){
+            dfs.add(new FiveDFDto(df));
+        }
+
+        // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 05 Фонд скважин " + dfParent.getPeriod());
+        return "df/df5";
     }
 }

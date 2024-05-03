@@ -23,7 +23,7 @@
     <div class="box">
         <ul class="hr">
             <li><a href="/home">Домой</a></li>
-            <li><a href="/userlist">Список пользователей</a></li>
+            <li th:if="${user.role.toString() == 'ADMIN'}" ><a href="/userlist">Список пользователей</a></li>
             <li><a href="/auth/logout">Выход</a></li>
         </ul>
         <h1><span th:text="${title}+${date}"></span></h1>
@@ -39,7 +39,7 @@
                     <th>Посленднее редактирование</th>
                 </tr>
 
-                <tr id="input">
+                <tr id="input" th:if="${user.role.toString() == 'ADMIN'}">
                     <form>
                         <td></td>
                         <td><input type="text" id="df"/></td>
@@ -76,7 +76,7 @@
                     <!--                </td>-->
 
                     <td>
-                        <button title="Добавить пользователя" type="submit" class="tr_copy"
+                        <button th:if="${user.role.toString() == 'ADMIN'}" title="Добавить пользователя" type="submit" class="tr_copy"
                                 th:onclick="'updateDf(\'' + ${df.id} + '\');'">(+)
                         </button>
                     </td>
@@ -88,7 +88,7 @@
 
 </div>
 <div id="result_form"></div>
-<div id="content">
+<div id="content" th:if="${user.role.toString() == 'ADMIN'}">
     <form><input type="hidden" id="updateDfId"/></form>
     <table border="1" style="width: 300px;">
         <tr th:each="user : ${users}">

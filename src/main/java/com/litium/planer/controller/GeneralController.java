@@ -4,6 +4,7 @@ package com.litium.planer.controller;
 import com.litium.planer.dto.DfDto;
 import com.litium.planer.dto.UserDto;
 import com.litium.planer.entity.DF;
+import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.service.DfService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,18 +26,26 @@ public class GeneralController {
     private final UserService userService;
 
     @GetMapping("/home")
-    public String main(Model model) {
-        Iterable<DF> DfIterable = dfService.findAll();
+    public String main(Model model, Principal principal) {
+        UserEntity authorizedUser = userService.getUserByName(principal.getName());
+        Iterable<DF> dfIterable;
+        if(authorizedUser.getRole().equals(Role.USER)){
+            dfIterable = dfService.findByUser(authorizedUser);
+        }else{
+            dfIterable = dfService.findAll();
+        }
+
         Iterable<UserEntity> userIterable = userService.findAll();
         List<UserDto> users = new ArrayList<>();
         List<DfDto> dfs = new ArrayList<>();
         userIterable.forEach(userEntity -> users.add(new UserDto(userEntity)));
-        DfIterable.forEach(df -> dfs.add(new DfDto(df)));
+        dfIterable.forEach(df -> dfs.add(new DfDto(df)));
         List<TypeDF> dfVal = new ArrayList<>(Arrays.asList(TypeDF.values()));
        // cows.sort((cow, cow2) -> Math.toIntExact(cow.compareTo(cow2)));
         model.addAttribute("dfVal", dfVal);
         model.addAttribute("dfs", dfs);
         model.addAttribute("users", users);
+        model.addAttribute("user", authorizedUser);
         model.addAttribute("date", "");
         model.addAttribute("title", "Список ДФ");
         return "home";
@@ -58,6 +68,10 @@ public class GeneralController {
     @GetMapping("/auth/logout")
     public String logout(Model model) {
         return "redirect:/";
+    }
+    @GetMapping("/send")
+    public String log(Model model) {
+        return "index2";
     }
 
 //    @GetMapping("/traffic")

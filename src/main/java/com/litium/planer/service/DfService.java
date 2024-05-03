@@ -2,12 +2,14 @@ package com.litium.planer.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.litium.planer.entity.DF;
+import com.litium.planer.entity.FiveDF;
 import com.litium.planer.entity.FourDF;
 import com.litium.planer.entity.User2DF;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.DfRepository;
+import com.litium.planer.repo.FiveDFRepository;
 import com.litium.planer.repo.FourDFRepository;
 import com.litium.planer.repo.User2DFRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +18,15 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class DfService {
     private final DfRepository dfRepository;
     private final FourDFRepository fourDFRepository;
+
+    private final FiveDFRepository fiveDFRepository;
 
     private final User2DFRepository user2DFRepository;
 
@@ -117,10 +119,6 @@ public class DfService {
         return map;
     }
 
-    public DF findById(Long id) {
-        return dfRepository.findById(id).get();
-    }
-
     public Iterable<FourDF> findDfFourByDFAndUser(DF dfParent, UserEntity userEntity) {
         return fourDFRepository.findFourDFByDfAndUser(dfParent, userEntity);
     }
@@ -129,6 +127,38 @@ public class DfService {
         return fourDFRepository.findFourDFByDf(dfParent);
     }
 
+    public Map<String, Object> deleteDf4(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<FourDF> fourDFOptional = fourDFRepository.findById(dfDeleteId);
+        if(fourDFOptional.isPresent()){
+            FourDF fourDF = fourDFOptional.get();
+            if(!fourDF.getDf().getId().equals(dfDeleteParentId)){
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if(!fourDF.getUser().getId().equals(userAuthenticated.getId())){
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            fourDFRepository.delete(fourDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+    public Iterable<FiveDF> findDfFiveByDF(DF dfParent) {
+        return fiveDFRepository.findFiveDFByDf(dfParent);
+    }
+
+
+    public DF findById(Long id) {
+        return dfRepository.findById(id).get();
+    }
     public Map<String, Object> addUserToDf(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         String dfId = jsonObject.getString("dfId");
@@ -152,23 +182,71 @@ public class DfService {
         return map;
     }
 
-    public Map<String, Object> deleteDf4(JSONObject jsonObject, String name) {
+
+
+    public Iterable<DF> findByUser(UserEntity user) {
+        Iterable<User2DF> user2DFS = user2DFRepository.findUser2DFByUser(user);
+        List<DF> listDf = new ArrayList<>();
+        user2DFS.forEach(user2DF -> listDf.add(user2DF.getDf()));
+        return listDf;
+    }
+
+
+    public List<LocalDate> getFirstMonthList() {
+        int year = LocalDate.now().getYear();
+        ArrayList<LocalDate> firstDateYearList = new ArrayList<>();
+        for (int month = 1; month <= 12; month++) {
+            LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+            firstDateYearList.add(firstDayOfMonth);
+        }
+        return firstDateYearList;
+    }
+
+    public Map<String, Object> addNewDf5(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+
+        Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfId"));
+        UserEntity userEntity = userService.getUserByName(name);
+        FiveDF fiveDF = new FiveDF();
+        fiveDF.setUser(userEntity);
+        if(dfParent.isPresent()){
+            fiveDF.setDf(dfParent.get());
+        }else{
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        fiveDF.setOilfield(jsonObject.getString("oilField"));
+        fiveDF.setExpWater(jsonObject.getString("expWater"));
+        fiveDF.setMedWater(jsonObject.getString("medWater"));
+        fiveDF.setExpPump(jsonObject.getString("expPump"));
+        fiveDF.setMedPump(jsonObject.getString("medPump"));
+        fiveDF.setExpHydro(jsonObject.getString("expHydro"));
+        fiveDF.setMedHydro(jsonObject.getString("medHydro"));
+        fiveDF.setComment(jsonObject.getString("comment"));
+        fiveDF.setDate(LocalDate.parse(jsonObject.getString("datePeriod"), format));
+        fiveDF.setTime(LocalDateTime.now());
+        map.put("massage", "OK");
+        fiveDFRepository.save(fiveDF);
+        return map;
+    }
+
+    public Map<String, Object> deleteDf5(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         Long dfDeleteId = jsonObject.getLong("dfDel");
         Long dfDeleteParentId = jsonObject.getLong("dfParent");
         UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<FourDF> fourDFOptional = fourDFRepository.findById(dfDeleteId);
-        if(fourDFOptional.isPresent()){
-            FourDF fourDF = fourDFOptional.get();
-            if(!fourDF.getDf().getId().equals(dfDeleteParentId)){
+        Optional<FiveDF> fiveDFOptional = fiveDFRepository.findById(dfDeleteId);
+        if(fiveDFOptional.isPresent()){
+            FiveDF fiveDF = fiveDFOptional.get();
+            if(!fiveDF.getDf().getId().equals(dfDeleteParentId)){
                 map.put("massage", "Ошибка удаления не совпадает родительский DF");
                 return map;
             }
-            if(!fourDF.getUser().getId().equals(userAuthenticated.getId())){
+            if(!fiveDF.getUser().getId().equals(userAuthenticated.getId())){
                 map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
                 return map;
             }
-            fourDFRepository.delete(fourDF);
+            fiveDFRepository.delete(fiveDF);
             map.put("massage", "Запись удалена");
             return map;
         }
