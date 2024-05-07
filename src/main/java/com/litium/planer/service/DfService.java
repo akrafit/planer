@@ -1,17 +1,12 @@
 package com.litium.planer.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.litium.planer.entity.DF;
-import com.litium.planer.entity.FiveDF;
-import com.litium.planer.entity.FourDF;
-import com.litium.planer.entity.User2DF;
+import com.litium.planer.dto.TwentySvenDFDto;
+import com.litium.planer.entity.*;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
-import com.litium.planer.repo.DfRepository;
-import com.litium.planer.repo.FiveDFRepository;
-import com.litium.planer.repo.FourDFRepository;
-import com.litium.planer.repo.User2DFRepository;
+import com.litium.planer.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +25,12 @@ public class DfService {
 
     private final User2DFRepository user2DFRepository;
 
+    private final TwentySevenDFRepository twentySevenDFRepository;
+
+    private final TwentySevenCellRepository twentySevenCellRepository;
+
+    private final MvzRepository mvzRepository;
+
     private final UserService userService;
 
     DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -37,46 +38,14 @@ public class DfService {
 
     public Map<String, Object> addNewDF(JSONObject jsonObject) {
         Map<String, Object> map = new HashMap<>();
-
         DF dfEntity = new DF();
         dfEntity.setForm(jsonObject.getString("df"));
         dfEntity.setName(jsonObject.getString("name"));
         dfEntity.setPeriod(jsonObject.getString("period"));
         dfEntity.setType(TypeDF.valueOf(jsonObject.getString("dfType")));
-
         map.put("massage", "OK");
         dfRepository.save(dfEntity);
         return map;
-
-        //update
-//        Cow cow;
-//        if (id != null && cowRepository.findById(id).isPresent()) {
-//            cow = cowRepository.findById(id).get();
-//            msg = "Данные коровы изменены.";
-//
-//        } else {
-//            //addNew
-//            cow = new Cow();
-//            msg = "Новая корова добавлена.";
-//
-//        }
-//        Tag tag = tagRepository.findByEpc(tagEPC);
-//        if (tag != null && !Objects.equals(cow.getId(), id)) {
-//            map.put("massage", "Такой тег уже есть");
-//            return map;
-//        }
-//        Tag newTag = new Tag();
-//        if (tagEPC != null) {
-//            newTag.setEpc(tagEPC);
-//            cow.setTag(newTag);
-//            msg = msg + " Метка: " + tagEPC + " добавлена.";
-//        }
-//        cow.setType(type);
-//        cow.setColor(color);
-//        cow.setCreateDate(LocalDateTime.now());
-//        cow.setStatus(CowStatus.LIVE);
-//        cow.setBirthday(LocalDate.parse(birthday, format).atStartOfDay());
-
     }
 
     public Iterable<DF> findAll() {
@@ -251,6 +220,91 @@ public class DfService {
             return map;
         }
         map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+    public Iterable<TwentySvenDF> findDf27ByDF(DF dfParent) {
+        return twentySevenDFRepository.findTwentySvenDFByDf(dfParent);
+    }
+
+    public List<Mvz> getMvzList() {
+        return mvzRepository.findAll();
+    }
+
+    public Map<String, Object> addNewDf27(TwentySvenDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        TwentySvenDF twentySvenDF = new TwentySvenDF(dfDto);
+        twentySvenDF.setUser(userEntity);
+        twentySvenDF.setTime(LocalDateTime.now());
+        if(dfParent.isPresent()){
+            twentySvenDF.setDf(dfParent.get());
+        }else{
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+       twentySevenDFRepository.save(twentySvenDF);
+        return map;
+    }
+
+    public Map<String, Object> deleteDf27(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<TwentySvenDF> twentySvenDFOptional = twentySevenDFRepository.findById(dfDeleteId);
+        if(twentySvenDFOptional.isPresent()){
+            TwentySvenDF twentySvenDF = twentySvenDFOptional.get();
+            if(!twentySvenDF.getDf().getId().equals(dfDeleteParentId)){
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if(!twentySvenDF.getUser().getId().equals(userAuthenticated.getId())){
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+           twentySevenDFRepository.delete(twentySvenDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+    public Map<String, Object> addDf27MonthValue(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long values = jsonObject.getLong("values");
+        String codeId = jsonObject.getString("parent");
+        String[] array = codeId.split("_");
+        Long dfParentId = Long.parseLong(array[0]);
+        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
+       UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<TwentySvenDF> twentySvenDFOptional = twentySevenDFRepository.findById(dfParentId);
+        if(twentySvenDFOptional.isPresent()){
+            TwentySvenDF twentySvenDF = twentySvenDFOptional.get();
+            if(!twentySvenDF.getUser().getId().equals(userAuthenticated.getId())){
+                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
+                return map;
+            }
+            Optional<TwentySevenCell> twentySevenCellIterable = twentySevenCellRepository.findTwentySevenCellByPeriodAndDf(period, twentySvenDF);
+            TwentySevenCell twentySevenCell;
+            if(twentySevenCellIterable.isPresent()){
+                twentySevenCell = twentySevenCellIterable.get();
+            }else{
+                twentySevenCell = new TwentySevenCell();
+                twentySevenCell.setUser(userAuthenticated);
+                twentySevenCell.setPeriod(period);
+                twentySevenCell.setDf(twentySvenDF);
+            }
+            twentySevenCell.setValue(values);
+            twentySevenCell.setTime(LocalDateTime.now());
+            twentySevenCellRepository.save(twentySevenCell);
+             map.put("massage", "");
+            return map;
+        }
+//        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
 }

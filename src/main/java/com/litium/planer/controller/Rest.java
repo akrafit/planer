@@ -1,6 +1,7 @@
 package com.litium.planer.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.litium.planer.dto.TwentySvenDFDto;
 import com.litium.planer.service.DfService;
 import com.litium.planer.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,11 @@ public class Rest {
         return dfService.deleteDf5(jsonObject, principal.getName());
     }
 
+    @PostMapping("/deleteDf27")
+    public Map<String, Object> deleteDf27(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.deleteDf27(jsonObject, principal.getName());
+    }
+
     @PostMapping("/addusertodf")
     public Map<String, Object> addUserToDf(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addUserToDf(jsonObject, principal.getName());
@@ -55,5 +61,14 @@ public class Rest {
     @PostMapping("/addDf5")
     public Map<String, Object> addDf5(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addNewDf5(jsonObject, principal.getName());
+    }
+    @PostMapping("/addDf27")
+    public Map<String, Object> addDf27(@Valid @RequestBody TwentySvenDFDto twentySvenDFDto, Principal principal) {
+        return dfService.addNewDf27(twentySvenDFDto, principal.getName());
+    }
+
+    @PostMapping("/adddf27monthval")
+    public Map<String, Object> addDf27MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.addDf27MonthValue(jsonObject, principal.getName());
     }
 }

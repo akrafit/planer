@@ -144,7 +144,10 @@
     background:#D9D9D9;
     mso-pattern:#D9D9D9 none;
     white-space:nowrap;}
-
+.cell{
+    width: 40pt;
+    text-align: center;
+}
 /*ДФ 26*/
 .xl1526982
 {padding-top:1px;

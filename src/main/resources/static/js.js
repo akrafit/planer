@@ -1,55 +1,55 @@
-function uploadimg(input) {
-    if (window.FormData === undefined) {
-        alert('В вашем браузере FormData не поддерживается')
-    } else {
-        var formData = new FormData();
-        var id = input.getAttribute('value');
-        formData.append('file', input.files[0]);
-        formData.append('id', id);
-
-        $.ajax({
-            type: "POST",
-            url: './api/image',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            dataType: 'json',
-            success: function (msg) {
-                if (msg.error == '') {
-                    $("#js-file").hide();
-                    $('#result').html(msg.success);
-                } else {
-                    $('#result').html(msg.error);
-                }
-            }
-        });
-    }
-};
-
-
-function showimg(id) { //При клике по элементу с id выполнять...
-    console.log("здесь")
-    $.ajax({
-        url: '/api/slider/' + id, //Путь к файлу, который нужно подгрузить
-        type: 'GET',
-        beforeSend: function () {
-            $('#content').empty(); //Перед выполнением очищает содержимое блока с id=content
-        },
-        success: function (responce) {
-            $('#content').append(responce); //Подгрузка внутрь блока с id=content
-        },
-        error: function () {
-            alert('Error!');
-        }
-    });
-}
-$('#content')
-    .dblclick(
-        function () {
-            document.getElementById("content").innerHTML = "";
-        }
-    );
+// function uploadimg(input) {
+//     if (window.FormData === undefined) {
+//         alert('В вашем браузере FormData не поддерживается')
+//     } else {
+//         var formData = new FormData();
+//         var id = input.getAttribute('value');
+//         formData.append('file', input.files[0]);
+//         formData.append('id', id);
+//
+//         $.ajax({
+//             type: "POST",
+//             url: './api/image',
+//             cache: false,
+//             contentType: false,
+//             processData: false,
+//             data: formData,
+//             dataType: 'json',
+//             success: function (msg) {
+//                 if (msg.error == '') {
+//                     $("#js-file").hide();
+//                     $('#result').html(msg.success);
+//                 } else {
+//                     $('#result').html(msg.error);
+//                 }
+//             }
+//         });
+//     }
+// };
+//
+//
+// function showimg(id) { //При клике по элементу с id выполнять...
+//     console.log("здесь")
+//     $.ajax({
+//         url: '/api/slider/' + id, //Путь к файлу, который нужно подгрузить
+//         type: 'GET',
+//         beforeSend: function () {
+//             $('#content').empty(); //Перед выполнением очищает содержимое блока с id=content
+//         },
+//         success: function (responce) {
+//             $('#content').append(responce); //Подгрузка внутрь блока с id=content
+//         },
+//         error: function () {
+//             alert('Error!');
+//         }
+//     });
+// }
+// $('#content')
+//     .dblclick(
+//         function () {
+//             document.getElementById("content").innerHTML = "";
+//         }
+//     );
 //сохранение DF
 $(document).ready(function () {
     $('#btn').click(
@@ -149,6 +149,33 @@ $(document).ready(function () {
         }
     );
 });
+$(document).ready(function () {
+    $('#df27Add').click(
+        function () {
+            let dfId = document.getElementById('dfId').value;
+            let mvz = document.getElementById('mvz').value;
+            let type = document.getElementById('type').value;
+            let vid = document.getElementById('vid').value;
+            let nameChar = document.getElementById('nameChar').value;
+            let valueChar = document.getElementById('valueChar').value;
+            let specialChar = document.getElementById('specialChar').value;
+            let purpose = document.getElementById('purpose').value;
+            let sendInfo = {
+                dfId: dfId,
+                mvz: mvz,
+                type: type,
+                vid: vid,
+                nameChar: nameChar,
+                valueChar: valueChar,
+                specialChar: specialChar,
+                purpose: purpose
+            };
+            sendAjaxForm(sendInfo, '/api/addDf27');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
 
 
 
@@ -164,6 +191,27 @@ function sendAjaxForm(sendInfo, url) {
 
         success: function (response) { //Данные отправлены успешно
             alert(response.massage);
+            try {
+                result = $.parseJSON(response);
+            } catch (e) {
+            }
+        },
+        error: function (response) {
+            alert("Ошибка сервера");
+        }
+    });
+}
+
+function sendAjaxFormWithout(sendInfo, url) {
+    $.ajax({
+        url: url, //url страницы
+        type: "POST", //метод отправки
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(sendInfo),
+
+        success: function (response) { //Данные отправлены успешно
+            showPopup();
             try {
                 result = $.parseJSON(response);
             } catch (e) {
@@ -215,6 +263,43 @@ function deleteDf5(id) {
     sendAjaxForm(sendInfo, '/api/deleteDf5');
     setTimeout(sayHi, 1000);
 }
+function deleteDf27(id) {
+    let dfParentId = document.getElementById('dfId').value;
+    let sendInfo = {
+        dfParent: dfParentId,
+        dfDel: id
+    };
+    sendAjaxForm(sendInfo, '/api/deleteDf27');
+
+}
+function handleInputChange(event) {
+    let val = event.target.value;
+    let cId = event.target.id;
+    let sendInfo = {
+        values: val,
+        parent: cId
+    };
+    sendAjaxFormWithout(sendInfo, '/api/adddf27monthval');
+
+}
+
+function showPopup() {
+    document.getElementById('popup-overlay').style.display = 'block';
+    setTimeout(function () {document.getElementById('popup-overlay').style.display = 'none';
+    }, 500);
+
+}
+
+
+// const selectElement = document.querySelector(".cell");
+//const result = document.querySelector(".result");
+
+// selectElement.addEventListener('change', (event) => {
+//    // result.textContent = `You like ${event.target.value}`;
+//     //let trId = $(this).parent().find('.tr').html();
+//     console.log(event.target.value + " " + event.target.id);
+// });
+
 // function change(id) {
 //     $.ajax({
 //         url: 'api/change/' + id,

@@ -69,10 +69,7 @@ public class GeneralController {
     public String logout(Model model) {
         return "redirect:/";
     }
-    @GetMapping("/send")
-    public String log(Model model) {
-        return "index2";
-    }
+
 
 //    @GetMapping("/traffic")
 //    public String traffic(Model model) {
