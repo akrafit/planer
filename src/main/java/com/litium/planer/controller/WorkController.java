@@ -99,6 +99,7 @@ public class WorkController {
             df.getCellList().forEach(twentySevenCell -> cellMap.put(twentySevenCell.getPeriod(), twentySevenCell.getValue()));
             TwentySvenDFDto twentySvenDFDto = new TwentySvenDFDto(df);
             twentySvenDFDto.setCellMap(cellMap);
+            twentySvenDFDto.setMvzName(df.getMvz().getName());
             dfs.add(twentySvenDFDto);
         }
         model.addAttribute("dfs", dfs);

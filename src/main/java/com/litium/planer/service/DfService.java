@@ -235,9 +235,11 @@ public class DfService {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
         UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
         TwentySvenDF twentySvenDF = new TwentySvenDF(dfDto);
         twentySvenDF.setUser(userEntity);
         twentySvenDF.setTime(LocalDateTime.now());
+        twentySvenDF.setMvz(mvz);
         if(dfParent.isPresent()){
             twentySvenDF.setDf(dfParent.get());
         }else{

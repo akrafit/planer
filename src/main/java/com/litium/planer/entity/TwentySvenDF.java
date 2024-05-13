@@ -33,7 +33,9 @@ public class TwentySvenDF {
     @JoinColumn(name = "df_id", nullable = false, insertable = false, updatable = false)
     private List<TwentySevenCell> cellList;
 
-    private String mvz;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mvz_id")
+    private Mvz mvz;
 
     private String type;
 
@@ -50,7 +52,6 @@ public class TwentySvenDF {
     private LocalDateTime time;
 
     public TwentySvenDF(TwentySvenDFDto dfDto) {
-        this.mvz = dfDto.getMvz();
         this.type = dfDto.getType();
         this.vid = dfDto.getVid();
         this.nameChar = dfDto.getNameChar();
