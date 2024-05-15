@@ -14,7 +14,6 @@
                 input.addEventListener('change', handleInputChange);
             });
         });
-
     </script>
 </head>
 
@@ -30,7 +29,7 @@
         <h3><span th:text="${user.name}"></span></h3>
         <table id="myTable27" border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
  collapse;width:918pt'>
-            <tr height=48 style='height:36.0pt'>
+            <tr style='height:36.0pt'>
                 <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>№</th>
                 <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>Дата заполнения</th>
                 <th class=xl913171 style='width:200pt'>МВЗ/ОКС</th>
@@ -43,7 +42,7 @@
                 <th class=xl913171 style='width:80pt'>Действие</th>
                 <th class=xl913171 style='width:100pt' th:each="option : ${dateList}" th:value="${option}" th:text="${option.format(formatOption)}"></th>
             </tr>
-            <tr height=20 style='height:15.0pt' id="input">
+            <tr style='height:15.0pt' id="input">
                 <form>
                     <td class=xl933171><input type="hidden" id="dfId" th:value="${dfId}" value=""/></td>
                     <td class=xl933171 th:utext="${edit.format(formatPost)}"></td>

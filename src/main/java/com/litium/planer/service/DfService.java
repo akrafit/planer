@@ -2,6 +2,7 @@ package com.litium.planer.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.litium.planer.dto.SeventeenDFDto;
+import com.litium.planer.dto.ThirtyOneDFDto;
 import com.litium.planer.dto.ThirtyTwoDFDto;
 import com.litium.planer.dto.TwentySvenDFDto;
 import com.litium.planer.entity.*;
@@ -28,8 +29,11 @@ public class DfService {
     private final TwentySevenCellRepository twentySevenCellRepository;
     private final MvzRepository mvzRepository;
     private final SeventeenDFRepository seventeenDFRepository;
-
     private final ThirtyTwoDFRepository thirtyTwoDFRepository;
+    private final ThirtyOneDFRepository thirtyOneDFRepository;
+    private final ThirtyOneCellRepository thirtyOneCellRepository;
+    private final TwentySixDFRepository twentySixDFRepository;
+    private final TwentySixCellRepository twentySixCellRepository;
     private final UserService userService;
     DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -52,37 +56,6 @@ public class DfService {
 
     public Iterable<FourDF> findAllDfFour() {
         return fourDFRepository.findAll();
-    }
-
-    public Map<String, Object> addNewDf4(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfid"));
-        UserEntity userEntity = userService.getUserByName(name);
-        FourDF fourDF = new FourDF();
-        fourDF.setUser(userEntity);
-        if (dfParent.isPresent()) {
-            fourDF.setDf(dfParent.get());
-        } else {
-            map.put("massage", "Не найден родительский ДФ");
-            return map;
-        }
-        fourDF.setTypeGTM(jsonObject.getString("typeGTM"));
-        fourDF.setOilfield(jsonObject.getString("oilField"));
-        fourDF.setKp(jsonObject.getString("kp"));
-        fourDF.setWell(jsonObject.getString("well"));
-        fourDF.setWellPurpose(jsonObject.getString("wellPurpose"));
-        fourDF.setType(jsonObject.getString("type"));
-        fourDF.setComment(jsonObject.getString("comment"));
-        String endDate = jsonObject.getString("enddate");
-        if (endDate.isEmpty()) {
-            map.put("massage", "Ошибка даты");
-            return map;
-        }
-        fourDF.setEndDate(LocalDate.parse(endDate, format));
-        fourDF.setTime(LocalDateTime.now());
-        map.put("massage", "OK");
-        fourDFRepository.save(fourDF);
-        return map;
     }
 
     public Iterable<FourDF> findDfFourByDFAndUser(DF dfParent, UserEntity userEntity) {
@@ -127,6 +100,12 @@ public class DfService {
 
     public Iterable<ThirtyTwoDF> findDfThirtyTwoDFIterable(DF dfParent) {
         return thirtyTwoDFRepository.findThirtyTwoDFByDf(dfParent);
+    }
+    public Iterable<ThirtyOneDF> findDfThirtyOneDFIterable(DF dfParent) {
+        return thirtyOneDFRepository.findThirtyOneDFByDf(dfParent);
+    }
+    public Iterable<TwentySixDF> findDf26ByDF(DF dfParent) {
+        return twentySixDFRepository.findTwentySixDFByDf(dfParent);
     }
 
     public DF findById(Long id) {
@@ -173,6 +152,36 @@ public class DfService {
             firstDateYearList.add(firstDayOfMonth);
         }
         return firstDateYearList;
+    }
+    public Map<String, Object> addNewDf4(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfid"));
+        UserEntity userEntity = userService.getUserByName(name);
+        FourDF fourDF = new FourDF();
+        fourDF.setUser(userEntity);
+        if (dfParent.isPresent()) {
+            fourDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        fourDF.setTypeGTM(jsonObject.getString("typeGTM"));
+        fourDF.setOilfield(jsonObject.getString("oilField"));
+        fourDF.setKp(jsonObject.getString("kp"));
+        fourDF.setWell(jsonObject.getString("well"));
+        fourDF.setWellPurpose(jsonObject.getString("wellPurpose"));
+        fourDF.setType(jsonObject.getString("type"));
+        fourDF.setComment(jsonObject.getString("comment"));
+        String endDate = jsonObject.getString("enddate");
+        if (endDate.isEmpty()) {
+            map.put("massage", "Ошибка даты");
+            return map;
+        }
+        fourDF.setEndDate(LocalDate.parse(endDate, format));
+        fourDF.setTime(LocalDateTime.now());
+        map.put("massage", "OK");
+        fourDFRepository.save(fourDF);
+        return map;
     }
 
     public Map<String, Object> addNewDf5(JSONObject jsonObject, String name) {
@@ -403,4 +412,85 @@ public class DfService {
         map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
+
+
+    public Map<String, Object> addNewDf31(ThirtyOneDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        ThirtyOneDF thirtyOneDF = new ThirtyOneDF(dfDto);
+        thirtyOneDF.setUser(userEntity);
+        thirtyOneDF.setTime(LocalDateTime.now());
+        thirtyOneDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            thirtyOneDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        thirtyOneDFRepository.save(thirtyOneDF);
+        return map;
+    }
+
+    public Map<String, Object> deleteDf31(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<ThirtyOneDF> thirtyOneDFOptional = thirtyOneDFRepository.findById(dfDeleteId);
+        if (thirtyOneDFOptional.isPresent()) {
+            ThirtyOneDF thirtyOneDF = thirtyOneDFOptional.get();
+            if (!thirtyOneDF.getDf().getId().equals(dfDeleteParentId)) {
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if (!thirtyOneDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            thirtyOneDFRepository.delete(thirtyOneDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+    public Map<String, Object> addDf31MonthValue(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long values = jsonObject.getLong("values");
+        String codeId = jsonObject.getString("parent");
+        String[] array = codeId.split("_");
+        Long dfParentId = Long.parseLong(array[0]);
+        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<ThirtyOneDF> thirtyOneDFOptional = thirtyOneDFRepository.findById(dfParentId);
+        if (thirtyOneDFOptional.isPresent()) {
+            ThirtyOneDF thirtyOneDF = thirtyOneDFOptional.get();
+            if (!thirtyOneDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
+                return map;
+            }
+            Optional<ThirtyOneCell> thirtyOneCellOptional = thirtyOneCellRepository.findThirtyOneCellByPeriodAndDf(period, thirtyOneDF);
+            ThirtyOneCell thirtyOneCell;
+            if (thirtyOneCellOptional.isPresent()) {
+                thirtyOneCell = thirtyOneCellOptional.get();
+            } else {
+                thirtyOneCell = new ThirtyOneCell();
+                thirtyOneCell.setUser(userAuthenticated);
+                thirtyOneCell.setPeriod(period);
+                thirtyOneCell.setDf(thirtyOneDF);
+            }
+            thirtyOneCell.setValue(values);
+            thirtyOneCell.setTime(LocalDateTime.now());
+            thirtyOneCellRepository.save(thirtyOneCell);
+            map.put("massage", "");
+            return map;
+        }
+        return map;
+    }
+
+
 }

@@ -32,14 +32,6 @@ public class WorkController {
     private final DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private final DateTimeFormatter formatOption = DateTimeFormatter.ofPattern("MMMM yy");
 
-    @GetMapping("/df26")
-    public String df(Model model) {
-        model.addAttribute("cows", "");
-        model.addAttribute("date", " ");
-        model.addAttribute("title", "Список ДФ");
-        return "df/df26";
-    }
-
     @GetMapping("/DF4")
     public String df4(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));
@@ -82,6 +74,62 @@ public class WorkController {
         return "df/df5";
     }
 
+
+    @GetMapping("/DF17")
+    public String df17(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<SeventeenDF> dfSeventeenIterable;
+        dfSeventeenIterable = dfService.findDfSeventeenByDF(dfParent);
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        List<Mvz> mvzList = dfService.getMvzList();
+        ArrayList<SeventeenDFDto> dfs = new ArrayList<>();
+        for (SeventeenDF df : dfSeventeenIterable){
+            dfs.add(new SeventeenDFDto(df));
+        }
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 17 Потребность нефтепродуктах " + dfParent.getPeriod());
+        return "df/df17";
+    }
+
+    @GetMapping("/DF26")
+    public String df26(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<TwentySixDF> df26Iterable;
+        df26Iterable = dfService.findDf26ByDF(dfParent);
+        List<Mvz> mvzList = dfService.getMvzList();
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        ArrayList<TwentySixDFDto> dfs = new ArrayList<>();
+        for (TwentySixDF df : df26Iterable){
+            Map<LocalDate, Long> cellMap = new HashMap<>();
+            dateList.forEach(localDate -> cellMap.put(localDate,null));
+            df.getCellList().forEach(twentySixCell -> cellMap.put(twentySixCell.getPeriod(), twentySixCell.getValue()));
+            TwentySixDFDto twentySixDFDto = new TwentySixDFDto(df);
+            twentySixDFDto.setCellMap(cellMap);
+            twentySixDFDto.setMvzName(df.getMvz().getName());
+            dfs.add(twentySixDFDto);
+        }
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 26 Потребность в перевозках " + dfParent.getPeriod());
+        return "df/df26";
+    }
     @GetMapping("/DF27")
     public String df27(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));
@@ -112,17 +160,22 @@ public class WorkController {
         model.addAttribute("title", "ДФ 27 Потребность в транспорте " + dfParent.getPeriod());
         return "df/df27";
     }
-    @GetMapping("/DF17")
-    public String df17(Model model, Principal principal, @RequestParam(required = false) String id) {
+    @GetMapping("/DF31")
+    public String df31(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));
         UserEntity userEntity = userService.getUserByName(principal.getName());
-        Iterable<SeventeenDF> dfSeventeenIterable;
-        dfSeventeenIterable = dfService.findDfSeventeenByDF(dfParent);
+        Iterable<ThirtyOneDF> thirtyOneDFIterable;
+        thirtyOneDFIterable = dfService.findDfThirtyOneDFIterable(dfParent);
         List<LocalDate> dateList = dfService.getFirstMonthList();
         List<Mvz> mvzList = dfService.getMvzList();
-        ArrayList<SeventeenDFDto> dfs = new ArrayList<>();
-        for (SeventeenDF df : dfSeventeenIterable){
-            dfs.add(new SeventeenDFDto(df));
+        ArrayList<ThirtyOneDFDto> dfs = new ArrayList<>();
+        for (ThirtyOneDF df : thirtyOneDFIterable){
+            Map<LocalDate, Long> cellMap = new HashMap<>();
+            dateList.forEach(localDate -> cellMap.put(localDate,null));
+            df.getCellList().forEach(thirtyOneCell -> cellMap.put(thirtyOneCell.getPeriod(), thirtyOneCell.getValue()));
+            ThirtyOneDFDto thirtyOneDFDto = new ThirtyOneDFDto(df);
+            thirtyOneDFDto.setCellMap(cellMap);
+            dfs.add(thirtyOneDFDto);
         }
         model.addAttribute("dfs", dfs);
         model.addAttribute("dfId", dfParent.getId());
@@ -133,8 +186,8 @@ public class WorkController {
         model.addAttribute("formatOption", formatOption);
         model.addAttribute("mvzList", mvzList);
         model.addAttribute("dateList", dateList);
-        model.addAttribute("title", "ДФ 17 Потребность нефтепродуктах " + dfParent.getPeriod());
-        return "df/df17";
+        model.addAttribute("title", "ДФ 31 Потребность в щебне " + dfParent.getPeriod());
+        return "df/df31";
     }
     @GetMapping("/DF32")
     public String df32(Model model, Principal principal, @RequestParam(required = false) String id) {

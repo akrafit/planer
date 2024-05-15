@@ -1,709 +1,109 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru">
 
 <head>
-    <title>ДФ 26</title>
+    <title>ДФ 27</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/excel.css}"
-          href="../../css/excel.css"/>
+    <link rel="stylesheet" th:href="@{/css/excel.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('#myTable26 input.cell');
+            inputs.forEach(input => {
+                input.addEventListener('change', handleInputChange);
+            });
+        });
+    </script>
 </head>
 
 <body>
-
-<div id="Производственное планирование ИНК-Литий_IT_v18_26982" align=center>
-
-    <table border=0 cellpadding=0 cellspacing=0 width=1875 class=xl9126982
-           style='border-collapse:collapse;table-layout:fixed;width:1408pt'>
-        <col class=xl9126982 width=213 style='mso-width-source:userset;mso-width-alt:
- 7789;width:160pt'>
-        <col class=xl9126982 width=107 style='mso-width-source:userset;mso-width-alt:
- 3913;width:80pt'>
-        <col class=xl9126982 width=70 style='mso-width-source:userset;mso-width-alt:
- 2560;width:53pt'>
-        <col class=xl9126982 width=213 style='mso-width-source:userset;mso-width-alt:
- 7789;width:160pt'>
-        <col class=xl9126982 width=156 style='mso-width-source:userset;mso-width-alt:
- 5705;width:117pt'>
-        <col class=xl9126982 width=130 style='mso-width-source:userset;mso-width-alt:
- 4754;width:98pt'>
-        <col class=xl9126982 width=120 style='mso-width-source:userset;mso-width-alt:
- 4388;width:90pt'>
-        <col class=xl9126982 width=109 style='mso-width-source:userset;mso-width-alt:
- 3986;width:82pt'>
-        <col class=xl9126982 width=173 style='mso-width-source:userset;mso-width-alt:
- 6326;width:130pt'>
-        <col class=xl10226982 width=104 style='mso-width-source:userset;mso-width-alt:
- 3803;width:78pt'>
-        <col class=xl9126982 width=40 span=3 style='mso-width-source:userset;
- mso-width-alt:1462;width:30pt'>
-        <col class=xl10226982 width=40 span=9 style='mso-width-source:userset;
- mso-width-alt:1462;width:30pt'>
-        <tr height=21 style='height:15.75pt'>
-            <td height=21 class=xl9226982 colspan=2 width=320 style='height:15.75pt;
-  width:240pt'>ПРОИЗВОДСТВЕННАЯ ПРОГРАММА</td>
-            <td class=xl9226982 width=70 style='width:53pt'></td>
-            <td class=xl9226982 width=213 style='width:160pt'></td>
-            <td class=xl9226982 width=156 style='width:117pt'></td>
-            <td class=xl9226982 width=130 style='width:98pt'></td>
-            <td class=xl9226982 width=120 style='width:90pt'></td>
-            <td class=xl9226982 width=109 style='width:82pt'></td>
-            <td class=xl9226982 width=173 style='width:130pt'></td>
-            <td class=xl9326982 width=104 style='width:78pt'></td>
-            <td class=xl9226982 width=40 style='width:30pt'></td>
-            <td class=xl9226982 width=40 style='width:30pt'></td>
-            <td class=xl9226982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-            <td class=xl9326982 width=40 style='width:30pt'></td>
-        </tr>
-        <tr height=31 style='height:23.25pt'>
-            <td height=31 class=xl9426982 colspan=2 style='height:23.25pt'>ДФ_26. План
-                перевозок</td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9526982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9426982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-            <td class=xl9526982></td>
-        </tr>
-        <tr height=17 style='height:12.75pt'>
-            <td height=17 class=xl9126982 style='height:12.75pt'></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl10226982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl9126982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-            <td class=xl10226982></td>
-        </tr>
-        <tr height=20 style='height:15.0pt'>
-            <td height=20 class=xl9626982 style='height:15.0pt'>Дата изменения документа</td>
-            <td class=xl9626982 style='border-left:none'>29.03.2024</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl10326982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-left:none'>&nbsp;</td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-        </tr>
-        <tr height=20 style='height:15.0pt'>
-            <td height=20 class=xl9626982 style='height:15.0pt;border-top:none'>Период
-                планирования</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>М-03 2024-2025</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl10326982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-        </tr>
-        <tr height=20 style='height:15.0pt'>
-            <td height=20 class=xl9626982 style='height:15.0pt;border-top:none'>Ответственный
-                за заполнение (ЦФО)</td>
-            <td class=xl9626982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9726982 style='border-top:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl10426982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl9826982 style='border-top:none;border-left:none'>&nbsp;</td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-            <td class=xl1526982></td>
-        </tr>
-        <tr height=41 style='mso-height-source:userset;height:30.75pt'>
-            <td height=41 class=xl9926982 width=213 style='height:30.75pt;border-top:
-  none;width:160pt'>Код МВЗ</td>
-            <td class=xl9926982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>МВЗ</td>
-            <td class=xl9926982 width=70 style='border-left:none;width:53pt'>Тип ТС (ИСК
-                АТ)</td>
-            <td class=xl9926982 width=213 style='border-left:none;width:160pt'>Наименование
-                характеристики (ИСК АТ)</td>
-            <td class=xl9926982 width=156 style='border-left:none;width:117pt'>Значение
-                характеристики (ИСК АТ)</td>
-            <td class=xl9926982 width=130 style='border-left:none;width:98pt'>Вид
-                выполняемых услуг (ИСК АТ)</td>
-            <td class=xl9926982 width=120 style='border-left:none;width:90pt'>Назначение
-                техники</td>
-            <td class=xl9926982 width=109 style='border-left:none;width:82pt'>Начальная
-                точка маршрута</td>
-            <td class=xl9926982 width=173 style='border-left:none;width:130pt'>Конечная
-                точка маршрута</td>
-            <td class=xl9926982 width=104 style='border-left:none;width:78pt'>2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>янв 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>фев 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>мар 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>апр 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>май 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>июн 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>июл 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>авг 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>сен 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>окт 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>ноя 2024</td>
-            <td class=xl9926982 width=40 style='border-left:none;width:30pt'>дек 2024</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;width:160pt'>МВЗ015048<span
-                    style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-left:none;width:80pt'>Литий УКЛ</td>
-            <td class=xl10026982 width=70 style='border-left:none;width:53pt'>Полуприцеп
-                бортовой</td>
-            <td class=xl10026982 width=213 style='border-left:none;width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-left:none;width:117pt'>от 15,1
-                до 25 т</td>
-            <td class=xl10026982 width=130 style='border-left:none;width:98pt'>Транспортировка
-                различных древесных материалов, пиломатериалов и различного вида сортимента</td>
-            <td class=xl10026982 width=120 style='border-left:none;width:90pt'>Привоз
-                реагентов на технологию</td>
-            <td class=xl10026982 width=109 style='border-left:none;width:82pt'>Склад №2А
-                площадка №4 (Г) ЯНГКМ</td>
-            <td class=xl10026982 width=173 style='border-left:none;width:130pt'>ДНС/ДКС
-                ЯНГКМ</td>
-            <td class=xl10526982 width=104 style='border-left:none;width:78pt'>3520</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>490</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>490</td>
-            <td class=xl10126982 width=40 style='border-left:none;width:30pt'>540</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Полуприцеп бортовой</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>от 15,1 до 25 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Транспортировка различных древесных материалов, пиломатериалов и
-                различного вида сортимента</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>Привоз реагентов на технологию</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Склад №2А площадка №4 (Г) ЯНГКМ</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>ДНС/ДКС ЯНГКМ</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>1090</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>100</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>490</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015048<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Литий УКЛ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Прицеп-сортиментовоз с КМУ</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>до 15 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Самопогрузка транспортировка и самовыгрузка различных древесных
-                материалов, пиломатериалов и различного вида сортимента</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>вывоз товарной продукции</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>ДНС/ДКС ЯНГКМ</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Бюро пропусков ООО &quot;Осетровский Речной Порт&quot;</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>448</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>36</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>48</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>35</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>81</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>83</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>81</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>84</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015048<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Литий УКЛ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Прицеп-сортиментовоз с КМУ</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>от 15,1 до 25 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Самопогрузка транспортировка и самовыгрузка различных древесных
-                материалов, пиломатериалов и различного вида сортимента</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>Привоз реагентов на технологию</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Бюро пропусков ООО &quot;Осетровский Речной Порт&quot;</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Склад №2А площадка №4 (Г) ЯНГКМ</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>3528</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>490</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>498</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>540</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>500</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Прицеп-сортиментовоз с КМУ</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>от 15,1 до 25 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Самопогрузка транспортировка и самовыгрузка различных древесных
-                материалов, пиломатериалов и различного вида сортимента</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>Привоз реагентов на технологию</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Бюро пропусков ООО &quot;Осетровский Речной Порт&quot;</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Склад №2А площадка №4 (Г) ЯНГКМ</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>1780</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>790</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>510</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>480</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Самосвал</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>свыше 30 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Перевозка сыпучих навальных и прочих грузов</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>&nbsp;</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>СГР ОРП</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Ярактинское месторождение участок</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>150</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>50</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>100</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Самосвал</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>свыше 30 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Перевозка сыпучих навальных и прочих грузов</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>&nbsp;</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Карьер &quot;Верхнемарковский&quot;</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Ярактинское месторождение участок</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>300</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>100</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>100</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>100</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Самосвал</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>свыше 30 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Перевозка сыпучих навальных и прочих грузов</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>&nbsp;</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Карьер Западно-Ярактинский</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Ярактинское месторождение участок</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>250</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>150</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>100</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Самосвал</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>свыше 30 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Перевозка сыпучих навальных и прочих грузов</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>&nbsp;</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Карьер Западно-Ярактинский</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Ярактинское месторождение участок</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>0</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-        <tr height=16 style='mso-height-source:userset;height:12.0pt'>
-            <td height=16 class=xl10026982 width=213 style='height:12.0pt;border-top:
-  none;width:160pt'>МВЗ015372<span style='mso-spacerun:yes'> </span></td>
-            <td class=xl10026982 width=107 style='border-top:none;border-left:none;
-  width:80pt'>Опытно-производственная площадка для извлечения лития из
-                подземных вод ЯНГКМ</td>
-            <td class=xl10026982 width=70 style='border-top:none;border-left:none;
-  width:53pt'>Самосвал</td>
-            <td class=xl10026982 width=213 style='border-top:none;border-left:none;
-  width:160pt'>Грузоподъёмность</td>
-            <td class=xl10026982 width=156 style='border-top:none;border-left:none;
-  width:117pt'>свыше 30 т</td>
-            <td class=xl10026982 width=130 style='border-top:none;border-left:none;
-  width:98pt'>Перевозка сыпучих навальных и прочих грузов</td>
-            <td class=xl10026982 width=120 style='border-top:none;border-left:none;
-  width:90pt'>&nbsp;</td>
-            <td class=xl10026982 width=109 style='border-top:none;border-left:none;
-  width:82pt'>Карьер Западно-Ярактинский</td>
-            <td class=xl10026982 width=173 style='border-top:none;border-left:none;
-  width:130pt'>Ярактинское месторождение участок</td>
-            <td class=xl10526982 width=104 style='border-top:none;border-left:none;
-  width:78pt'>2200</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>850</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>850</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>500</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-            <td class=xl10126982 width=40 style='border-top:none;border-left:none;
-  width:30pt'>&nbsp;</td>
-        </tr>
-
-        <tr height=0 style='display:none'>
-            <td width=213 style='width:160pt'></td>
-            <td width=107 style='width:80pt'></td>
-            <td width=70 style='width:53pt'></td>
-            <td width=213 style='width:160pt'></td>
-            <td width=156 style='width:117pt'></td>
-            <td width=130 style='width:98pt'></td>
-            <td width=120 style='width:90pt'></td>
-            <td width=109 style='width:82pt'></td>
-            <td width=173 style='width:130pt'></td>
-            <td width=104 style='width:78pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-            <td width=40 style='width:30pt'></td>
-        </tr>
-
-    </table>
+<div class="container">
+    <div class="box">
+        <ul class="hr">
+            <li><a href="/home">Домой</a></li>
+            <li th:if="${user.role.toString() == 'ADMIN'}"><a href="/userlist">Список пользователей</a></li>
+            <li><a href="/auth/logout">Выход</a></li>
+        </ul>
+        <h2><span th:text="${title}"></span></h2>
+        <h3><span th:text="${user.name}"></span></h3>
+        <table id="myTable26" border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+            <tr style='height:36.0pt'>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>№</th>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>Дата заполнения</th>
+                <th class=xl913171 style='width:200pt'>МВЗ/ОКС</th>
+                <th class=xl913171 style='width:80pt'>Группа ТМЦ</th>
+                <th class=xl913171 style='width:80pt'>Номенклатура</th>
+                <th class=xl913171 style='width:80pt'>Тип ТС (ИСК АТ)</th>
+                <th class=xl913171 style='width:80pt'>Значение <br> характеристики (ИСК АТ)</th>
+                <th class=xl913171 style='width:80pt'>Вид выполняемых услуг</th>
+                <th class=xl913171 style='width:80pt'>Назначение ТС</th>
+                <th class=xl913171 style='width:80pt'>Начальная точка<br>маршрута</th>
+                <th class=xl913171 style='width:80pt'>Конечная точка<br>маршрута</th>
+                <th class=xl913171 style='width:80pt'>Комментарий</th>
+                <th class=xl913171 style='width:80pt'>Действие</th>
+                <th class=xl913171 style='width:100pt' th:each="option : ${dateList}" th:value="${option}" th:text="${option.format(formatOption)}"></th>
+            </tr>
+            <tr style='height:15.0pt' id="input">
+                <form>
+                    <td class=xl933171><input type="hidden" id="dfId" th:value="${dfId}" value=""/></td>
+                    <td class=xl933171 th:utext="${edit.format(formatPost)}"></td>
+                    <td class=xl933171>
+                        <select type="text" id="mvz">
+                            <option value="1">выберите тип</option>
+                            <option th:each="option : ${mvzList}" th:value="${option.id}" th:text="${option.name}"></option>
+                        </select>
+                    </td>
+                    <td class=xl943171>
+                        <select type="text" id="type">
+                            <option value="Прочее">Прочее</option>
+                            <option value="Насыпные">Насыпные</option>
+                        </select>
+                    </td>
+                    <td class=xl933171><input type="text" id="nomenclature"/></td>
+                    <td class=xl933171><input type="text" id="typeCar"/></td>
+                    <td class=xl953171><input type="text" id="valueCar"/></td>
+                    <td class=xl963171><input type="text" id="typeWork"/></td>
+                    <td class=xl963171><input type="text" id="purpose"/></td>
+                    <td class=xl963171><input type="text" id="startPoint"/></td>
+                    <td class=xl963171><input type="text" id="endPoint"/></td>
+                    <td class=xl963171><input type="text" id="comment"/></td>
+                    <td class=xl963171><input type="button" id="df26Add" value="Сохранить"/></td>
+                    <td class=xl913171 th:each="option : ${dateList}" th:value="${option}"></td>
+                </form>
+            </tr>
+            <tr class="tr" height=20 style='height:15.0pt' th:each="df, stat : ${dfs}" th:id="${df.id}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.getMvzName()}"></td>
+                <td class=xl933171 th:utext="${df.type}"></td>
+                <td class=xl933171 th:utext="${df.nomenclature}"></td>
+                <td class=xl933171 th:utext="${df.typeCar}"></td>
+                <td class=xl943171 th:utext="${df.valueCar}"></td>
+                <td class=xl933171 th:utext="${df.typeWork}"></td>
+                <td class=xl933171 th:utext="${df.purpose}"></td>
+                <td class=xl933171 th:utext="${df.startPoint}"></td>
+                <td class=xl933171 th:utext="${df.endPoint}"></td>
+                <td class=xl933171 th:utext="${df.comment}"></td>
+                <td class=xl963171>&nbsp;<button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись"
+                                                 type="submit"
+                                                 th:onclick="'deleteDf26(\'' + ${df.id} + '\');'">(-)
+                </button>
+                </td>
+                <form>
+                    <td class=xl963171 th:each="option : ${dateList}" th:value="${option}"><input class="cell" type="text" th:id="${df.id + '_' + option.toEpochDay()}" th:value="${df.getCellMap().get(option)}"/></td>
+                </form>
+            </tr>
+        </table>
+    </div>
 
 </div>
-
+<script src="../../js.js"></script>
+<div id="popup-overlay">
+    <div id="popup">
+        <p>Сохранено</p>
+    </div>
+</div>
 </body>
-
 </html>

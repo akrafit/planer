@@ -180,25 +180,36 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#df17Add').click(
         function () {
-            let dfId = document.getElementById('dfId').value;
-            let mvz = document.getElementById('mvz').value;
-            let typeOil = document.getElementById('typeOil').value;
-            let affiliation = document.getElementById('affiliation').value;
-            let oilName = document.getElementById('oilName').value;
-            let datePeriod = document.getElementById('datePeriod').value;
-            let amt = document.getElementById('amt').value;
-            let comment = document.getElementById('comment').value;
             let sendInfo = {
-                dfId: dfId,
-                mvz: mvz,
-                typeOil: typeOil,
-                affiliation: affiliation,
-                oilName: oilName,
-                date: datePeriod,
-                amt: amt,
-                comment: comment
+                dfId: document.getElementById('dfId').value,
+                mvz: document.getElementById('mvz').value,
+                typeOil: document.getElementById('typeOil').value,
+                affiliation: document.getElementById('affiliation').value,
+                oilName: document.getElementById('oilName').value,
+                date: document.getElementById('datePeriod').value,
+                amt: document.getElementById('amt').value,
+                comment: document.getElementById('comment').value
             };
             sendAjaxForm(sendInfo, '/api/addDf17');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+
+$(document).ready(function () {
+    $('#df31Add').click(
+        function () {
+            let sendInfo = {
+                dfId: document.getElementById('dfId').value,
+                mvz: document.getElementById('mvz').value,
+                target: document.getElementById('target').value,
+                nomenclature: document.getElementById('nomenclature').value,
+                affiliation: document.getElementById('affiliation').value,
+                stock: document.getElementById('stock').value,
+                comment: document.getElementById('comment').value
+            };
+            sendAjaxForm(sendInfo, '/api/addDf31');
             setTimeout(sayHi, 1000);
             return false;
         }
@@ -333,6 +344,15 @@ function deleteDf27(id) {
     sendAjaxForm(sendInfo, '/api/deleteDf27');
     setTimeout(sayHi, 1000);
 }
+function deleteDf31(id) {
+    let dfParentId = document.getElementById('dfId').value;
+    let sendInfo = {
+        dfParent: dfParentId,
+        dfDel: id
+    };
+    sendAjaxForm(sendInfo, '/api/deleteDf31');
+    setTimeout(sayHi, 1000);
+}
 function deleteDf32(id) {
     let dfParentId = document.getElementById('dfId').value;
     let sendInfo = {
@@ -351,7 +371,16 @@ function handleInputChange(event) {
         parent: cId
     };
     sendAjaxFormWithout(sendInfo, '/api/adddf27monthval');
+}
 
+function handleInputChange31(event) {
+    let val = event.target.value;
+    let cId = event.target.id;
+    let sendInfo = {
+        values: val,
+        parent: cId
+    };
+    sendAjaxFormWithout(sendInfo, '/api/adddf31monthval');
 }
 
 function showPopup() {

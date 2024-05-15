@@ -2,6 +2,7 @@ package com.litium.planer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.litium.planer.dto.SeventeenDFDto;
+import com.litium.planer.dto.ThirtyOneDFDto;
 import com.litium.planer.dto.ThirtyTwoDFDto;
 import com.litium.planer.dto.TwentySvenDFDto;
 import com.litium.planer.entity.ThirtyTwoDF;
@@ -59,6 +60,10 @@ public class Rest {
     public Map<String, Object> deleteDf27(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.deleteDf27(jsonObject, principal.getName());
     }
+    @PostMapping("/deleteDf31")
+    public Map<String, Object> deleteDf31(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.deleteDf31(jsonObject, principal.getName());
+    }
     @PostMapping("/deleteDf32")
     public Map<String, Object> deleteDf32(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.deleteDf32(jsonObject, principal.getName());
@@ -86,9 +91,17 @@ public class Rest {
     public Map<String, Object> addDf27MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addDf27MonthValue(jsonObject, principal.getName());
     }
+    @PostMapping("/addDf31")
+    public Map<String, Object> addDf31(@Valid @RequestBody ThirtyOneDFDto thirtyOneDFDto, Principal principal) {
+        return dfService.addNewDf31(thirtyOneDFDto, principal.getName());
+    }
     @PostMapping("/addDf32")
     public Map<String, Object> addDf32(@Valid @RequestBody ThirtyTwoDFDto thirtyTwoDFDto, Principal principal) {
         return dfService.addNewDf32(thirtyTwoDFDto, principal.getName());
+    }
+    @PostMapping("/adddf31monthval")
+    public Map<String, Object> addDf31MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.addDf31MonthValue(jsonObject, principal.getName());
     }
 
 
