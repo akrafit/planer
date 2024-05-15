@@ -1,8 +1,6 @@
 package com.litium.planer.controller;
 
-import com.litium.planer.dto.FiveDFDto;
-import com.litium.planer.dto.FourDFDto;
-import com.litium.planer.dto.TwentySvenDFDto;
+import com.litium.planer.dto.*;
 import com.litium.planer.entity.*;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.UserEntity;
@@ -113,5 +111,53 @@ public class WorkController {
         model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 27 Потребность в транспорте " + dfParent.getPeriod());
         return "df/df27";
+    }
+    @GetMapping("/DF17")
+    public String df17(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<SeventeenDF> dfSeventeenIterable;
+        dfSeventeenIterable = dfService.findDfSeventeenByDF(dfParent);
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        List<Mvz> mvzList = dfService.getMvzList();
+        ArrayList<SeventeenDFDto> dfs = new ArrayList<>();
+        for (SeventeenDF df : dfSeventeenIterable){
+            dfs.add(new SeventeenDFDto(df));
+        }
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 17 Потребность нефтепродуктах " + dfParent.getPeriod());
+        return "df/df17";
+    }
+    @GetMapping("/DF32")
+    public String df32(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<ThirtyTwoDF> thirtyTwoDFIterable;
+        thirtyTwoDFIterable = dfService.findDfThirtyTwoDFIterable(dfParent);
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        List<Mvz> mvzList = dfService.getMvzList();
+        ArrayList<ThirtyTwoDFDto> dfs = new ArrayList<>();
+        for (ThirtyTwoDF df : thirtyTwoDFIterable){
+            dfs.add(new ThirtyTwoDFDto(df));
+        }
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 32 Потребность в газе " + dfParent.getPeriod());
+        return "df/df32";
     }
 }

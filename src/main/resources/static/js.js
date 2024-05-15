@@ -177,9 +177,61 @@ $(document).ready(function () {
     );
 });
 
+$(document).ready(function () {
+    $('#df17Add').click(
+        function () {
+            let dfId = document.getElementById('dfId').value;
+            let mvz = document.getElementById('mvz').value;
+            let typeOil = document.getElementById('typeOil').value;
+            let affiliation = document.getElementById('affiliation').value;
+            let oilName = document.getElementById('oilName').value;
+            let datePeriod = document.getElementById('datePeriod').value;
+            let amt = document.getElementById('amt').value;
+            let comment = document.getElementById('comment').value;
+            let sendInfo = {
+                dfId: dfId,
+                mvz: mvz,
+                typeOil: typeOil,
+                affiliation: affiliation,
+                oilName: oilName,
+                date: datePeriod,
+                amt: amt,
+                comment: comment
+            };
+            sendAjaxForm(sendInfo, '/api/addDf17');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
 
-
-
+$(document).ready(function () {
+    $('#df32Add').click(
+        function () {
+            let dfId = document.getElementById('dfId').value;
+            let mvz = document.getElementById('mvz').value;
+            let objectB = document.getElementById('objectB').value;
+            let dateKo = document.getElementById('dateKo').value;
+            let typeGas = document.getElementById('typeGas').value;
+            let datePeriod = document.getElementById('datePeriod').value;
+            let amt = document.getElementById('amt').value;
+            let comment = document.getElementById('comment').value;
+            let sendInfo = {
+                dfId: dfId,
+                mvz: mvz,
+                objectB: objectB,
+                dateKo: dateKo,
+                typeGas: typeGas,
+                date: datePeriod,
+                amt: amt,
+                comment: comment
+            };
+            sendAjaxForm(sendInfo, '/api/addDf32');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
 
 function sendAjaxForm(sendInfo, url) {
     $.ajax({
@@ -263,6 +315,15 @@ function deleteDf5(id) {
     sendAjaxForm(sendInfo, '/api/deleteDf5');
     setTimeout(sayHi, 1000);
 }
+function deleteDf17(id) {
+    let dfParentId = document.getElementById('dfId').value;
+    let sendInfo = {
+        dfParent: dfParentId,
+        dfDel: id
+    };
+    sendAjaxForm(sendInfo, '/api/deleteDf17');
+    setTimeout(sayHi, 1000);
+}
 function deleteDf27(id) {
     let dfParentId = document.getElementById('dfId').value;
     let sendInfo = {
@@ -270,8 +331,18 @@ function deleteDf27(id) {
         dfDel: id
     };
     sendAjaxForm(sendInfo, '/api/deleteDf27');
-
+    setTimeout(sayHi, 1000);
 }
+function deleteDf32(id) {
+    let dfParentId = document.getElementById('dfId').value;
+    let sendInfo = {
+        dfParent: dfParentId,
+        dfDel: id
+    };
+    sendAjaxForm(sendInfo, '/api/deleteDf32');
+    setTimeout(sayHi, 1000);
+}
+
 function handleInputChange(event) {
     let val = event.target.value;
     let cId = event.target.id;

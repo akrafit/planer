@@ -1,7 +1,10 @@
 package com.litium.planer.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.litium.planer.dto.SeventeenDFDto;
+import com.litium.planer.dto.ThirtyTwoDFDto;
 import com.litium.planer.dto.TwentySvenDFDto;
+import com.litium.planer.entity.ThirtyTwoDF;
 import com.litium.planer.service.DfService;
 import com.litium.planer.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,9 +51,17 @@ public class Rest {
         return dfService.deleteDf5(jsonObject, principal.getName());
     }
 
+    @PostMapping("/deleteDf17")
+    public Map<String, Object> deleteDf17(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.deleteDf17(jsonObject, principal.getName());
+    }
     @PostMapping("/deleteDf27")
     public Map<String, Object> deleteDf27(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.deleteDf27(jsonObject, principal.getName());
+    }
+    @PostMapping("/deleteDf32")
+    public Map<String, Object> deleteDf32(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.deleteDf32(jsonObject, principal.getName());
     }
 
     @PostMapping("/addusertodf")
@@ -62,6 +73,10 @@ public class Rest {
     public Map<String, Object> addDf5(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addNewDf5(jsonObject, principal.getName());
     }
+    @PostMapping("/addDf17")
+    public Map<String, Object> addDf17(@Valid @RequestBody SeventeenDFDto seventeenDFDto, Principal principal) {
+        return dfService.addNewDf17(seventeenDFDto, principal.getName());
+    }
     @PostMapping("/addDf27")
     public Map<String, Object> addDf27(@Valid @RequestBody TwentySvenDFDto twentySvenDFDto, Principal principal) {
         return dfService.addNewDf27(twentySvenDFDto, principal.getName());
@@ -71,4 +86,10 @@ public class Rest {
     public Map<String, Object> addDf27MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addDf27MonthValue(jsonObject, principal.getName());
     }
+    @PostMapping("/addDf32")
+    public Map<String, Object> addDf32(@Valid @RequestBody ThirtyTwoDFDto thirtyTwoDFDto, Principal principal) {
+        return dfService.addNewDf32(thirtyTwoDFDto, principal.getName());
+    }
+
+
 }
