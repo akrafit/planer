@@ -1,6 +1,6 @@
-package com.litium.planer.repo;
+package com.litium.planer.repo.cell;
 
-import com.litium.planer.entity.TwentySixCell;
+import com.litium.planer.entity.cell.TwentySixCell;
 import com.litium.planer.entity.TwentySixDF;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

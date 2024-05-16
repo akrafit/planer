@@ -1,6 +1,6 @@
-package com.litium.planer.dto;
+package com.litium.planer.dto.cell;
 
-import com.litium.planer.entity.ThirtyOneCell;
+import com.litium.planer.entity.cell.ThirtyOneCell;
 import lombok.Getter;
 import lombok.Setter;
 

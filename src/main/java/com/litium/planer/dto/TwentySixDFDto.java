@@ -34,5 +34,18 @@ public class TwentySixDFDto {
     private Map<LocalDate, Long> cellMap;
 
     public TwentySixDFDto(TwentySixDF df) {
+        this.id =df.getId();
+        this.mvz = df.getMvz().getId();
+        this.mvzName = df.getMvz().getName();
+        this.type = df.getType();
+        this.nomenclature = df.getNomenclature();
+        this.typeCar = df.getTypeCar();
+        this.valueCar = df.getValueCar();
+        this.typeWork = df.getTypeWork();
+        this.purpose = df.getPurpose();
+        this.startPoint = df.getStartPoint();
+        this.endPoint = df.getEndPoint();
+        this.comment = df.getComment();
+        this.time = df.getTime();
     }
 }

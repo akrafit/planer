@@ -1,22 +1,21 @@
 package com.litium.planer.entity;
 
-import com.litium.planer.dto.ThirtyOneDFDto;
-import com.litium.planer.entity.cell.ThirtyOneCell;
+import com.litium.planer.dto.ThirtyFourDFDto;
 import com.litium.planer.model.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "df31")
+@Table(name = "df34")
 @NoArgsConstructor
-public class ThirtyOneDF {
+public class ThirtyFourDF {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,25 +31,22 @@ public class ThirtyOneDF {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mvz_id")
     private Mvz mvz;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "df_id", nullable = false, insertable = false, updatable = false)
-    private List<ThirtyOneCell> cellList;
-
+    private String bosom;
+    private String type;
     private String target;
-    private String nomenclature;
-    private String affiliation;
-    private String stock;
-    private String comment;
+    private String place;
+    private String mark;
+    private String amt;
+    private LocalDate period;
     private LocalDateTime time;
 
-    public ThirtyOneDF(ThirtyOneDFDto dfDto) {
+    public ThirtyFourDF(ThirtyFourDFDto dfDto) {
+        this.bosom = dfDto.getBosom();
+        this.type = dfDto.getType();
         this.target = dfDto.getTarget();
-        this.nomenclature = dfDto.getNomenclature();
-        this.affiliation = dfDto.getAffiliation();
-        this.stock = dfDto.getStock();
-        this.comment = dfDto.getComment();
-        this.time = dfDto.getTime();
-
+        this.place = dfDto.getPlace();
+        this.mark = dfDto.getMark();
+        this.amt = dfDto.getAmt();
+        this.period = dfDto.getPeriod();
     }
 }

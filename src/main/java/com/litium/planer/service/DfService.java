@@ -1,15 +1,20 @@
 package com.litium.planer.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.litium.planer.dto.SeventeenDFDto;
-import com.litium.planer.dto.ThirtyOneDFDto;
-import com.litium.planer.dto.ThirtyTwoDFDto;
-import com.litium.planer.dto.TwentySvenDFDto;
+import com.litium.planer.dto.*;
 import com.litium.planer.entity.*;
+import com.litium.planer.entity.cell.ThirtyOneCell;
+import com.litium.planer.entity.cell.ThirtySixCell;
+import com.litium.planer.entity.cell.TwentySevenCell;
+import com.litium.planer.entity.cell.TwentySixCell;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.*;
+import com.litium.planer.repo.cell.ThirtyOneCellRepository;
+import com.litium.planer.repo.cell.ThirtySixCellRepository;
+import com.litium.planer.repo.cell.TwentySevenCellRepository;
+import com.litium.planer.repo.cell.TwentySixCellRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +39,37 @@ public class DfService {
     private final ThirtyOneCellRepository thirtyOneCellRepository;
     private final TwentySixDFRepository twentySixDFRepository;
     private final TwentySixCellRepository twentySixCellRepository;
+    private final ThirtyFourDFRepository thirtyFourDFRepository;
+    private final ThirtySixDFRepository thirtySixDFRepository;
+    private final ThirtySixCellRepository thirtySixCellRepository;
     private final UserService userService;
     DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public List<Mvz> getMvzList() {
+        return mvzRepository.findAll();
+    }
+
+    public Iterable<DF> findByUser(UserEntity user) {
+        Iterable<User2DF> user2DFS = user2DFRepository.findUser2DFByUser(user);
+        List<DF> listDf = new ArrayList<>();
+        user2DFS.forEach(user2DF -> listDf.add(user2DF.getDf()));
+        return listDf;
+    }
+
+    public List<LocalDate> getFirstMonthList() {
+        int year = LocalDate.now().getYear();
+        ArrayList<LocalDate> firstDateYearList = new ArrayList<>();
+        for (int month = 1; month <= 12; month++) {
+            LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+            firstDateYearList.add(firstDayOfMonth);
+        }
+        return firstDateYearList;
+    }
+
+    public DF findById(Long id) {
+        return dfRepository.findById(id).get();
+    }
 
     public Map<String, Object> addNewDF(JSONObject jsonObject) {
         Map<String, Object> map = new HashMap<>();
@@ -47,6 +80,29 @@ public class DfService {
         dfEntity.setType(TypeDF.valueOf(jsonObject.getString("dfType")));
         map.put("massage", "OK");
         dfRepository.save(dfEntity);
+        return map;
+    }
+
+    public Map<String, Object> addUserToDf(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        String dfId = jsonObject.getString("dfId");
+        String userId = jsonObject.getString("user");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<UserEntity> userEntityOptional = userService.findUserById(Long.valueOf(userId));
+        if (userEntityOptional.isPresent() && userAuthenticated.getRole().equals(Role.ADMIN)) {
+            Optional<DF> dfOptional = dfRepository.findById(Long.valueOf(dfId));
+            if (dfOptional.isPresent()) {
+                User2DF user2DF = new User2DF();
+                DF df = dfOptional.get();
+                UserEntity userEntity = userEntityOptional.get();
+                user2DF.setUser(userEntity);
+                user2DF.setDf(df);
+                map.put("massage", "Пользователь " + userEntity.getName() + " добавлен в " + df.getName() + ", период " + df.getPeriod());
+                user2DFRepository.save(user2DF);
+                return map;
+            }
+        }
+        map.put("massage", "Ошибка записи");
         return map;
     }
 
@@ -101,58 +157,27 @@ public class DfService {
     public Iterable<ThirtyTwoDF> findDfThirtyTwoDFIterable(DF dfParent) {
         return thirtyTwoDFRepository.findThirtyTwoDFByDf(dfParent);
     }
+
     public Iterable<ThirtyOneDF> findDfThirtyOneDFIterable(DF dfParent) {
         return thirtyOneDFRepository.findThirtyOneDFByDf(dfParent);
     }
+
     public Iterable<TwentySixDF> findDf26ByDF(DF dfParent) {
         return twentySixDFRepository.findTwentySixDFByDf(dfParent);
     }
 
-    public DF findById(Long id) {
-        return dfRepository.findById(id).get();
+    public Iterable<ThirtyFourDF> findDfThirtyFourDFIterable(DF dfParent) {
+        return thirtyFourDFRepository.findThirtyFourDFByDf(dfParent);
     }
 
-    public Map<String, Object> addUserToDf(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        String dfId = jsonObject.getString("dfId");
-        String userId = jsonObject.getString("user");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<UserEntity> userEntityOptional = userService.findUserById(Long.valueOf(userId));
-        if (userEntityOptional.isPresent() && userAuthenticated.getRole().equals(Role.ADMIN)) {
-            Optional<DF> dfOptional = dfRepository.findById(Long.valueOf(dfId));
-            if (dfOptional.isPresent()) {
-                User2DF user2DF = new User2DF();
-                DF df = dfOptional.get();
-                UserEntity userEntity = userEntityOptional.get();
-                user2DF.setUser(userEntity);
-                user2DF.setDf(df);
-                map.put("massage", "Пользователь " + userEntity.getName() + " добавлен в " + df.getName() + ", период " + df.getPeriod());
-                user2DFRepository.save(user2DF);
-                return map;
-            }
-        }
-        map.put("massage", "Ошибка записи");
-        return map;
+    public Iterable<TwentySvenDF> findDf27ByDF(DF dfParent) {
+        return twentySevenDFRepository.findTwentySvenDFByDf(dfParent);
     }
 
-
-    public Iterable<DF> findByUser(UserEntity user) {
-        Iterable<User2DF> user2DFS = user2DFRepository.findUser2DFByUser(user);
-        List<DF> listDf = new ArrayList<>();
-        user2DFS.forEach(user2DF -> listDf.add(user2DF.getDf()));
-        return listDf;
+    public Iterable<ThirtySixDF> findDf36ByDF(DF dfParent) {
+        return thirtySixDFRepository.findThirtySixDFByDf(dfParent);
     }
 
-
-    public List<LocalDate> getFirstMonthList() {
-        int year = LocalDate.now().getYear();
-        ArrayList<LocalDate> firstDateYearList = new ArrayList<>();
-        for (int month = 1; month <= 12; month++) {
-            LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
-            firstDateYearList.add(firstDayOfMonth);
-        }
-        return firstDateYearList;
-    }
     public Map<String, Object> addNewDf4(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfid"));
@@ -236,12 +261,126 @@ public class DfService {
         return map;
     }
 
-    public Iterable<TwentySvenDF> findDf27ByDF(DF dfParent) {
-        return twentySevenDFRepository.findTwentySvenDFByDf(dfParent);
+    public Map<String, Object> addNewDf17(SeventeenDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        SeventeenDF seventeenDF = new SeventeenDF(dfDto);
+        seventeenDF.setUser(userEntity);
+        seventeenDF.setTime(LocalDateTime.now());
+        seventeenDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            seventeenDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        seventeenDFRepository.save(seventeenDF);
+        return map;
     }
 
-    public List<Mvz> getMvzList() {
-        return mvzRepository.findAll();
+    public Map<String, Object> deleteDf17(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<SeventeenDF> seventeenDFOptional = seventeenDFRepository.findById(dfDeleteId);
+        if (seventeenDFOptional.isPresent()) {
+            SeventeenDF seventeenDF = seventeenDFOptional.get();
+            if (!seventeenDF.getDf().getId().equals(dfDeleteParentId)) {
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if (!seventeenDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            seventeenDFRepository.delete(seventeenDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+    public Map<String, Object> addNewDf26(TwentySixDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        TwentySixDF twentySixDF = new TwentySixDF(dfDto);
+        twentySixDF.setUser(userEntity);
+        twentySixDF.setTime(LocalDateTime.now());
+        twentySixDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            twentySixDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        twentySixDFRepository.save(twentySixDF);
+        return map;
+    }
+
+    public Map<String, Object> deleteDf26(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<TwentySixDF> twentySixDFOptional = twentySixDFRepository.findById(dfDeleteId);
+        if (twentySixDFOptional.isPresent()) {
+            TwentySixDF twentySixDF = twentySixDFOptional.get();
+            if (!twentySixDF.getDf().getId().equals(dfDeleteParentId)) {
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if (!twentySixDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            twentySixDFRepository.delete(twentySixDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+    public Map<String, Object> addDf26MonthValue(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long values = jsonObject.getLong("values");
+        String codeId = jsonObject.getString("parent");
+        String[] array = codeId.split("_");
+        Long dfParentId = Long.parseLong(array[0]);
+        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<TwentySixDF> twentySixDFOptional = twentySixDFRepository.findById(dfParentId);
+        if (twentySixDFOptional.isPresent()) {
+            TwentySixDF twentySixDF = twentySixDFOptional.get();
+            if (!twentySixDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
+                return map;
+            }
+            Optional<TwentySixCell> twentySixCellIterable = twentySixCellRepository.findTwentySixCellByPeriodAndDf(period, twentySixDF);
+            TwentySixCell twentySixCell;
+            if (twentySixCellIterable.isPresent()) {
+                twentySixCell = twentySixCellIterable.get();
+            } else {
+                twentySixCell = new TwentySixCell();
+                twentySixCell.setUser(userAuthenticated);
+                twentySixCell.setPeriod(period);
+                twentySixCell.setDf(twentySixDF);
+            }
+            twentySixCell.setValue(values);
+            twentySixCell.setTime(LocalDateTime.now());
+            twentySixCellRepository.save(twentySixCell);
+            map.put("massage", "");
+            return map;
+        }
+        return map;
     }
 
     public Map<String, Object> addNewDf27(TwentySvenDFDto dfDto, String name) {
@@ -322,52 +461,6 @@ public class DfService {
 //        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
-
-
-    public Map<String, Object> addNewDf17(SeventeenDFDto dfDto, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
-        UserEntity userEntity = userService.getUserByName(name);
-        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
-        SeventeenDF seventeenDF = new SeventeenDF(dfDto);
-        seventeenDF.setUser(userEntity);
-        seventeenDF.setTime(LocalDateTime.now());
-        seventeenDF.setMvz(mvz);
-        if (dfParent.isPresent()) {
-            seventeenDF.setDf(dfParent.get());
-        } else {
-            map.put("massage", "Не найден родительский ДФ");
-            return map;
-        }
-        map.put("massage", "OK");
-        seventeenDFRepository.save(seventeenDF);
-        return map;
-    }
-
-    public Map<String, Object> deleteDf17(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<SeventeenDF> seventeenDFOptional = seventeenDFRepository.findById(dfDeleteId);
-        if (seventeenDFOptional.isPresent()) {
-            SeventeenDF seventeenDF = seventeenDFOptional.get();
-            if (!seventeenDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!seventeenDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            seventeenDFRepository.delete(seventeenDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
-        return map;
-    }
-
 
     public Map<String, Object> addNewDf32(ThirtyTwoDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
@@ -492,5 +585,126 @@ public class DfService {
         return map;
     }
 
+    public Map<String, Object> addNewDf34(ThirtyFourDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        ThirtyFourDF thirtyFourDF = new ThirtyFourDF(dfDto);
+        thirtyFourDF.setUser(userEntity);
+        thirtyFourDF.setTime(LocalDateTime.now());
+        thirtyFourDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            thirtyFourDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        thirtyFourDFRepository.save(thirtyFourDF);
+        return map;
+    }
 
+    public Map<String, Object> deleteDf34(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<ThirtyFourDF> thirtyFourDFOptional = thirtyFourDFRepository.findById(dfDeleteId);
+        if (thirtyFourDFOptional.isPresent()) {
+            ThirtyFourDF thirtyFourDF = thirtyFourDFOptional.get();
+            if (!thirtyFourDF.getDf().getId().equals(dfDeleteParentId)) {
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if (!thirtyFourDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            thirtyFourDFRepository.delete(thirtyFourDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
+
+
+    public Map<String, Object> addNewDf36(ThirtySixDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        ThirtySixDF thirtySixDF = new ThirtySixDF(dfDto);
+        thirtySixDF.setUser(userEntity);
+        thirtySixDF.setTime(LocalDateTime.now());
+        thirtySixDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            thirtySixDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        thirtySixDFRepository.save(thirtySixDF);
+        return map;
+    }
+
+    public Map<String, Object> addDf36MonthValue(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long values = jsonObject.getLong("values");
+        String codeId = jsonObject.getString("parent");
+        String[] array = codeId.split("_");
+        Long dfParentId = Long.parseLong(array[0]);
+        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<ThirtySixDF> thirtySixDFOptional = thirtySixDFRepository.findById(dfParentId);
+        if (thirtySixDFOptional.isPresent()) {
+            ThirtySixDF thirtySixDF = thirtySixDFOptional.get();
+            if (!thirtySixDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
+                return map;
+            }
+            Optional<ThirtySixCell> thirtySixCellIterable = thirtySixCellRepository.findThirtySixCellByPeriodAndDf(period, thirtySixDF);
+            ThirtySixCell thirtySixCell;
+            if (thirtySixCellIterable.isPresent()) {
+                thirtySixCell = thirtySixCellIterable.get();
+            } else {
+                thirtySixCell = new ThirtySixCell();
+                thirtySixCell.setUser(userAuthenticated);
+                thirtySixCell.setPeriod(period);
+                thirtySixCell.setDf(thirtySixDF);
+            }
+            thirtySixCell.setValue(values);
+            thirtySixCell.setTime(LocalDateTime.now());
+            thirtySixCellRepository.save(thirtySixCell);
+            map.put("massage", "");
+            return map;
+        }
+        return map;
+    }
+
+    public Map<String, Object> deleteDf36(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long dfDeleteId = jsonObject.getLong("dfDel");
+        Long dfDeleteParentId = jsonObject.getLong("dfParent");
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<ThirtySixDF> thirtySixDFOptional = thirtySixDFRepository.findById(dfDeleteId);
+        if (thirtySixDFOptional.isPresent()) {
+            ThirtySixDF thirtySixDF = thirtySixDFOptional.get();
+            if (!thirtySixDF.getDf().getId().equals(dfDeleteParentId)) {
+                map.put("massage", "Ошибка удаления не совпадает родительский DF");
+                return map;
+            }
+            if (!thirtySixDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+                return map;
+            }
+            thirtySixDFRepository.delete(thirtySixDF);
+            map.put("massage", "Запись удалена");
+            return map;
+        }
+        map.put("massage", "Ошибка удаления, нету такой записи");
+        return map;
+    }
 }

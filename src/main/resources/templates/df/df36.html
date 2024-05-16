@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru">
+
+<head>
+    <title>ДФ 27</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/excel.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('#myTable36 input.cell');
+            inputs.forEach(input => {
+                input.addEventListener('change', handleInputChange36);
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <ul class="hr">
+            <li><a href="/home">Домой</a></li>
+            <li th:if="${user.role.toString() == 'ADMIN'}"><a href="/userlist">Список пользователей</a></li>
+            <li><a href="/auth/logout">Выход</a></li>
+        </ul>
+        <h2><span th:text="${title}"></span></h2>
+        <h3><span th:text="${user.name}"></span></h3>
+        <table id="myTable36" border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+            <tr style='height:36.0pt'>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>№</th>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>Дата заполнения</th>
+                <th class=xl913171 style='width:200pt'>МВЗ/ОКС</th>
+                <th class=xl913171 style='width:80pt'>Продукт</th>
+                <th class=xl913171 style='width:80pt'>Ед. измерения</th>
+                <th class=xl913171 style='width:80pt'>Действие</th>
+                <th class=xl913171 style='width:100pt' th:each="option : ${dateList}" th:value="${option}"
+                    th:text="${option.format(formatOption)}"></th>
+            </tr>
+            <tr style='height:15.0pt' id="input">
+                <form>
+                    <td class=xl933171><input type="hidden" id="dfId" th:value="${dfId}" value=""/></td>
+                    <td class=xl933171 th:utext="${edit.format(formatPost)}"></td>
+                    <td class=xl933171>
+                        <select type="text" id="mvz">
+                            <option value="1">выберите тип</option>
+                            <option th:each="option : ${mvzList}" th:value="${option.id}"
+                                    th:text="${option.name}"></option>
+                        </select>
+                    </td>
+                    <td class=xl933171><input type="text" id="name"/></td>
+                    <td class=xl933171>
+                        <select type="text" id="unit">
+                            <option value="т">т</option>
+                            <option value="тыс.м3">тыс.м3</option>
+                            <option value="тыс.т">тыс.т</option>
+                            <option value="тыс.кВт*ч">тыс.кВт*ч</option>
+                        </select>
+                    </td>
+                    <td class=xl963171><input type="button" id="df36Add" value="Сохранить"/></td>
+                    <td class=xl913171 th:each="option : ${dateList}" th:value="${option}"></td>
+                </form>
+            </tr>
+            <tr class="tr" height=20 style='height:15.0pt' th:each="df, stat : ${dfs}" th:id="${df.id}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.getMvzName()}"></td>
+                <td class=xl933171 th:utext="${df.name}"></td>
+                <td class=xl933171 th:utext="${df.unit}"></td>
+                <td class=xl963171>&nbsp;<button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись"
+                                                 type="submit"
+                                                 th:onclick="'deleteDf36(\'' + ${df.id} + '\');'">(-)
+                </button>
+                </td>
+                <form>
+                    <td class=xl963171 th:each="option : ${dateList}" th:value="${option}"><input class="cell"
+                                                                                                  type="text"
+                                                                                                  th:id="${df.id + '_' + option.toEpochDay()}"
+                                                                                                  th:value="${df.getCellMap().get(option)}"/>
+                    </td>
+                </form>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<script src="../../js.js"></script>
+<div id="popup-overlay">
+    <div id="popup">
+        <p>Сохранено</p>
+    </div>
+</div>
+</body>
+</html>

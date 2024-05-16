@@ -1,6 +1,7 @@
 package com.litium.planer.entity;
 
 import com.litium.planer.dto.TwentySixDFDto;
+import com.litium.planer.entity.cell.TwentySixCell;
 import com.litium.planer.model.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

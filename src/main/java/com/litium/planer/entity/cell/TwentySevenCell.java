@@ -1,5 +1,6 @@
-package com.litium.planer.entity;
+package com.litium.planer.entity.cell;
 
+import com.litium.planer.entity.TwentySvenDF;
 import com.litium.planer.model.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,16 +13,16 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@Table(name = "cell26")
+@Table(name = "cell27")
 @NoArgsConstructor
-public class TwentySixCell {
+public class TwentySevenCell {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "df_id")
-    private TwentySixDF df;
+    private TwentySvenDF df;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

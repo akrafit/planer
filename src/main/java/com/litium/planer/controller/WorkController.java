@@ -213,4 +213,58 @@ public class WorkController {
         model.addAttribute("title", "ДФ 32 Потребность в газе " + dfParent.getPeriod());
         return "df/df32";
     }
+    @GetMapping("/DF34")
+    public String df34(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<ThirtyFourDF> thirtyFourDFIterable;
+        thirtyFourDFIterable = dfService.findDfThirtyFourDFIterable(dfParent);
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        List<Mvz> mvzList = dfService.getMvzList();
+        ArrayList<ThirtyFourDFDto> dfs = new ArrayList<>();
+        for (ThirtyFourDF df : thirtyFourDFIterable){
+            dfs.add(new ThirtyFourDFDto(df));
+        }
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 34 Потребность в бетоне " + dfParent.getPeriod());
+        return "df/df34";
+    }
+    @GetMapping("/DF36")
+    public String df36(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<ThirtySixDF> df36Iterable;
+        df36Iterable = dfService.findDf36ByDF(dfParent);
+        List<Mvz> mvzList = dfService.getMvzList();
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        ArrayList<ThirtySixDFDto> dfs = new ArrayList<>();
+        for (ThirtySixDF df : df36Iterable){
+            Map<LocalDate, Long> cellMap = new HashMap<>();
+            dateList.forEach(localDate -> cellMap.put(localDate,null));
+            df.getCellList().forEach(thirtySixCell -> cellMap.put(thirtySixCell.getPeriod(), thirtySixCell.getValue()));
+            ThirtySixDFDto thirtySixDFDto = new ThirtySixDFDto(df);
+            thirtySixDFDto.setCellMap(cellMap);
+            thirtySixDFDto.setMvzName(df.getMvz().getName());
+            dfs.add(thirtySixDFDto);
+        }
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+        model.addAttribute("title", "ДФ 36 Продукция " + dfParent.getPeriod());
+        return "df/df36";
+    }
 }
