@@ -71,8 +71,28 @@ public class WorkController {
         model.addAttribute("title", "ДФ 05 Фонд скважин " + dfParent.getPeriod());
         return "df/df5";
     }
-
-
+    @GetMapping("/DF8")
+    public String df8(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<EightDF> df8Iterable;
+        df8Iterable = dfService.findDf8ByDF(dfParent);
+        List<Mvz> mvzList = dfService.getMvzList();
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        ArrayList<EightDFDto> dfs = new ArrayList<>();
+        for (EightDF df : df8Iterable){
+            Map<LocalDate, Long> cellMap = new HashMap<>();
+            dateList.forEach(localDate -> cellMap.put(localDate,null));
+            df.getCellList().forEach(eightCell ->  cellMap.put(eightCell.getPeriod(), eightCell.getValue()));
+            EightDFDto eightDFDto = new EightDFDto(df);
+            eightDFDto.setCellMap(cellMap);
+            dfs.add(eightDFDto);
+        }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("title", "ДФ 8 Добыча и закачка жидкости по месторождениям " + dfParent.getPeriod());
+        return "df/df8";
+    }
     @GetMapping("/DF17")
     public String df17(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));
@@ -90,7 +110,6 @@ public class WorkController {
         model.addAttribute("title", "ДФ 17 Потребность нефтепродуктах " + dfParent.getPeriod());
         return "df/df17";
     }
-
     @GetMapping("/DF24")
     public String df24(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));

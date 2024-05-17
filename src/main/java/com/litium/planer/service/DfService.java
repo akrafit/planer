@@ -3,12 +3,10 @@ package com.litium.planer.service;
 import com.alibaba.fastjson.JSONObject;
 import com.litium.planer.dto.*;
 import com.litium.planer.entity.*;
-import com.litium.planer.entity.cell.*;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.*;
-import com.litium.planer.repo.cell.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +23,15 @@ public class DfService {
     private final FiveDFRepository fiveDFRepository;
     private final User2DFRepository user2DFRepository;
     private final TwentySevenDFRepository twentySevenDFRepository;
-    private final TwentySevenCellRepository twentySevenCellRepository;
     private final MvzRepository mvzRepository;
     private final SeventeenDFRepository seventeenDFRepository;
     private final TwentyFourDFRepository twentyFourDFRepository;
-    private final TwentyFourCellRepository twentyFourCellRepository;
     private final TwentySixDFRepository twentySixDFRepository;
-    private final TwentySixCellRepository twentySixCellRepository;
     private final ThirtyOneDFRepository thirtyOneDFRepository;
     private final ThirtyTwoDFRepository thirtyTwoDFRepository;
-    private final ThirtyOneCellRepository thirtyOneCellRepository;
     private final ThirtyFourDFRepository thirtyFourDFRepository;
     private final ThirtySixDFRepository thirtySixDFRepository;
-    private final ThirtySixCellRepository thirtySixCellRepository;
+    private final EightDFRepository eightDFRepository;
     private final UserService userService;
     DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -105,11 +99,9 @@ public class DfService {
     public Iterable<DF> findAll() {
         return dfRepository.findAll();
     }
-
     public Iterable<FourDF> findAllDfFour() {
         return fourDFRepository.findAll();
     }
-
     public Iterable<FourDF> findDfFourByDFAndUser(DF dfParent, UserEntity userEntity) {
         return fourDFRepository.findFourDFByDfAndUser(dfParent, userEntity);
     }
@@ -121,6 +113,11 @@ public class DfService {
     public Iterable<FiveDF> findDfFiveByDF(DF dfParent) {
         return fiveDFRepository.findFiveDFByDf(dfParent);
     }
+
+    public Iterable<EightDF> findDf8ByDF(DF dfParent) {
+        return eightDFRepository.findEightDFByDf(dfParent);
+    }
+
     public Iterable<SeventeenDF> findDfSeventeenByDF(DF dfParent) {
         return seventeenDFRepository.findSeventeenDFByDf(dfParent);
     }
@@ -145,7 +142,6 @@ public class DfService {
     public Iterable<ThirtySixDF> findDf36ByDF(DF dfParent) {
         return thirtySixDFRepository.findThirtySixDFByDf(dfParent);
     }
-
     public Map<String, Object> addNewDf4(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfid"));
@@ -179,7 +175,6 @@ public class DfService {
 
     public Map<String, Object> addNewDf5(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
-
         Optional<DF> dfParent = dfRepository.findById(jsonObject.getLong("dfId"));
         UserEntity userEntity = userService.getUserByName(name);
         FiveDF fiveDF = new FiveDF();
@@ -202,6 +197,24 @@ public class DfService {
         fiveDF.setTime(LocalDateTime.now());
         map.put("massage", "OK");
         fiveDFRepository.save(fiveDF);
+        return map;
+    }
+
+    public Map<String, Object> addNewDf8(EightDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        EightDF eightDF = new EightDF(dfDto);
+        eightDF.setUser(userEntity);
+        eightDF.setTime(LocalDateTime.now());
+        if (dfParent.isPresent()) {
+            eightDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        eightDFRepository.save(eightDF);
         return map;
     }
 
@@ -244,39 +257,7 @@ public class DfService {
         twentyFourDFRepository.save(twentyFourDF);
         return map;
     }
-    public Map<String, Object> addDf24MonthValue(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
-        String codeId = jsonObject.getString("parent");
-        String[] array = codeId.split("_");
-        Long dfParentId = Long.parseLong(array[0]);
-        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<TwentyFourDF> twentyFourDFOptional = twentyFourDFRepository.findById(dfParentId);
-        if (twentyFourDFOptional.isPresent()) {
-            TwentyFourDF twentyFourDF = twentyFourDFOptional.get();
-            if (!twentyFourDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
-                return map;
-            }
-            Optional<TwentyFourCell> twentyFourCellIterable = twentyFourCellRepository.findTwentyFourCellByPeriodAndDf(period, twentyFourDF);
-            TwentyFourCell twentyFourCell;
-            if (twentyFourCellIterable.isPresent()) {
-                twentyFourCell = twentyFourCellIterable.get();
-            } else {
-                twentyFourCell = new TwentyFourCell();
-                twentyFourCell.setUser(userAuthenticated);
-                twentyFourCell.setPeriod(period);
-                twentyFourCell.setDf(twentyFourDF);
-            }
-            twentyFourCell.setValue(values);
-            twentyFourCell.setTime(LocalDateTime.now());
-            twentyFourCellRepository.save(twentyFourCell);
-            map.put("massage", "");
-            return map;
-        }
-        return map;
-    }
+
     public Map<String, Object> addNewDf26(TwentySixDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -297,40 +278,6 @@ public class DfService {
         return map;
     }
 
-    public Map<String, Object> addDf26MonthValue(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
-        String codeId = jsonObject.getString("parent");
-        String[] array = codeId.split("_");
-        Long dfParentId = Long.parseLong(array[0]);
-        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<TwentySixDF> twentySixDFOptional = twentySixDFRepository.findById(dfParentId);
-        if (twentySixDFOptional.isPresent()) {
-            TwentySixDF twentySixDF = twentySixDFOptional.get();
-            if (!twentySixDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
-                return map;
-            }
-            Optional<TwentySixCell> twentySixCellIterable = twentySixCellRepository.findTwentySixCellByPeriodAndDf(period, twentySixDF);
-            TwentySixCell twentySixCell;
-            if (twentySixCellIterable.isPresent()) {
-                twentySixCell = twentySixCellIterable.get();
-            } else {
-                twentySixCell = new TwentySixCell();
-                twentySixCell.setUser(userAuthenticated);
-                twentySixCell.setPeriod(period);
-                twentySixCell.setDf(twentySixDF);
-            }
-            twentySixCell.setValue(values);
-            twentySixCell.setTime(LocalDateTime.now());
-            twentySixCellRepository.save(twentySixCell);
-            map.put("massage", "");
-            return map;
-        }
-        return map;
-    }
-
     public Map<String, Object> addNewDf27(TwentySvenDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -348,41 +295,6 @@ public class DfService {
         }
         map.put("massage", "OK");
         twentySevenDFRepository.save(twentySvenDF);
-        return map;
-    }
-
-    public Map<String, Object> addDf27MonthValue(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
-        String codeId = jsonObject.getString("parent");
-        String[] array = codeId.split("_");
-        Long dfParentId = Long.parseLong(array[0]);
-        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<TwentySvenDF> twentySvenDFOptional = twentySevenDFRepository.findById(dfParentId);
-        if (twentySvenDFOptional.isPresent()) {
-            TwentySvenDF twentySvenDF = twentySvenDFOptional.get();
-            if (!twentySvenDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
-                return map;
-            }
-            Optional<TwentySevenCell> twentySevenCellIterable = twentySevenCellRepository.findTwentySevenCellByPeriodAndDf(period, twentySvenDF);
-            TwentySevenCell twentySevenCell;
-            if (twentySevenCellIterable.isPresent()) {
-                twentySevenCell = twentySevenCellIterable.get();
-            } else {
-                twentySevenCell = new TwentySevenCell();
-                twentySevenCell.setUser(userAuthenticated);
-                twentySevenCell.setPeriod(period);
-                twentySevenCell.setDf(twentySvenDF);
-            }
-            twentySevenCell.setValue(values);
-            twentySevenCell.setTime(LocalDateTime.now());
-            twentySevenCellRepository.save(twentySevenCell);
-            map.put("massage", "");
-            return map;
-        }
-//        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
 
@@ -425,39 +337,6 @@ public class DfService {
         thirtyOneDFRepository.save(thirtyOneDF);
         return map;
     }
-    public Map<String, Object> addDf31MonthValue(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
-        String codeId = jsonObject.getString("parent");
-        String[] array = codeId.split("_");
-        Long dfParentId = Long.parseLong(array[0]);
-        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<ThirtyOneDF> thirtyOneDFOptional = thirtyOneDFRepository.findById(dfParentId);
-        if (thirtyOneDFOptional.isPresent()) {
-            ThirtyOneDF thirtyOneDF = thirtyOneDFOptional.get();
-            if (!thirtyOneDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
-                return map;
-            }
-            Optional<ThirtyOneCell> thirtyOneCellOptional = thirtyOneCellRepository.findThirtyOneCellByPeriodAndDf(period, thirtyOneDF);
-            ThirtyOneCell thirtyOneCell;
-            if (thirtyOneCellOptional.isPresent()) {
-                thirtyOneCell = thirtyOneCellOptional.get();
-            } else {
-                thirtyOneCell = new ThirtyOneCell();
-                thirtyOneCell.setUser(userAuthenticated);
-                thirtyOneCell.setPeriod(period);
-                thirtyOneCell.setDf(thirtyOneDF);
-            }
-            thirtyOneCell.setValue(values);
-            thirtyOneCell.setTime(LocalDateTime.now());
-            thirtyOneCellRepository.save(thirtyOneCell);
-            map.put("massage", "");
-            return map;
-        }
-        return map;
-    }
 
     public Map<String, Object> addNewDf34(ThirtyFourDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
@@ -478,6 +357,7 @@ public class DfService {
         thirtyFourDFRepository.save(thirtyFourDF);
         return map;
     }
+
     public Map<String, Object> addNewDf36(ThirtySixDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -498,134 +378,110 @@ public class DfService {
         return map;
     }
 
-    public Map<String, Object> addDf36MonthValue(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
-        String codeId = jsonObject.getString("parent");
-        String[] array = codeId.split("_");
-        Long dfParentId = Long.parseLong(array[0]);
-        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<ThirtySixDF> thirtySixDFOptional = thirtySixDFRepository.findById(dfParentId);
-        if (thirtySixDFOptional.isPresent()) {
-            ThirtySixDF thirtySixDF = thirtySixDFOptional.get();
-            if (!thirtySixDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
-                return map;
-            }
-            Optional<ThirtySixCell> thirtySixCellIterable = thirtySixCellRepository.findThirtySixCellByPeriodAndDf(period, thirtySixDF);
-            ThirtySixCell thirtySixCell;
-            if (thirtySixCellIterable.isPresent()) {
-                thirtySixCell = thirtySixCellIterable.get();
-            } else {
-                thirtySixCell = new ThirtySixCell();
-                thirtySixCell.setUser(userAuthenticated);
-                thirtySixCell.setPeriod(period);
-                thirtySixCell.setDf(thirtySixDF);
-            }
-            thirtySixCell.setValue(values);
-            thirtySixCell.setTime(LocalDateTime.now());
-            thirtySixCellRepository.save(thirtySixCell);
-            map.put("massage", "");
-            return map;
-        }
-        return map;
-    }
     public Map<String, Object> deleteDf(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         Long dfDeleteId = jsonObject.getLong("dfDel");
         Long dfDeleteParentId = jsonObject.getLong("dfParent");
         UserEntity userAuthenticated = userService.getUserByName(name);
         Optional<DF> dfOptional = dfRepository.findById(dfDeleteParentId);
-        if(dfOptional.isPresent()){
+        if (dfOptional.isPresent()) {
             DF dfBig = dfOptional.get();
-            switch (dfBig.getType()){
+            switch (dfBig.getType()) {
                 case DF4 -> {
                     Optional<FourDF> fourDFOptional = fourDFRepository.findById(dfDeleteId);
-                    if(fourDFOptional.isPresent() && fourDFOptional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (fourDFOptional.isPresent() && fourDFOptional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         fourDFRepository.delete(fourDFOptional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF5 -> {
                     Optional<FiveDF> optional = fiveDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         fiveDFRepository.delete(optional.get());
-                    }else{
+                    } else {
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF8 -> {
+                    Optional<EightDF> optional = eightDFRepository.findById(dfDeleteId);
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
+                        eightDFRepository.delete(optional.get());
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF17 -> {
                     Optional<SeventeenDF> optional = seventeenDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         seventeenDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF24 -> {
                     Optional<TwentyFourDF> optional = twentyFourDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         twentyFourDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF26 -> {
                     Optional<TwentySixDF> optional = twentySixDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         twentySixDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF27 -> {
                     Optional<TwentySvenDF> optional = twentySevenDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         twentySevenDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF31 -> {
                     Optional<ThirtyOneDF> optional = thirtyOneDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         thirtyOneDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF32 -> {
                     Optional<ThirtyTwoDF> optional = thirtyTwoDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         thirtyTwoDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF34 -> {
                     Optional<ThirtyFourDF> optional = thirtyFourDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         thirtyFourDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
                 }
                 case DF36 -> {
                     Optional<ThirtySixDF> optional = thirtySixDFRepository.findById(dfDeleteId);
-                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
                         thirtySixDFRepository.delete(optional.get());
-                    }else{
+                    } else {
                         sendErr(map);
                         return map;
                     }
@@ -633,11 +489,12 @@ public class DfService {
             }
             map.put("massage", "Запись удалена !");
             return map;
-        }else{
+        } else {
             map.put("massage", "Ошибка удаления не совпадает родительский DF");
         }
         return map;
     }
+
     private void sendErr(Map<String, Object> map) {
         map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
     }

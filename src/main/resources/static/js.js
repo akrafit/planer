@@ -130,6 +130,22 @@ $(document).ready(function () {
     );
 });
 $(document).ready(function () {
+    $('#df8AddNew').click(
+        function () {
+            let sendInfo = {
+                dfId: document.getElementById('dfId').value,
+                name: document.getElementById('name').value,
+                typeWater: document.getElementById('typeWater').value,
+                oilfield: document.getElementById('oilfield').value,
+                well: document.getElementById('well').value,
+            };
+            sendAjaxForm(sendInfo, '/api/addDf8');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+$(document).ready(function () {
     $('#df17Add').click(
         function () {
             let sendInfo = {
@@ -355,7 +371,15 @@ function deleteDf(id) {
     sendAjaxForm(sendInfo, '/api/deleteDf');
     setTimeout(sayHi, 1000);
 }
-
+function handleInputChange8(event) {
+    let val = event.target.value;
+    let cId = event.target.id;
+    let sendInfo = {
+        values: val,
+        parent: cId
+    };
+    sendAjaxFormWithout(sendInfo, '/api/adddf8monthval');
+}
 function handleInputChange24(event) {
     let val = event.target.value;
     let cId = event.target.id;
