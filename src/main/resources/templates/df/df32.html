@@ -72,9 +72,11 @@
                 <td class=xl933171 th:utext="${df.date}">Период</td>
                 <td class=xl933171 th:utext="${df.amt}">Количество</td>
                 <td class=xl953171 th:utext="${df.comment}">Комментарий</td>
-                <td class=xl963171>&nbsp;<button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись" type="submit"
-                                                 th:onclick="'deleteDf32(\'' + ${df.id} + '\');'">(-)
-                </button>
+                <td class=xl963171>&nbsp;
+                    <button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись"
+                            type="submit"
+                            th:onclick="'deleteDf(\'' + ${df.id} + '\');'">(-)
+                    </button>
                 </td>
             </tr>
         </table>

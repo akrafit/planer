@@ -2,7 +2,6 @@ package com.litium.planer.controller;
 
 import com.litium.planer.dto.*;
 import com.litium.planer.entity.*;
-import com.litium.planer.model.Role;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.service.DfService;
 import com.litium.planer.service.UserService;
@@ -28,10 +27,19 @@ import java.util.Map;
 public class WorkController {
     private final DfService dfService;
     private final UserService userService;
-
     private final DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private final DateTimeFormatter formatOption = DateTimeFormatter.ofPattern("MMMM yy");
 
+    private void setModel(Model model, DF dfParent, UserEntity userEntity, DateTimeFormatter formatPost, DateTimeFormatter formatOption, List<Mvz> mvzList, List<LocalDate> dateList) {
+        model.addAttribute("dfId", dfParent.getId());
+        model.addAttribute("user", userEntity);
+        model.addAttribute("admin", userEntity.getRole().toString());
+        model.addAttribute("edit", LocalDateTime.now());
+        model.addAttribute("formatPost", formatPost);
+        model.addAttribute("formatOption", formatOption);
+        model.addAttribute("mvzList", mvzList);
+        model.addAttribute("dateList", dateList);
+    }
     @GetMapping("/DF4")
     public String df4(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));
@@ -42,12 +50,8 @@ public class WorkController {
         for (FourDF df : dfFourIterable){
             dfs.add(new FourDFDto(df));
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, null, null);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
         model.addAttribute("title", "ДФ 04 Геолого-технические мероприятия (ГТМ) " + dfParent.getPeriod());
         return "df/df4";
     }
@@ -62,14 +66,8 @@ public class WorkController {
         for (FiveDF df : dfFiveIterable){
             dfs.add(new FiveDFDto(df));
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, null, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 05 Фонд скважин " + dfParent.getPeriod());
         return "df/df5";
     }
@@ -87,19 +85,35 @@ public class WorkController {
         for (SeventeenDF df : dfSeventeenIterable){
             dfs.add(new SeventeenDFDto(df));
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 17 Потребность нефтепродуктах " + dfParent.getPeriod());
         return "df/df17";
     }
 
+    @GetMapping("/DF24")
+    public String df24(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<TwentyFourDF> df24Iterable;
+        df24Iterable = dfService.findDf24ByDF(dfParent);
+        List<Mvz> mvzList = dfService.getMvzList();
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        ArrayList<TwentyFourDFDto> dfs = new ArrayList<>();
+        for (TwentyFourDF df : df24Iterable){
+            Map<LocalDate, Long> cellMap = new HashMap<>();
+            dateList.forEach(localDate -> cellMap.put(localDate,null));
+            df.getCellList().forEach(twentyFourCell -> cellMap.put(twentyFourCell.getPeriod(), twentyFourCell.getValue()));
+            TwentyFourDFDto twentyFourDFDto = new TwentyFourDFDto(df);
+            twentyFourDFDto.setCellMap(cellMap);
+            twentyFourDFDto.setMvzName(df.getMvz().getName());
+            dfs.add(twentyFourDFDto);
+        }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("title", "ДФ 24 Электро эненргия " + dfParent.getPeriod());
+        return "df/df24";
+    }
     @GetMapping("/DF26")
     public String df26(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));
@@ -118,15 +132,8 @@ public class WorkController {
             twentySixDFDto.setMvzName(df.getMvz().getName());
             dfs.add(twentySixDFDto);
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 26 Потребность в перевозках " + dfParent.getPeriod());
         return "df/df26";
     }
@@ -148,15 +155,8 @@ public class WorkController {
             twentySvenDFDto.setMvzName(df.getMvz().getName());
             dfs.add(twentySvenDFDto);
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 27 Потребность в транспорте " + dfParent.getPeriod());
         return "df/df27";
     }
@@ -177,15 +177,8 @@ public class WorkController {
             thirtyOneDFDto.setCellMap(cellMap);
             dfs.add(thirtyOneDFDto);
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 31 Потребность в щебне " + dfParent.getPeriod());
         return "df/df31";
     }
@@ -201,15 +194,8 @@ public class WorkController {
         for (ThirtyTwoDF df : thirtyTwoDFIterable){
             dfs.add(new ThirtyTwoDFDto(df));
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 32 Потребность в газе " + dfParent.getPeriod());
         return "df/df32";
     }
@@ -225,15 +211,8 @@ public class WorkController {
         for (ThirtyFourDF df : thirtyFourDFIterable){
             dfs.add(new ThirtyFourDFDto(df));
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 34 Потребность в бетоне " + dfParent.getPeriod());
         return "df/df34";
     }
@@ -255,15 +234,8 @@ public class WorkController {
             thirtySixDFDto.setMvzName(df.getMvz().getName());
             dfs.add(thirtySixDFDto);
         }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
         model.addAttribute("dfs", dfs);
-        model.addAttribute("dfId", dfParent.getId());
-        model.addAttribute("user", userEntity);
-        model.addAttribute("admin", userEntity.getRole().toString());
-        model.addAttribute("edit", LocalDateTime.now());
-        model.addAttribute("formatPost", formatPost);
-        model.addAttribute("formatOption", formatOption);
-        model.addAttribute("mvzList", mvzList);
-        model.addAttribute("dateList", dateList);
         model.addAttribute("title", "ДФ 36 Продукция " + dfParent.getPeriod());
         return "df/df36";
     }

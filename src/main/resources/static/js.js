@@ -59,7 +59,6 @@ $(document).ready(function () {
             //var type1 = document.querySelector('input[name="male"]:checked').value;
             let dfPeriod = document.getElementById('dfPeriod').value;
             let dfType = document.getElementById('dropDownListDf').value;
-            console.log(dfType);
             let sendInfo = {
                 df: dfVal,
                 name: dfName,
@@ -92,25 +91,16 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#dfFourAdd').click(
         function () {
-            let typegtm = document.getElementById('typegtm').value;
-            let oilfield = document.getElementById('oilfield').value;
-            let kp = document.getElementById('kp').value;
-            let well = document.getElementById('well').value;
-            let wellPurpose = document.getElementById('wellPurpose').value;
-            let type = document.getElementById('type').value;
-            let enddate = document.getElementById('enddate').value;
-            let comment = document.getElementById('comment').value;
-            let dfId = document.getElementById('dfId').value;
             let sendInfo = {
-                typeGTM: typegtm,
-                oilField: oilfield,
-                kp: kp,
-                well: well,
-                wellPurpose: wellPurpose,
-                type: type,
-                enddate: enddate,
-                comment: comment,
-                dfid: dfId
+                typeGTM: document.getElementById('typegtm').value,
+                oilField: document.getElementById('oilfield').value,
+                kp: document.getElementById('kp').value,
+                well: document.getElementById('well').value,
+                wellPurpose: document.getElementById('wellPurpose').value,
+                type: document.getElementById('type').value,
+                enddate: document.getElementById('enddate').value,
+                comment: document.getElementById('comment').value,
+                dfid:  document.getElementById('dfId').value
             };
             sendAjaxForm(sendInfo, '/api/addDf4');
             setTimeout(sayHi, 1000);
@@ -121,27 +111,17 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#dfFiveAdd').click(
         function () {
-            let dfId = document.getElementById('dfId').value;
-            let oilfield = document.getElementById('oilfield').value;
-            let expWater = document.getElementById('expWater').value;
-            let medWater = document.getElementById('medWater').value;
-            let expPump = document.getElementById('expPump').value;
-            let medPump = document.getElementById('medPump').value;
-            let expHydro = document.getElementById('expHydro').value;
-            let medHydro = document.getElementById('medHydro').value;
-            let comment = document.getElementById('comment').value;
-            let datePeriod = document.getElementById('datePeriod').value;
             let sendInfo = {
-                dfId: dfId,
-                oilField: oilfield,
-                expWater: expWater,
-                medWater: medWater,
-                expPump: expPump,
-                medPump: medPump,
-                expHydro: expHydro,
-                medHydro: medHydro,
-                datePeriod: datePeriod,
-                comment: comment
+                dfId: document.getElementById('dfId').value,
+                oilField: document.getElementById('oilfield').value,
+                expWater: document.getElementById('expWater').value,
+                medWater: document.getElementById('medWater').value,
+                expPump: document.getElementById('expPump').value,
+                medPump: document.getElementById('medPump').value,
+                expHydro: document.getElementById('expHydro').value,
+                medHydro: document.getElementById('medHydro').value,
+                datePeriod: document.getElementById('datePeriod').value,
+                comment: document.getElementById('comment').value
             };
             sendAjaxForm(sendInfo, '/api/addDf5');
             setTimeout(sayHi, 1000);
@@ -163,6 +143,21 @@ $(document).ready(function () {
                 comment: document.getElementById('comment').value
             };
             sendAjaxForm(sendInfo, '/api/addDf17');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+$(document).ready(function () {
+    $('#df24Add').click(
+        function () {
+            let sendInfo = {
+                dfId: document.getElementById('dfId').value,
+                mvz: document.getElementById('mvz').value,
+                name: document.getElementById('name').value,
+                comment: document.getElementById('comment').value
+            };
+            sendAjaxForm(sendInfo, '/api/addDf24');
             setTimeout(sayHi, 1000);
             return false;
         }
@@ -313,7 +308,11 @@ function sendAjaxFormWithout(sendInfo, url) {
         data: JSON.stringify(sendInfo),
 
         success: function (response) { //Данные отправлены успешно
-            showPopup();
+            if (response.massage === "") {
+                showPopup('Ok');
+            }else{
+                showPopup(response.massage);
+            }
             try {
                 result = $.parseJSON(response);
             } catch (e) {
@@ -347,88 +346,25 @@ function addUser(id) {
     setTimeout(sayHi, 1000);
 
 }
-function deleteDf4(id) {
+function deleteDf(id) {
     let dfParentId = document.getElementById('dfId').value;
     let sendInfo = {
         dfParent: dfParentId,
         dfDel: id
     };
-    sendAjaxForm(sendInfo, '/api/deleteDf4');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf5(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf5');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf17(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf17');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf26(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf26');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf27(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf27');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf31(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf31');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf32(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf32');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf34(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf34');
-    setTimeout(sayHi, 1000);
-}
-function deleteDf36(id) {
-    let dfParentId = document.getElementById('dfId').value;
-    let sendInfo = {
-        dfParent: dfParentId,
-        dfDel: id
-    };
-    sendAjaxForm(sendInfo, '/api/deleteDf36');
+    sendAjaxForm(sendInfo, '/api/deleteDf');
     setTimeout(sayHi, 1000);
 }
 
+function handleInputChange24(event) {
+    let val = event.target.value;
+    let cId = event.target.id;
+    let sendInfo = {
+        values: val,
+        parent: cId
+    };
+    sendAjaxFormWithout(sendInfo, '/api/adddf24monthval');
+}
 function handleInputChange26(event) {
     let val = event.target.value;
     let cId = event.target.id;
@@ -469,10 +405,12 @@ function handleInputChange36(event) {
 
 
 
-function showPopup() {
+function showPopup(text) {
     document.getElementById('popup-overlay').style.display = 'block';
+    document.getElementById('popup').innerHTML = '';
+    $('#popup').append(text);
     setTimeout(function () {document.getElementById('popup-overlay').style.display = 'none';
-    }, 500);
+    }, 1000);
 
 }
 

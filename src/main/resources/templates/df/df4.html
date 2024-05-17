@@ -23,23 +23,23 @@
         <h3><span th:text="${user.name}"></span></h3>
         <table border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
  collapse;width:918pt'>
-                <th height=48 class=xl913171> № </th>
-                <th height=48 class=xl913171>Дата заполнения</th>
-                <th height=48 class=xl913171>Вид ГТМ</th>
-                <th class=xl913171>Участок недр</th>
-                <th class=xl913171>Куст</th>
-                <th class=xl913171>Скважина</th>
-                <th class=xl913171>Назначение скважины</th>
-                <th class=xl913171>Вид скважины</th>
-                <th class=xl913171>Дата <br>окончания<br> КРС </th>
-                <th class=xl923171 >Комментарий</th>
-                <th class=xl923171 >Действие</th>
+            <th height=48 class=xl913171> №</th>
+            <th height=48 class=xl913171>Дата заполнения</th>
+            <th height=48 class=xl913171>Вид ГТМ</th>
+            <th class=xl913171>Участок недр</th>
+            <th class=xl913171>Куст</th>
+            <th class=xl913171>Скважина</th>
+            <th class=xl913171>Назначение скважины</th>
+            <th class=xl913171>Вид скважины</th>
+            <th class=xl913171>Дата <br>окончания<br> КРС</th>
+            <th class=xl923171>Комментарий</th>
+            <th class=xl923171>Действие</th>
             </tr>
             <!--            <tr height=20 style='height:15.0pt' id="input" th:if="${admin == 'ADMIN'}" >-->
             <tr height=20 style='height:15.0pt' id="input">
                 <form>
                     <td class=xl933171><input type="hidden" id="dfId" th:value="${dfId}" value=""/></td>
-                    <td class=xl933171 th:utext="${edit.format(formatPost)}" ></td>
+                    <td class=xl933171 th:utext="${edit.format(formatPost)}"></td>
                     <td height=20 class=xl933171 style='height:15.0pt'><input type="text" id="typegtm"/></td>
                     <td class=xl933171><select id="oilfield">
                         <option value="Аянский (Западный) участок">Аянский (Западный) участок</option>
@@ -55,7 +55,7 @@
                         <option value="Тутурский участок">Тутурский участок</option>
                         <option value="Ярактинский участок">Ярактинский участок</option>
                         <option value="Ярактинское месторождение участок">Ярактинское месторождение участок</option>
-                        </select>
+                    </select>
                     </td>
                     <td class=xl933171><input type="text" id="kp"/></td>
                     <td class=xl943171><input type="text" id="well"/></td>
@@ -77,9 +77,11 @@
                 <td class=xl933171 th:utext="${df.type}">Поисковая</td>
                 <td class=xl953171 th:utext="${df.endDate}">21.08.2024</td>
                 <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
-                <td class=xl963171>&nbsp;<button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись" type="submit"
-                                                 th:onclick="'deleteDf4(\'' + ${df.id} + '\');'">(-)
-                </button>
+                <td class=xl963171>&nbsp;
+                    <button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись"
+                            type="submit"
+                            th:onclick="'deleteDf(\'' + ${df.id} + '\');'">(-)
+                    </button>
                 </td>
             </tr>
         </table>

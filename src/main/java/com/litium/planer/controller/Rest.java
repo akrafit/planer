@@ -25,42 +25,9 @@ public class Rest {
         this.userService = userService;
     }
 
-    @PostMapping("/deleteDf4")
-    public Map<String, Object> deleteDf4(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf4(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf5")
-    public Map<String, Object> deleteDf5(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf5(jsonObject, principal.getName());
-    }
-
-    @PostMapping("/deleteDf17")
-    public Map<String, Object> deleteDf17(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf17(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf26")
-    public Map<String, Object> deleteDf26(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf26(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf27")
-    public Map<String, Object> deleteDf27(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf27(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf31")
-    public Map<String, Object> deleteDf31(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf31(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf32")
-    public Map<String, Object> deleteDf32(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf32(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf34")
-    public Map<String, Object> deleteDf34(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf34(jsonObject, principal.getName());
-    }
-    @PostMapping("/deleteDf36")
-    public Map<String, Object> deleteDf36(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
-        return dfService.deleteDf36(jsonObject, principal.getName());
+    @PostMapping("/deleteDf")
+    public Map<String, Object> deleteDf(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.deleteDf(jsonObject, principal.getName());
     }
 
     @PostMapping("/adddf")
@@ -86,6 +53,14 @@ public class Rest {
     @PostMapping("/addDf17")
     public Map<String, Object> addDf17(@Valid @RequestBody SeventeenDFDto seventeenDFDto, Principal principal) {
         return dfService.addNewDf17(seventeenDFDto, principal.getName());
+    }
+    @PostMapping("/addDf24")
+    public Map<String, Object> addDf26(@Valid @RequestBody TwentyFourDFDto twentyFourDFDto, Principal principal) {
+        return dfService.addNewDf24(twentyFourDFDto, principal.getName());
+    }
+    @PostMapping("/adddf24monthval")
+    public Map<String, Object> addDf24MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
+        return dfService.addDf24MonthValue(jsonObject, principal.getName());
     }
     @PostMapping("/addDf26")
     public Map<String, Object> addDf26(@Valid @RequestBody TwentySixDFDto twentySixDFDto, Principal principal) {
@@ -128,6 +103,5 @@ public class Rest {
     public Map<String, Object> addDf36MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addDf36MonthValue(jsonObject, principal.getName());
     }
-
 
 }

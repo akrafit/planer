@@ -3,18 +3,12 @@ package com.litium.planer.service;
 import com.alibaba.fastjson.JSONObject;
 import com.litium.planer.dto.*;
 import com.litium.planer.entity.*;
-import com.litium.planer.entity.cell.ThirtyOneCell;
-import com.litium.planer.entity.cell.ThirtySixCell;
-import com.litium.planer.entity.cell.TwentySevenCell;
-import com.litium.planer.entity.cell.TwentySixCell;
+import com.litium.planer.entity.cell.*;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
 import com.litium.planer.repo.*;
-import com.litium.planer.repo.cell.ThirtyOneCellRepository;
-import com.litium.planer.repo.cell.ThirtySixCellRepository;
-import com.litium.planer.repo.cell.TwentySevenCellRepository;
-import com.litium.planer.repo.cell.TwentySixCellRepository;
+import com.litium.planer.repo.cell.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +28,13 @@ public class DfService {
     private final TwentySevenCellRepository twentySevenCellRepository;
     private final MvzRepository mvzRepository;
     private final SeventeenDFRepository seventeenDFRepository;
-    private final ThirtyTwoDFRepository thirtyTwoDFRepository;
-    private final ThirtyOneDFRepository thirtyOneDFRepository;
-    private final ThirtyOneCellRepository thirtyOneCellRepository;
+    private final TwentyFourDFRepository twentyFourDFRepository;
+    private final TwentyFourCellRepository twentyFourCellRepository;
     private final TwentySixDFRepository twentySixDFRepository;
     private final TwentySixCellRepository twentySixCellRepository;
+    private final ThirtyOneDFRepository thirtyOneDFRepository;
+    private final ThirtyTwoDFRepository thirtyTwoDFRepository;
+    private final ThirtyOneCellRepository thirtyOneCellRepository;
     private final ThirtyFourDFRepository thirtyFourDFRepository;
     private final ThirtySixDFRepository thirtySixDFRepository;
     private final ThirtySixCellRepository thirtySixCellRepository;
@@ -122,58 +118,30 @@ public class DfService {
         return fourDFRepository.findFourDFByDf(dfParent);
     }
 
-    public Map<String, Object> deleteDf4(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<FourDF> fourDFOptional = fourDFRepository.findById(dfDeleteId);
-        if (fourDFOptional.isPresent()) {
-            FourDF fourDF = fourDFOptional.get();
-            if (!fourDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!fourDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            fourDFRepository.delete(fourDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
-        return map;
-    }
-
     public Iterable<FiveDF> findDfFiveByDF(DF dfParent) {
         return fiveDFRepository.findFiveDFByDf(dfParent);
     }
-
     public Iterable<SeventeenDF> findDfSeventeenByDF(DF dfParent) {
         return seventeenDFRepository.findSeventeenDFByDf(dfParent);
     }
-
-    public Iterable<ThirtyTwoDF> findDfThirtyTwoDFIterable(DF dfParent) {
-        return thirtyTwoDFRepository.findThirtyTwoDFByDf(dfParent);
+    public Iterable<TwentyFourDF> findDf24ByDF(DF dfParent) {
+        return twentyFourDFRepository.findTwentyFourDFByDf(dfParent);
     }
-
-    public Iterable<ThirtyOneDF> findDfThirtyOneDFIterable(DF dfParent) {
-        return thirtyOneDFRepository.findThirtyOneDFByDf(dfParent);
-    }
-
     public Iterable<TwentySixDF> findDf26ByDF(DF dfParent) {
         return twentySixDFRepository.findTwentySixDFByDf(dfParent);
     }
-
-    public Iterable<ThirtyFourDF> findDfThirtyFourDFIterable(DF dfParent) {
-        return thirtyFourDFRepository.findThirtyFourDFByDf(dfParent);
-    }
-
     public Iterable<TwentySvenDF> findDf27ByDF(DF dfParent) {
         return twentySevenDFRepository.findTwentySvenDFByDf(dfParent);
     }
-
+    public Iterable<ThirtyOneDF> findDfThirtyOneDFIterable(DF dfParent) {
+        return thirtyOneDFRepository.findThirtyOneDFByDf(dfParent);
+    }
+    public Iterable<ThirtyTwoDF> findDfThirtyTwoDFIterable(DF dfParent) {
+        return thirtyTwoDFRepository.findThirtyTwoDFByDf(dfParent);
+    }
+    public Iterable<ThirtyFourDF> findDfThirtyFourDFIterable(DF dfParent) {
+        return thirtyFourDFRepository.findThirtyFourDFByDf(dfParent);
+    }
     public Iterable<ThirtySixDF> findDf36ByDF(DF dfParent) {
         return thirtySixDFRepository.findThirtySixDFByDf(dfParent);
     }
@@ -237,30 +205,6 @@ public class DfService {
         return map;
     }
 
-    public Map<String, Object> deleteDf5(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<FiveDF> fiveDFOptional = fiveDFRepository.findById(dfDeleteId);
-        if (fiveDFOptional.isPresent()) {
-            FiveDF fiveDF = fiveDFOptional.get();
-            if (!fiveDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!fiveDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            fiveDFRepository.delete(fiveDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
-        return map;
-    }
-
     public Map<String, Object> addNewDf17(SeventeenDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -281,30 +225,58 @@ public class DfService {
         return map;
     }
 
-    public Map<String, Object> deleteDf17(JSONObject jsonObject, String name) {
+    public Map<String, Object> addNewDf24(TwentyFourDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<SeventeenDF> seventeenDFOptional = seventeenDFRepository.findById(dfDeleteId);
-        if (seventeenDFOptional.isPresent()) {
-            SeventeenDF seventeenDF = seventeenDFOptional.get();
-            if (!seventeenDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!seventeenDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            seventeenDFRepository.delete(seventeenDF);
-            map.put("massage", "Запись удалена");
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        TwentyFourDF twentyFourDF = new TwentyFourDF(dfDto);
+        twentyFourDF.setUser(userEntity);
+        twentyFourDF.setTime(LocalDateTime.now());
+        twentyFourDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            twentyFourDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
             return map;
         }
-        map.put("massage", "Ошибка удаления, нету такой записи");
+        map.put("massage", "OK");
+        twentyFourDFRepository.save(twentyFourDF);
         return map;
     }
-
+    public Map<String, Object> addDf24MonthValue(JSONObject jsonObject, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Long values = jsonObject.getLong("values");
+        String codeId = jsonObject.getString("parent");
+        String[] array = codeId.split("_");
+        Long dfParentId = Long.parseLong(array[0]);
+        LocalDate period = LocalDate.ofEpochDay(Long.parseLong(array[1]));
+        UserEntity userAuthenticated = userService.getUserByName(name);
+        Optional<TwentyFourDF> twentyFourDFOptional = twentyFourDFRepository.findById(dfParentId);
+        if (twentyFourDFOptional.isPresent()) {
+            TwentyFourDF twentyFourDF = twentyFourDFOptional.get();
+            if (!twentyFourDF.getUser().getId().equals(userAuthenticated.getId())) {
+                map.put("massage", "Ошибка редактирования, нельзя редактировать чужую запись");
+                return map;
+            }
+            Optional<TwentyFourCell> twentyFourCellIterable = twentyFourCellRepository.findTwentyFourCellByPeriodAndDf(period, twentyFourDF);
+            TwentyFourCell twentyFourCell;
+            if (twentyFourCellIterable.isPresent()) {
+                twentyFourCell = twentyFourCellIterable.get();
+            } else {
+                twentyFourCell = new TwentyFourCell();
+                twentyFourCell.setUser(userAuthenticated);
+                twentyFourCell.setPeriod(period);
+                twentyFourCell.setDf(twentyFourDF);
+            }
+            twentyFourCell.setValue(values);
+            twentyFourCell.setTime(LocalDateTime.now());
+            twentyFourCellRepository.save(twentyFourCell);
+            map.put("massage", "");
+            return map;
+        }
+        return map;
+    }
     public Map<String, Object> addNewDf26(TwentySixDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -322,30 +294,6 @@ public class DfService {
         }
         map.put("massage", "OK");
         twentySixDFRepository.save(twentySixDF);
-        return map;
-    }
-
-    public Map<String, Object> deleteDf26(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<TwentySixDF> twentySixDFOptional = twentySixDFRepository.findById(dfDeleteId);
-        if (twentySixDFOptional.isPresent()) {
-            TwentySixDF twentySixDF = twentySixDFOptional.get();
-            if (!twentySixDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!twentySixDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            twentySixDFRepository.delete(twentySixDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
 
@@ -400,30 +348,6 @@ public class DfService {
         }
         map.put("massage", "OK");
         twentySevenDFRepository.save(twentySvenDF);
-        return map;
-    }
-
-    public Map<String, Object> deleteDf27(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<TwentySvenDF> twentySvenDFOptional = twentySevenDFRepository.findById(dfDeleteId);
-        if (twentySvenDFOptional.isPresent()) {
-            TwentySvenDF twentySvenDF = twentySvenDFOptional.get();
-            if (!twentySvenDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!twentySvenDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            twentySevenDFRepository.delete(twentySvenDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
 
@@ -482,31 +406,6 @@ public class DfService {
         return map;
     }
 
-    public Map<String, Object> deleteDf32(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<ThirtyTwoDF> thirtyTwoDFOptional = thirtyTwoDFRepository.findById(dfDeleteId);
-        if (thirtyTwoDFOptional.isPresent()) {
-            ThirtyTwoDF thirtyTwoDF = thirtyTwoDFOptional.get();
-            if (!thirtyTwoDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!thirtyTwoDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            thirtyTwoDFRepository.delete(thirtyTwoDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
-        return map;
-    }
-
-
     public Map<String, Object> addNewDf31(ThirtyOneDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -526,31 +425,6 @@ public class DfService {
         thirtyOneDFRepository.save(thirtyOneDF);
         return map;
     }
-
-    public Map<String, Object> deleteDf31(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<ThirtyOneDF> thirtyOneDFOptional = thirtyOneDFRepository.findById(dfDeleteId);
-        if (thirtyOneDFOptional.isPresent()) {
-            ThirtyOneDF thirtyOneDF = thirtyOneDFOptional.get();
-            if (!thirtyOneDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!thirtyOneDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            thirtyOneDFRepository.delete(thirtyOneDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
-        return map;
-    }
-
     public Map<String, Object> addDf31MonthValue(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         Long values = jsonObject.getLong("values");
@@ -604,32 +478,6 @@ public class DfService {
         thirtyFourDFRepository.save(thirtyFourDF);
         return map;
     }
-
-    public Map<String, Object> deleteDf34(JSONObject jsonObject, String name) {
-        Map<String, Object> map = new HashMap<>();
-        Long dfDeleteId = jsonObject.getLong("dfDel");
-        Long dfDeleteParentId = jsonObject.getLong("dfParent");
-        UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<ThirtyFourDF> thirtyFourDFOptional = thirtyFourDFRepository.findById(dfDeleteId);
-        if (thirtyFourDFOptional.isPresent()) {
-            ThirtyFourDF thirtyFourDF = thirtyFourDFOptional.get();
-            if (!thirtyFourDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
-            }
-            if (!thirtyFourDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            thirtyFourDFRepository.delete(thirtyFourDF);
-            map.put("massage", "Запись удалена");
-            return map;
-        }
-        map.put("massage", "Ошибка удаления, нету такой записи");
-        return map;
-    }
-
-
     public Map<String, Object> addNewDf36(ThirtySixDFDto dfDto, String name) {
         Map<String, Object> map = new HashMap<>();
         Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
@@ -683,28 +531,116 @@ public class DfService {
         }
         return map;
     }
-
-    public Map<String, Object> deleteDf36(JSONObject jsonObject, String name) {
+    public Map<String, Object> deleteDf(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
         Long dfDeleteId = jsonObject.getLong("dfDel");
         Long dfDeleteParentId = jsonObject.getLong("dfParent");
         UserEntity userAuthenticated = userService.getUserByName(name);
-        Optional<ThirtySixDF> thirtySixDFOptional = thirtySixDFRepository.findById(dfDeleteId);
-        if (thirtySixDFOptional.isPresent()) {
-            ThirtySixDF thirtySixDF = thirtySixDFOptional.get();
-            if (!thirtySixDF.getDf().getId().equals(dfDeleteParentId)) {
-                map.put("massage", "Ошибка удаления не совпадает родительский DF");
-                return map;
+        Optional<DF> dfOptional = dfRepository.findById(dfDeleteParentId);
+        if(dfOptional.isPresent()){
+            DF dfBig = dfOptional.get();
+            switch (dfBig.getType()){
+                case DF4 -> {
+                    Optional<FourDF> fourDFOptional = fourDFRepository.findById(dfDeleteId);
+                    if(fourDFOptional.isPresent() && fourDFOptional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        fourDFRepository.delete(fourDFOptional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF5 -> {
+                    Optional<FiveDF> optional = fiveDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        fiveDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF17 -> {
+                    Optional<SeventeenDF> optional = seventeenDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        seventeenDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF24 -> {
+                    Optional<TwentyFourDF> optional = twentyFourDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        twentyFourDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF26 -> {
+                    Optional<TwentySixDF> optional = twentySixDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        twentySixDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF27 -> {
+                    Optional<TwentySvenDF> optional = twentySevenDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        twentySevenDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF31 -> {
+                    Optional<ThirtyOneDF> optional = thirtyOneDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        thirtyOneDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF32 -> {
+                    Optional<ThirtyTwoDF> optional = thirtyTwoDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        thirtyTwoDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF34 -> {
+                    Optional<ThirtyFourDF> optional = thirtyFourDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        thirtyFourDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
+                case DF36 -> {
+                    Optional<ThirtySixDF> optional = thirtySixDFRepository.findById(dfDeleteId);
+                    if(optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())){
+                        thirtySixDFRepository.delete(optional.get());
+                    }else{
+                        sendErr(map);
+                        return map;
+                    }
+                }
             }
-            if (!thirtySixDF.getUser().getId().equals(userAuthenticated.getId())) {
-                map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
-                return map;
-            }
-            thirtySixDFRepository.delete(thirtySixDF);
-            map.put("massage", "Запись удалена");
+            map.put("massage", "Запись удалена !");
             return map;
+        }else{
+            map.put("massage", "Ошибка удаления не совпадает родительский DF");
         }
-        map.put("massage", "Ошибка удаления, нету такой записи");
         return map;
     }
+    private void sendErr(Map<String, Object> map) {
+        map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
+    }
+
+
 }
