@@ -93,6 +93,23 @@ public class WorkController {
         model.addAttribute("title", "ДФ 8 Добыча и закачка жидкости по месторождениям " + dfParent.getPeriod());
         return "df/df8";
     }
+    @GetMapping("/DF14")
+    public String df14(Model model, Principal principal, @RequestParam(required = false) String id) {
+        DF dfParent = dfService.findById(Long.valueOf(id));
+        UserEntity userEntity = userService.getUserByName(principal.getName());
+        Iterable<FourteenDF> fourteenDFIterable;
+        fourteenDFIterable = dfService.findDfFourteenByDF(dfParent);
+        List<LocalDate> dateList = dfService.getFirstMonthList();
+        List<Mvz> mvzList = dfService.getMvzList();
+        ArrayList<FourteenDFDto> dfs = new ArrayList<>();
+        for (FourteenDF df : fourteenDFIterable){
+            dfs.add(new FourteenDFDto(df));
+        }
+        setModel(model, dfParent, userEntity, formatPost, formatOption, mvzList, dateList);
+        model.addAttribute("dfs", dfs);
+        model.addAttribute("title", "ДФ 14 Потребность УВС для обработки скважин " + dfParent.getPeriod());
+        return "df/df14";
+    }
     @GetMapping("/DF17")
     public String df17(Model model, Principal principal, @RequestParam(required = false) String id) {
         DF dfParent = dfService.findById(Long.valueOf(id));

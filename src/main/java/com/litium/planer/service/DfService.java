@@ -33,6 +33,7 @@ public class DfService {
     private final ThirtySixDFRepository thirtySixDFRepository;
     private final EightDFRepository eightDFRepository;
     private final UserService userService;
+    private final FourteenDFRepository fourteenDFRepository;
     DateTimeFormatter formatPost = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -118,6 +119,9 @@ public class DfService {
         return eightDFRepository.findEightDFByDf(dfParent);
     }
 
+    public Iterable<FourteenDF> findDfFourteenByDF(DF dfParent) {
+        return fourteenDFRepository.findFourteenDFByDf(dfParent);
+    }
     public Iterable<SeventeenDF> findDfSeventeenByDF(DF dfParent) {
         return seventeenDFRepository.findSeventeenDFByDf(dfParent);
     }
@@ -215,6 +219,25 @@ public class DfService {
         }
         map.put("massage", "OK");
         eightDFRepository.save(eightDF);
+        return map;
+    }
+    public Map<String, Object> addNewDf14(FourteenDFDto dfDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Optional<DF> dfParent = dfRepository.findById(dfDto.getDfId());
+        UserEntity userEntity = userService.getUserByName(name);
+        Mvz mvz = mvzRepository.getReferenceById(dfDto.getMvz());
+        FourteenDF fourteenDF = new FourteenDF(dfDto);
+        fourteenDF.setUser(userEntity);
+        fourteenDF.setTime(LocalDateTime.now());
+        fourteenDF.setMvz(mvz);
+        if (dfParent.isPresent()) {
+            fourteenDF.setDf(dfParent.get());
+        } else {
+            map.put("massage", "Не найден родительский ДФ");
+            return map;
+        }
+        map.put("massage", "OK");
+        fourteenDFRepository.save(fourteenDF);
         return map;
     }
 
@@ -414,6 +437,15 @@ public class DfService {
                         return map;
                     }
                 }
+                case DF14 -> {
+                    Optional<FourteenDF> optional = fourteenDFRepository.findById(dfDeleteId);
+                    if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
+                        fourteenDFRepository.delete(optional.get());
+                    } else {
+                        sendErr(map);
+                        return map;
+                    }
+                }
                 case DF17 -> {
                     Optional<SeventeenDF> optional = seventeenDFRepository.findById(dfDeleteId);
                     if (optional.isPresent() && optional.get().getUser().getId().equals(userAuthenticated.getId())) {
@@ -498,6 +530,7 @@ public class DfService {
     private void sendErr(Map<String, Object> map) {
         map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
     }
+
 
 
 }

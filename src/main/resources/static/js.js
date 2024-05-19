@@ -146,6 +146,27 @@ $(document).ready(function () {
     );
 });
 $(document).ready(function () {
+    $('#df14Add').click(
+        function () {
+            let sendInfo = {
+                dfId: document.getElementById('dfId').value,
+                mvz: document.getElementById('mvz').value,
+                oilfield: document.getElementById('oilfield').value,
+                well: document.getElementById('well').value,
+                usedTon: document.getElementById('usedTon').value,
+                coefLost: document.getElementById('coefLost').value,
+                procLostPlan: document.getElementById('procLostPlan').value,
+                procLostFact: document.getElementById('procLostFact').value,
+                period: document.getElementById('datePeriod').value,
+                comment: document.getElementById('comment').value
+            };
+            sendAjaxForm(sendInfo, '/api/addDf14');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+$(document).ready(function () {
     $('#df17Add').click(
         function () {
             let sendInfo = {

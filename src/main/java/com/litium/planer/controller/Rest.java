@@ -59,6 +59,10 @@ public class Rest {
     public Map<String, Object> addDf8MonthValue(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfCellService.addDf8MonthValue(jsonObject, principal.getName());
     }
+    @PostMapping("/addDf14")
+    public Map<String, Object> addDf14(@Valid @RequestBody FourteenDFDto fourteenDFDto, Principal principal) {
+        return dfService.addNewDf14(fourteenDFDto, principal.getName());
+    }
     @PostMapping("/addDf17")
     public Map<String, Object> addDf17(@Valid @RequestBody SeventeenDFDto seventeenDFDto, Principal principal) {
         return dfService.addNewDf17(seventeenDFDto, principal.getName());
