@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru">
+
+<head>
+    <title>ДФ 04</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <h2><span th:text="${title}"></span></h2>
+        <table border=1 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+            <tr height=48 style='height:36.0pt'>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>№</th>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>Дата заполнения</th>
+                <th class=xl913171 style='width:200pt'>Участок недр</th>
+                <th class=xl913171 style='width:80pt'>Эксплуатационный фонд,<br> вододобывающие</th>
+                <th class=xl913171 style='width:80pt'>Среднедействующий фонд,<br> вододобывающие</th>
+                <th class=xl913171 style='width:80pt'>Эксплуатационный фонд,<br> водонагнетательная</th>
+                <th class=xl913171 style='width:80pt'>Среднедействующий фонд,<br> водонагнетательная</th>
+                <th class=xl913171 style='width:80pt'>Эксплуатационный фонд,<br> гидроскважина</th>
+                <th class=xl913171 style='width:80pt'>Среднедействующий фонд,<br> гидроскважина</th>
+                <th class=xl923171 style='width:80pt'>Месяц</th>
+                <th class=xl923171 style='width:80pt'>Комментарий</th>
+                <th class=xl923171 style='width:80pt'>Действие</th>
+            </tr>
+            <tr height=20 style='height:15.0pt' th:each="df, stat : ${dfs}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.oilField}"></td>
+                <td class=xl933171 th:utext="${df.expWater}"></td>
+                <td class=xl933171 th:utext="${df.medWater}"></td>
+                <td class=xl933171 th:utext="${df.expPump}"></td>
+                <td class=xl943171 th:utext="${df.medPump}"></td>
+                <td class=xl933171 th:utext="${df.expHydro}"></td>
+                <td class=xl933171 th:utext="${df.medHydro}"></td>
+                <td class=xl953171 th:utext="${df.date.format(formatPost)}"></td>
+                <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
+                <td class=xl963171>&nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

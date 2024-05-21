@@ -33,6 +33,7 @@
                 <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>№</th>
                 <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>Дата заполнения</th>
                 <th class=xl913171 style='width:200pt'>МВЗ/ОКС</th>
+                <th class=xl913171 style='width:200pt'>Ответственный</th>
                 <th class=xl913171 style='width:80pt'>Тип ТС (ИСК АТ)</th>
                 <th class=xl913171 style='width:80pt'>Вид выполняемых услуг (ИСК АТ)</th>
                 <th class=xl913171 style='width:80pt'>Наименование<br>характеристики (ИСК АТ)</th>
@@ -52,6 +53,7 @@
                             <option th:each="option : ${mvzList}" th:value="${option.id}" th:text="${option.name}"></option>
                         </select>
                     </td>
+                    <td class=xl943171></td>
                     <td class=xl943171><input type="text" id="type"/></td>
                     <td class=xl933171><input type="text" id="vid"/></td>
                     <td class=xl933171><input type="text" id="nameChar"/></td>
@@ -68,6 +70,7 @@
                 <td class=xl933171 th:utext="${stat.count}"></td>
                 <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
                 <td class=xl933171 th:utext="${df.getMvzName()}"></td>
+                <td class=xl933171 th:utext="${df.userName}"></td>
                 <td class=xl933171 th:utext="${df.type}"></td>
                 <td class=xl933171 th:utext="${df.vid}"></td>
                 <td class=xl933171 th:utext="${df.nameChar}"></td>

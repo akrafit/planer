@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>ДФ 14</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <h2><span th:text="${title}"></span></h2>
+        <table border=1 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+                <th class=xl913171> № </th>
+                <th class=xl913171>Дата заполнения</th>
+                <th class=xl913171>МВЗ</th>
+                <th class=xl913171>Участок недр</th>
+                <th class=xl913171>Скважина</th>
+                <th class=xl913171>Для обработки скважин, т</th>
+                <th class=xl913171>Коэф. потерь при обработке скважин, %</th>
+                <th class=xl913171>Потери при обработке(план), т</th>
+                <th class=xl913171>Потери при обработке(факт), т</th>
+                <th class=xl913171>Период</th>
+                <th class=xl913171>Коментарий</th>
+                <th class=xl913171>Действие</th>
+            </tr>
+            <tr height=20 style='height:15.0pt' th:each="df, stat : ${dfs}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.mvzName}">Мвз</td>
+                <td class=xl933171 th:utext="${df.oilfield}">Участок недр</td>
+                <td class=xl933171 th:utext="${df.well}">Скважина</td>
+                <td class=xl943171 th:utext="${df.usedTon}">Наименование</td>
+                <td class=xl943171 th:utext="${df.coefLost}">Наименование</td>
+                <td class=xl943171 th:utext="${df.procLostPlan}">Наименование</td>
+                <td class=xl943171 th:utext="${df.procLostFact}">Наименование</td>
+                <td class=xl933171 th:utext="${df.period.format(formatPost)}">Период</td>
+                <td class=xl953171 th:utext="${df.comment}">Комментарий</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

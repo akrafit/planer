@@ -531,6 +531,7 @@ public class DfService {
         map.put("massage", "Ошибка удаления, нельзя удалить чужую запись");
     }
 
-
-
+    public Iterable<TwentySvenDF> findDf27ByDFAndUser(DF dfParent, UserEntity userEntity) {
+        return twentySevenDFRepository.findTwentySvenDFByDfAndAndUser(dfParent, userEntity);
+    }
 }

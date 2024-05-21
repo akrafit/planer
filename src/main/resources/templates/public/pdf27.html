@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru">
+
+<head>
+    <title>ДФ 27</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <h2><span th:text="${title}"></span></h2>
+        <table id="myTable27" border=1 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+            <tr style='height:36.0pt'>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>№</th>
+                <th height=48 class=xl913171 style='height:36.0pt;width:128pt'>Дата заполнения</th>
+                <th class=xl913171 style='width:200pt'>МВЗ/ОКС</th>
+                <th class=xl913171 style='width:200pt'>Ответственный</th>
+                <th class=xl913171 style='width:80pt'>Тип ТС (ИСК АТ)</th>
+                <th class=xl913171 style='width:80pt'>Вид выполняемых услуг (ИСК АТ)</th>
+                <th class=xl913171 style='width:80pt'>Наименование<br>характеристики (ИСК АТ)</th>
+                <th class=xl913171 style='width:80pt'>Значение <br> характеристики (ИСК АТ)</th>
+                <th class=xl913171 style='width:80pt'>Особые тех. характеристики,<br>пример марки ТС (при необходимости)</th>
+                <th class=xl913171 style='width:80pt'>Назначение ТС</th>
+                <th class=xl913171 style='width:100pt' th:each="option : ${dateList}" th:value="${option}" th:text="${option.format(formatPost)}"></th>
+            </tr>
+            <tr class="tr" height=20 style='height:15.0pt' th:each="df, stat : ${dfs}" th:id="${df.id}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.getMvzName()}"></td>
+                <td class=xl933171 th:utext="${df.userName}"></td>
+                <td class=xl933171 th:utext="${df.type}"></td>
+                <td class=xl933171 th:utext="${df.vid}"></td>
+                <td class=xl933171 th:utext="${df.nameChar}"></td>
+                <td class=xl943171 th:utext="${df.valueChar}"></td>
+                <td class=xl933171 th:utext="${df.specialChar}"></td>
+                <td class=xl933171 th:utext="${df.purpose}"></td>
+                <td class=xl963171 th:each="option : ${dateList}" th:utext="${df.getCellMap().get(option)}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

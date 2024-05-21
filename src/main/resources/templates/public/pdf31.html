@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>ДФ 31</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <h2><span th:text="${title}"></span></h2>
+        <table id="myTable31" border=1 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+                <th class=xl913171> № </th>
+                <th class=xl913171>Дата заполнения</th>
+                <th class=xl913171>МВЗ</th>
+                <th class=xl913171>Цель использования щебня</th>
+                <th class=xl913171>Номенклатура</th>
+                <th class=xl913171>Принадлежность</th>
+                <th class=xl913171>Склад</th>
+                <th class=xl913171>Комментарий</th>
+            <th class=xl913171 style='width:100pt' th:each="option : ${dateList}" th:value="${option}" th:text="${option.format(formatPost)}"></th>
+            </tr>
+            <tr height=20 style='height:15.0pt' th:each="df, stat : ${dfs}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.mvzName}">Мвз</td>
+                <td class=xl933171 th:utext="${df.target}">Цель</td>
+                <td class=xl933171 th:utext="${df.nomenclature}">Номенклатура</td>
+                <td class=xl943171 th:utext="${df.affiliation}">Принадлежность</td>
+                <td class=xl933171 th:utext="${df.stock}">Склад</td>
+                <td class=xl953171 th:utext="${df.comment}">Комментарий</td>
+                <td class=xl963171 th:each="option : ${dateList}" th:utext="${df.getCellMap().get(option)}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

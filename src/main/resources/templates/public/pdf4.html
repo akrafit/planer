@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>ДФ 04</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <h2><span th:text="${title}"></span></h2>
+        <table border=1 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:
+ collapse;width:918pt'>
+            <th height=48 class=xl913171> №</th>
+            <th height=48 class=xl913171>Дата заполнения</th>
+            <th height=48 class=xl913171>Вид ГТМ</th>
+            <th class=xl913171>Участок недр</th>
+            <th class=xl913171>Куст</th>
+            <th class=xl913171>Скважина</th>
+            <th class=xl913171>Назначение скважины</th>
+            <th class=xl913171>Вид скважины</th>
+            <th class=xl913171>Дата <br>окончания<br> КРС</th>
+            <th class=xl923171>Комментарий</th>
+            <th class=xl923171>Действие</th>
+            </tr>
+            <tr height=20 style='height:15.0pt' th:each="df, stat : ${dfs}">
+                <td class=xl933171 th:utext="${stat.count}"></td>
+                <td class=xl933171 th:utext="${df.time.format(formatPost)}"></td>
+                <td class=xl933171 th:utext="${df.typeGTM}">ПВЛГ Рассолы</td>
+                <td class=xl933171 th:utext="${df.oilField}">Ярактинский участок</td>
+                <td class=xl933171 th:utext="${df.kp}">217</td>
+                <td class=xl943171 th:utext="${df.well}">Ya_802</td>
+                <td class=xl933171 th:utext="${df.wellPurpose}">Вододобывающая (рассолы)</td>
+                <td class=xl933171 th:utext="${df.type}">Поисковая</td>
+                <td class=xl953171 th:utext="${df.endDate}">21.08.2024</td>
+                <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
+                <td class=xl963171>&nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

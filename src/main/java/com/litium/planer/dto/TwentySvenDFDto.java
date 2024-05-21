@@ -29,12 +29,14 @@ public class TwentySvenDFDto {
     private String specialChar;
     private String purpose;
     private LocalDateTime time;
+    private String userName;
 
     private Map<LocalDate, Long> cellMap;
 
     public TwentySvenDFDto(TwentySvenDF df) {
         this.id = df.getId();
         this.mvz = df.getMvz().getId();
+        this.userName = df.getUser().getName();
         this.type = df.getType();
         this.vid = df.getVid();
         this.nameChar = df.getNameChar();
