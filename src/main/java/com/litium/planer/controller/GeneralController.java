@@ -2,8 +2,12 @@ package com.litium.planer.controller;
 
 
 import com.litium.planer.dto.DfDto;
+import com.litium.planer.dto.MvzDto;
+import com.litium.planer.dto.SeventeenDFDto;
 import com.litium.planer.dto.UserDto;
 import com.litium.planer.entity.DF;
+import com.litium.planer.entity.Mvz;
+import com.litium.planer.entity.SeventeenDF;
 import com.litium.planer.model.Role;
 import com.litium.planer.model.TypeDF;
 import com.litium.planer.model.UserEntity;
@@ -15,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,11 +69,30 @@ public class GeneralController {
         model.addAttribute("title", "Список пользователей");
         return "user/userform";
     }
+    @GetMapping("/mvz")
+    public String mvzList(Model model,Principal principal) {
+        UserEntity user = userService.getUserByName(principal.getName());
+        if(user.getRole().equals(Role.ADMIN)) {
+            Iterable<Mvz> mvzIterable = dfService.getMvzList();
+            List<MvzDto> mvzDtoList = new ArrayList<>();
+            for (Mvz mvz : mvzIterable){
+                mvzDtoList.add(new MvzDto(mvz));
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("mvzs", mvzDtoList);
+            model.addAttribute("edit", LocalDateTime.now());
+            model.addAttribute("title", "Список МВЗ/ОКВ");
+            return "directory/mvz";
+        }
+        return "redirect:/";
+    }
+
 
     @GetMapping("/auth/logout")
     public String logout(Model model) {
         return "redirect:/";
     }
+
 
 
 //    @GetMapping("/traffic")

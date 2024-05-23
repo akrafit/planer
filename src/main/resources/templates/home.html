@@ -7,13 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/main.css}"
           href="../../css/main.css"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"
-          integrity="sha512-Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw=="
-          crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"-->
+<!--          integrity="sha512-Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw=="-->
+<!--          crossorigin="anonymous">-->
 
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-            crossorigin="anonymous"></script>
+<!--    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"-->
+<!--            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="-->
+<!--            crossorigin="anonymous"></script>-->
 
 </head>
 <body>
@@ -21,14 +21,11 @@
 <div class="container">
 
     <div class="box">
-        <ul class="hr">
-            <li><a href="/home">Домой</a></li>
-            <li th:if="${user.role.toString() == 'ADMIN'}" ><a href="/userlist">Список пользователей</a></li>
-            <li><a href="/auth/logout">Выход</a></li>
-        </ul>
+        <div th:replace="menu :: header">...</div>
         <h1><span th:text="${title}+${date}"></span></h1>
         <div id="contentTable">
-            <table border="1">
+            <table  border=1 cellpadding=0 cellspacing=0  style='border-collapse:
+ collapse;width:1200pt'>
                 <tr>
                     <th>ID</th>
                     <th>ДФ</th>
@@ -36,7 +33,7 @@
                     <th>Наименование</th>
                     <th>Период</th>
                     <th>Пользователи</th>
-                    <th>Посленднее редактирование</th>
+                    <th></th>
                 </tr>
 
                 <tr id="input" th:if="${user.role.toString() == 'ADMIN'}">
@@ -58,8 +55,8 @@
 
 
                 </tr>
-                <tr th:each="df : ${dfs}">
-                    <td th:utext="${df.id}"></td>
+                <tr th:each="df, stat : ${dfs}">
+                    <td th:utext="${stat.count}"></td>
                     <td style="font-weight: bold" th:utext="${df.form}"></td>
                     <td th:utext="${df.type}"></td>
                     <td><a th:href="@{'/df/' + ${df.type} + '?id=' + ${df.id}}" th:utext="${df.name}"></a></td>
@@ -90,7 +87,8 @@
 <div id="result_form"></div>
 <div id="content" th:if="${user.role.toString() == 'ADMIN'}">
     <form><input type="hidden" id="updateDfId"/></form>
-    <table border="1" style="width: 300px;">
+    <table border=1 cellpadding=0 cellspacing=0  style='border-collapse:
+ collapse;width:600pt'>
         <tr th:each="user : ${users}">
             <td th:text="${user.name}"></td>
             <td>

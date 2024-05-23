@@ -43,6 +43,10 @@ public class Rest {
     public Map<String, Object> addUserToDf(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addUserToDf(jsonObject, principal.getName());
     }
+    @PostMapping("/addUpdateMvz")
+    public Map<String, Object> addUpdateMvz(@Valid @RequestBody MvzDto mvzDto, Principal principal) {
+        return dfService.addUpdateMvz(mvzDto, principal.getName());
+    }
     @PostMapping("/addDf4")
     public Map<String, Object> addDf4(@Valid @RequestBody JSONObject jsonObject, Principal principal) {
         return dfService.addNewDf4(jsonObject, principal.getName());

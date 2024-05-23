@@ -20,11 +20,7 @@
 <body>
 <div class="container">
     <div class="box">
-        <ul class="hr">
-            <li><a href="/home">Домой</a></li>
-            <li th:if="${user.role.toString() == 'ADMIN'}"><a href="/userlist">Список пользователей</a></li>
-            <li><a href="/auth/logout">Выход</a></li>
-        </ul>
+        <div th:replace="menu :: header">...</div>
         <h2><span th:text="${title}"></span></h2>
         <h3><span th:text="${user.name}"></span></h3>
         <table id="myTable26" border=0 cellpadding=0 cellspacing=0 width=1224 style='border-collapse:

@@ -30,7 +30,7 @@ public class TwentyFourDFDto {
         this.id = df.getId();
         this.mvz = df.getMvz().getId();
         this.mvzName = df.getMvz().getName();
-        this.name = df.getMvz().getName();
+        this.name = df.getName();
         this.comment = df.getComment();
         this.time = df.getTime();
     }

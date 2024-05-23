@@ -534,4 +534,26 @@ public class DfService {
     public Iterable<TwentySvenDF> findDf27ByDFAndUser(DF dfParent, UserEntity userEntity) {
         return twentySevenDFRepository.findTwentySvenDFByDfAndAndUser(dfParent, userEntity);
     }
+
+    public Map<String, Object> addUpdateMvz(MvzDto mvzDto, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Mvz mvz;
+        if(mvzDto.getId() != null){
+            Optional<Mvz> mvzIterable = mvzRepository.findById(mvzDto.getId());
+            if(mvzIterable.isPresent()){
+                mvz = mvzIterable.get();
+            }else{
+                map.put("massage", "Нет такой записи !");
+                return map;
+            }
+            map.put("massage", "Обновлено !");
+        }else{
+            mvz = new Mvz();
+            map.put("massage", "Новая запись !");
+        }
+        mvz.setName(mvzDto.getName());
+        mvz.setTime(LocalDateTime.now());
+        mvzRepository.save(mvz);
+        return map;
+    }
 }

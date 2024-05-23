@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+    <meta charset="UTF-8"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="header">
+    <ul class="hr">
+        <li><a href="/home">Домой</a></li>
+        <li th:if="${user.role.toString() == 'ADMIN'}"><a href="/userlist">Список пользователей</a></li>
+        <li th:if="${user.role.toString() == 'ADMIN'}"><a href="/mvz">МВЗ/ОКВ</a></li>
+        <li><a href="/auth/logout">Выход</a></li>
+    </ul>
+</div>

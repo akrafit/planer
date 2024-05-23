@@ -52,6 +52,20 @@
 //     );
 //сохранение DF
 $(document).ready(function () {
+    $('#mvzAdd').click(
+        function () {
+            let sendInfo = {
+                id: document.getElementById('mvzId').value,
+                name: document.getElementById('mvzName').value
+            };
+            sendAjaxForm(sendInfo, '/api/addUpdateMvz');
+            setTimeout(sayHi, 1000);
+            return false;
+        }
+    );
+});
+
+$(document).ready(function () {
     $('#btn').click(
         function () {
             let dfVal = document.getElementById('df').value;
