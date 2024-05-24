@@ -14,10 +14,13 @@ import com.litium.planer.model.UserEntity;
 import com.litium.planer.service.DfService;
 import com.litium.planer.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +33,10 @@ public class GeneralController {
     private final DfService dfService;
     private final UserService userService;
 
+    @GetMapping
+    public String home(Model model) {
+        return "index";
+    }
     @GetMapping("/home")
     public String main(Model model, Principal principal) {
         UserEntity authorizedUser = userService.getUserByName(principal.getName());
@@ -88,10 +95,14 @@ public class GeneralController {
     }
 
 
-    @GetMapping("/auth/logout")
-    public String logout(Model model) {
-        return "redirect:/";
-    }
+//    @GetMapping("/auth/logout")
+//    public String logout(HttpServletRequest request) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null) {
+//            request.getSession().invalidate();
+//        }
+//        return "redirect:/";
+//    }
 
 
 
