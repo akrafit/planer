@@ -51,6 +51,12 @@
 //         }
 //     );
 //сохранение DF
+// function validateInput(input) {
+//     let value = parseFloat(input.value);
+//     if (value.toFixed(3) != input.value) {
+//         input.value = value.toFixed(3);
+//     }
+// }
 $(document).ready(function () {
     $('#mvzAdd').click(
         function () {

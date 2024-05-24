@@ -233,7 +233,7 @@ public class PublicController {
         List<LocalDate> dateList = dfService.getFirstMonthList();
         ArrayList<ThirtySixDFDto> dfs = new ArrayList<>();
         for (ThirtySixDF df : df36Iterable){
-            Map<LocalDate, Long> cellMap = new HashMap<>();
+            Map<LocalDate, Double> cellMap = new HashMap<>();
             dateList.forEach(localDate -> cellMap.put(localDate,null));
             df.getCellList().forEach(thirtySixCell -> cellMap.put(thirtySixCell.getPeriod(), thirtySixCell.getValue()));
             ThirtySixDFDto thirtySixDFDto = new ThirtySixDFDto(df);

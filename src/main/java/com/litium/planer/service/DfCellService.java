@@ -201,7 +201,8 @@ public class DfCellService {
     }
     public Map<String, Object> addDf36MonthValue(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
+        Double roundedNumber = jsonObject.getDouble("values");
+        Double values = Math.round(roundedNumber * 1000.0) / 1000.0;
         String codeId = jsonObject.getString("parent");
         String[] array = codeId.split("_");
         Long dfParentId = Long.parseLong(array[0]);

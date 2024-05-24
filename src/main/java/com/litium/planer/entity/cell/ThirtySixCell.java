@@ -29,7 +29,7 @@ public class ThirtySixCell {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    private Long value;
+    private Double value;
 
     private LocalDate period;
 

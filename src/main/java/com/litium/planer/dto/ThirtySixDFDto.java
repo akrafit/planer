@@ -24,7 +24,7 @@ public class ThirtySixDFDto {
     private String name;
     private String unit;
     private LocalDateTime time;
-    private Map<LocalDate, Long> cellMap;
+    private Map<LocalDate, Double> cellMap;
 
     public ThirtySixDFDto(ThirtySixDF df) {
         this.id = df.getId();

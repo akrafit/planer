@@ -54,7 +54,12 @@
                             <option value="Покупное">Покупное</option>
                         </select>
                     </td>
-                    <td class=xl933171><input type="text" id="oilName"/></td>
+                    <td class=xl933171>
+                        <select id="oilName">
+                            <option value="Диз.топливо ЕВРО (зимнее)(т)">Диз.топливо ЕВРО (зимнее)(т)</option>
+                            <option value="Дизельное топливо ДЭЗ">Дизельное топливо ДЭЗ</option>
+                            <option value="Мазут (нефть утяжеленная)">Мазут (нефть утяжеленная)</option>
+                        </select></td>
                     <td class=xl933171>
                         <select type="text" id="datePeriod">
                             <option th:each="option : ${dateList}" th:value="${option}" th:text="${option.format(formatOption)}"></option>

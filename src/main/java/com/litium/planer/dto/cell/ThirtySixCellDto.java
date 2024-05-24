@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ThirtySixCellDto {
     private Long id;
-    private Long value;
+    private Double value;
     private LocalDate period;
     private LocalDateTime time;
 

@@ -73,9 +73,13 @@
                 </td>
                 <form>
                     <td class=xl963171 th:each="option : ${dateList}" th:value="${option}"><input class="cell"
-                                                                                                  type="text"
+                                                                                                  type="number"
+                                                                                                  step="0.01" min="0"
+
                                                                                                   th:id="${df.id + '_' + option.toEpochDay()}"
                                                                                                   th:value="${df.getCellMap().get(option)}"/>
+<!--                                                                                                  oninput="validateInput(this);"-->
+
                     </td>
                 </form>
             </tr>
