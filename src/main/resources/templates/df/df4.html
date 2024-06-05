@@ -28,6 +28,9 @@
             <th class=xl913171>Назначение скважины</th>
             <th class=xl913171>Вид скважины</th>
             <th class=xl913171>Дата <br>окончания<br> КРС</th>
+            <th class=xl913171>Прирост дебита м3/сут</th>
+            <th class=xl913171>График</th>
+            <th class=xl913171>Продолжительность, сут</th>
             <th class=xl923171>Комментарий</th>
             <th class=xl923171>Действие</th>
             </tr>
@@ -59,6 +62,14 @@
                     <td class=xl933171><input type="text" id="wellPurpose"/></td>
                     <td class=xl933171><input type="text" id="type"/></td>
                     <td class=xl953171><input type="date" id="enddate"/></td>
+                    <td class=xl953171><input type="number" id="upWater"/></td>
+                    <td class=xl953171>
+                        <select id="chart">
+                            <option value="график">графику</option>
+                            <option value="вне графика">вне графика</option>
+                        </select>
+                    </td>
+                    <td class=xl953171><input type="number" id="duration"/></td>
                     <td class=xl963171><input type="text" id="comment"/></td>
                     <td class=xl963171><input type="button" id="dfFourAdd" value="Сохранить"/></td>
                 </form>
@@ -73,6 +84,9 @@
                 <td class=xl933171 th:utext="${df.wellPurpose}">Вододобывающая (рассолы)</td>
                 <td class=xl933171 th:utext="${df.type}">Поисковая</td>
                 <td class=xl953171 th:utext="${df.endDate}">21.08.2024</td>
+                <td class=xl963171 th:utext="${df.upWater}">&nbsp;</td>
+                <td class=xl963171 th:utext="${df.chart}">&nbsp;</td>
+                <td class=xl963171 th:utext="${df.duration}">&nbsp;</td>
                 <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
                 <td class=xl963171>&nbsp;
                     <button th:if="${df.time > edit.minusDays(7)}" title="Удалить запись"

@@ -21,6 +21,9 @@
             <th class=xl913171>Назначение скважины</th>
             <th class=xl913171>Вид скважины</th>
             <th class=xl913171>Дата <br>окончания<br> КРС</th>
+            <th class=xl923171>Прирост дебита м3/сут</th>
+            <th class=xl913171>График</th>
+            <th class=xl913171>Продолжительность, сут</th>
             <th class=xl923171>Комментарий</th>
             <th class=xl923171>Действие</th>
             </tr>
@@ -34,6 +37,9 @@
                 <td class=xl933171 th:utext="${df.wellPurpose}">Вододобывающая (рассолы)</td>
                 <td class=xl933171 th:utext="${df.type}">Поисковая</td>
                 <td class=xl953171 th:utext="${df.endDate}">21.08.2024</td>
+                <td class=xl953171 th:utext="${df.upWater}"></td>
+                <td class=xl953171 th:utext="${df.chart}"></td>
+                <td class=xl953171 th:utext="${df.duration}"></td>
                 <td class=xl963171 th:utext="${df.comment}">&nbsp;</td>
                 <td class=xl963171>&nbsp;
                 </td>

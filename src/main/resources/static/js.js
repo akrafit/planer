@@ -119,6 +119,9 @@ $(document).ready(function () {
                 wellPurpose: document.getElementById('wellPurpose').value,
                 type: document.getElementById('type').value,
                 enddate: document.getElementById('enddate').value,
+                upWater: document.getElementById('upWater').value,
+                chart: document.getElementById('chart').value,
+                duration: document.getElementById('duration').value,
                 comment: document.getElementById('comment').value,
                 dfid:  document.getElementById('dfId').value
             };

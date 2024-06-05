@@ -43,5 +43,9 @@ public class FourDF {
 
     private LocalDateTime time;
 
+    private String upWater;
+    private String chart;
+    private String duration;
+
 
 }

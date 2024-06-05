@@ -28,6 +28,10 @@ public class FourDFDto {
     private String comment;
 
     private LocalDateTime time;
+    private String upWater;
+    private String chart;
+
+    private String duration;
 
     public FourDFDto(FourDF df) {
         this.id = df.getId();
@@ -40,5 +44,8 @@ public class FourDFDto {
         this.type = df.getType();
         this.comment = df.getComment();
         this.time = df.getTime();
+        this.upWater = df.getUpWater();
+        this.chart = df.getChart();
+        this.duration = df.getDuration();
     }
 }

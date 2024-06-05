@@ -164,6 +164,9 @@ public class DfService {
         fourDF.setWell(jsonObject.getString("well"));
         fourDF.setWellPurpose(jsonObject.getString("wellPurpose"));
         fourDF.setType(jsonObject.getString("type"));
+        fourDF.setUpWater(jsonObject.getString("upWater"));
+        fourDF.setChart(jsonObject.getString("chart"));
+        fourDF.setDuration(jsonObject.getString("duration"));
         fourDF.setComment(jsonObject.getString("comment"));
         String endDate = jsonObject.getString("enddate");
         if (endDate.isEmpty()) {
