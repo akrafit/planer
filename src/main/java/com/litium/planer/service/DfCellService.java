@@ -35,7 +35,7 @@ public class DfCellService {
 
     public Map<String, Object> addDf8MonthValue(JSONObject jsonObject, String name) {
         Map<String, Object> map = new HashMap<>();
-        Long values = jsonObject.getLong("values");
+        Double values = jsonObject.getDouble("values");
         String codeId = jsonObject.getString("parent");
         String[] array = codeId.split("_");
         Long dfParentId = Long.parseLong(array[0]);

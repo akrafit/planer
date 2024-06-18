@@ -25,7 +25,7 @@ public class EightDFDto {
     private String oilfield;
     private String well;
     private LocalDateTime time;
-    private Map<LocalDate, Long> cellMap;
+    private Map<LocalDate, Double> cellMap;
 
     public EightDFDto(EightDF df) {
         this.id = df.getId();

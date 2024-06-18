@@ -416,7 +416,7 @@ function deleteDf(id) {
     setTimeout(sayHi, 1000);
 }
 function handleInputChange8(event) {
-    let val = event.target.value;
+    let val = event.target.value.replace(/,/, '.');
     let cId = event.target.id;
     let sendInfo = {
         values: val,

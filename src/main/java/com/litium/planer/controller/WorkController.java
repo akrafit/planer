@@ -82,7 +82,7 @@ public class WorkController {
         List<LocalDate> dateList = dfService.getFirstMonthList();
         ArrayList<EightDFDto> dfs = new ArrayList<>();
         for (EightDF df : df8Iterable){
-            Map<LocalDate, Long> cellMap = new HashMap<>();
+            Map<LocalDate, Double> cellMap = new HashMap<>();
             dateList.forEach(localDate -> cellMap.put(localDate,null));
             df.getCellList().forEach(eightCell ->  cellMap.put(eightCell.getPeriod(), eightCell.getValue()));
             EightDFDto eightDFDto = new EightDFDto(df);
